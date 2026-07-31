@@ -1,0 +1,1 @@
+import {Link} from 'react-router-dom';export default function NotFoundPage(){return <main className="not-found"><p>Lost at sea</p><h1>This passage is not charted.</h1><Link className="gold-button" to="/">Return home</Link></main>}

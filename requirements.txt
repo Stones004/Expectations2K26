@@ -1,0 +1,3 @@
+# Optional Python production server for the built React site.
+# The React application itself is installed with npm (see package.json).
+Flask>=3.0,<4.0
