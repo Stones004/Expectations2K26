@@ -158,6 +158,7 @@ button,input,select,textarea{font:inherit;color:inherit}
   letter-spacing:.34em;color:var(--ivory);
 }
 .nav-logo em{color:var(--gold);font-style:normal}
+.nav-logo img{display:block;width:62px;height:62px;object-fit:contain}
 .nav-links{display:flex;gap:2.4rem;list-style:none}
 .nav-links a{
   position:relative;font-size:.72rem;font-weight:400;
@@ -215,6 +216,15 @@ button,input,select,textarea{font:inherit;color:inherit}
   letter-spacing:.08em;line-height:1.16;color:var(--ivory);
 }
 .section-title .gold{color:var(--gold)}
+.overview-title{
+  margin:0;
+  font-size:clamp(2.35rem,5.8vw,4.25rem);
+  letter-spacing:.14em;
+  text-indent:.14em;
+  line-height:1.2;
+  color:var(--gold-light);
+  text-shadow:0 0 20px rgba(235,208,143,.18);
+}
 .section-lede{
   max-width:620px;margin:1.6rem auto 0;
   font-family:var(--font-serif);font-size:clamp(1.08rem,1.6vw,1.3rem);
@@ -758,21 +768,21 @@ button,input,select,textarea{font:inherit;color:inherit}
 /* --- composition pass: the event identity owns the first frame --- */
 .loader-expectations{font-size:clamp(1.55rem,4.5vw,3.25rem);letter-spacing:.16em;text-indent:.16em;white-space:nowrap}
 .hero-content{height:100%;margin-top:0;display:flex;align-items:center;justify-content:center}
-.hero-institution{position:absolute;left:50%;top:50%;width:min(100%,900px);margin:0;transform:translate(-50%,-50%);animation:institutionReveal 1.25s 1.75s var(--ease-out) forwards;z-index:2}
-@keyframes institutionReveal{from{opacity:0;transform:translate(-50%,calc(-50% + 26px))}to{opacity:1;transform:translate(-50%,-50%)}}
+.hero-institution{position:absolute;left:50%;top:50%;width:min(100%,900px);margin:0;transform:translate(-50%,calc(-50% - 2rem));animation:institutionReveal 1.25s 1.75s var(--ease-out) forwards;z-index:2}
+@keyframes institutionReveal{from{opacity:0;transform:translate(-50%,calc(-50% - 2rem + 26px))}to{opacity:1;transform:translate(-50%,calc(-50% - 2rem))}}
 .hero-event-name{font-size:clamp(2.25rem,5.2vw,4.6rem);letter-spacing:.3em;text-indent:.3em;line-height:1.08}
 .hero-department{font-size:clamp(.7rem,1.22vw,1rem);margin-top:1rem}
 .hero-institution::after{width:104px;margin-top:1.4rem}
 /* Odyssey remains a quiet voyage signature beneath the central event identity. */
-.hero-title{position:absolute;top:calc(50% + clamp(7rem,13vw,10.5rem));left:50%;transform:translateX(-50%);width:100%;font-size:clamp(1.4rem,3vw,2.3rem);letter-spacing:.32em;text-indent:.32em;opacity:.82}
+.hero-title{position:absolute;top:calc(50% + clamp(5.5rem,13vw,9rem));left:50%;transform:translateX(-50%);width:100%;font-size:clamp(1.4rem,3vw,2.3rem);letter-spacing:.32em;text-indent:.32em;opacity:.82}
 .hero-title span{animation-delay:inherit!important}
-.hero-sub{position:absolute;top:calc(50% + clamp(9.7rem,17vw,13rem));left:0;right:0;margin:0;font-size:clamp(1rem,1.7vw,1.25rem)}
-.hero-meta{position:absolute;top:calc(50% + clamp(12.4rem,21vw,15.5rem));left:0;right:0;margin:0}.hero-cta-row{position:absolute;top:calc(50% + clamp(14.6rem,25vw,18.5rem));left:0;right:0;margin:0}
+.hero-sub{position:absolute;top:calc(50% + clamp(8.2rem,17vw,11.5rem));left:0;right:0;margin:0;font-size:clamp(1.2rem,2.1vw,1.55rem)}
+.hero-meta{position:absolute;top:calc(50% + clamp(10.9rem,21vw,14rem));left:0;right:0;margin:0}.hero-cta-row{position:absolute;top:calc(50% + clamp(13.1rem,25vw,17rem));left:0;right:0;margin:0}
 /* A narrow, low-opacity shoreline wash gives the programme cards a living transition. */
 .events-carousel::after{content:"";position:absolute;z-index:1;left:-12%;bottom:-4px;width:124%;height:68px;pointer-events:none;opacity:.38;background:radial-gradient(42px 16px at 20px 0,transparent 48%,rgba(221,229,224,.34) 51%,transparent 56%) 0 0/84px 32px repeat-x,linear-gradient(to top,rgba(107,141,160,.22),transparent 76%);filter:blur(.3px);animation:shoreWash 8s linear infinite}
 @keyframes shoreWash{0%{transform:translateX(-4%) translateY(18px);opacity:.08}18%{opacity:.45}48%{transform:translateX(3%) translateY(-3px);opacity:.34}76%{opacity:.16}100%{transform:translateX(8%) translateY(18px);opacity:.08}}
 .event-slide>*{position:relative;z-index:2}
-@media(max-width:560px){.loader-expectations{font-size:1.25rem;letter-spacing:.1em;text-indent:.1em}.hero-event-name{font-size:clamp(2rem,10vw,3rem);letter-spacing:.18em;text-indent:.18em}.hero-department{font-size:.61rem;letter-spacing:.14em;padding:0 1.2rem}.hero-title{top:calc(50% + 7.3rem);font-size:1.2rem;letter-spacing:.25em;text-indent:.25em}.hero-sub{top:calc(50% + 9.5rem);font-size:.95rem}.hero-meta{top:calc(50% + 11.8rem)}.hero-cta-row{top:calc(50% + 14rem)}.events-carousel::after{height:56px}}
+@media(max-width:560px){.loader-expectations{font-size:1.25rem;letter-spacing:.1em;text-indent:.1em}.hero-event-name{font-size:clamp(2rem,10vw,3rem);letter-spacing:.18em;text-indent:.18em}.hero-department{font-size:.61rem;letter-spacing:.14em;padding:0 1.2rem}.hero-title{top:calc(50% + 5.8rem);font-size:1.2rem;letter-spacing:.25em;text-indent:.25em}.hero-sub{top:calc(50% + 8rem);font-size:1.1rem}.hero-meta{top:calc(50% + 10.3rem)}.hero-cta-row{top:calc(50% + 12.5rem)}.events-carousel::after{height:56px}}
 @media(prefers-reduced-motion:reduce){.events-carousel::after{animation:none}}
 
 
@@ -826,6 +836,15 @@ button,input,select,textarea{font:inherit;color:inherit}
 .event-expand-card:not(.is-active) .event-card-detail{transition:opacity .16s ease,max-height .4s ease,transform .28s ease}
 @media(prefers-reduced-motion:reduce){.event-expand-card,.event-card-title,.event-card-detail{transition:none!important}}
 
+/* Hovering a category immediately brings that programme card into focus. */
+@media (hover:hover) and (pointer:fine){
+  .events-expanded:has(.event-expand-card:hover) .event-expand-card:not(:hover){flex:.72;border-color:rgba(201,162,75,.19);filter:none}
+  .events-expanded .event-expand-card:hover{flex:4.1;border-color:rgba(235,208,143,.68);filter:brightness(1.12);box-shadow:0 20px 55px rgba(0,0,0,.34),inset 0 0 0 1px rgba(235,208,143,.08)}
+  .events-expanded .event-expand-card:hover::after{opacity:.62;transform:translateX(5%)}
+  .events-expanded .event-expand-card:hover .event-card-title{position:relative;left:auto;bottom:auto;width:auto;white-space:normal;transform:translateX(.55rem);transform-origin:left center;color:var(--gold-light);font-size:clamp(1.7rem,3.2vw,3.2rem);margin-bottom:.5rem}
+  .events-expanded .event-expand-card:hover .event-card-detail{max-height:240px;opacity:1;transform:none}
+}
+
 
 /* Event imagery: set --event-image:url('your-image.jpg') on any .event-expand-card when assets arrive. */
 .event-expand-card.is-active::before{opacity:.88}
@@ -844,6 +863,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 .nav-logo{display:flex;align-items:center;gap:.7rem;text-shadow:0 0 18px rgba(201,162,75,.18)}
 .nav-logo::before{content:"✦";font-family:var(--font-serif);font-size:.92rem;color:var(--gold);text-shadow:0 0 13px rgba(235,208,143,.65);animation:navStar 4.5s ease-in-out infinite}
 @keyframes navStar{50%{transform:rotate(45deg) scale(1.18);color:var(--gold-light)}}
+.nav-logo::before{display:none}
 .nav-cta{position:relative;overflow:hidden;border-color:rgba(201,162,75,.46);box-shadow:inset 0 0 18px rgba(201,162,75,.04)}
 .nav-cta::before{content:"";position:absolute;inset:3px;border:1px solid rgba(235,208,143,.12);pointer-events:none}.nav-cta:hover{box-shadow:0 8px 24px rgba(201,162,75,.16),inset 0 0 18px rgba(201,162,75,.08)}
 .footer{overflow:hidden;background:linear-gradient(165deg,rgba(8,16,28,.97),rgba(4,7,13,.98) 62%)!important}
@@ -861,6 +881,19 @@ button,input,select,textarea{font:inherit;color:inherit}
 body::after{content:"";position:fixed;inset:0;z-index:8995;pointer-events:none;background:radial-gradient(ellipse at var(--cyclops-x,20%) 42%,rgba(0,0,0,.08),rgba(0,0,0,.62) 25%,rgba(0,0,0,.93) 100%);opacity:var(--cyclops-dim,0);transition:opacity .28s ease;mix-blend-mode:multiply}
 body.cyclops-looming .storm{z-index:8996}
 
+/* Calmer motion profile: retain responsive feedback without continuous visual movement. */
+*,*::before,*::after{animation-duration:.28s!important;animation-iteration-count:1!important;transition-duration:.2s!important}
+.grain,.hero-scroll-line::after,.nav-logo::before,.events-carousel::after,.hero-cta-row .btn-gold,.patron-marquee-track{animation:none!important}
+.events-expanded .event-card-detail{display:none}
+/* Prominent event dates, with room between the subtitle, date and call to action. */
+.hero-meta{top:calc(50% + clamp(12.2rem,22vw,15.4rem));font-size:clamp(.9rem,1.3vw,1.1rem);font-weight:500;letter-spacing:.28em;color:var(--gold-light);text-shadow:0 0 12px rgba(255,241,195,.5),0 0 24px rgba(201,162,75,.38)}.hero-cta-row{top:calc(50% + clamp(15rem,26vw,18.5rem))}
+@media(max-width:560px){.hero-meta{top:calc(50% + 11.6rem);font-size:.8rem;letter-spacing:.2em}.hero-cta-row{top:calc(50% + 14.2rem)}}
+
+/* CHRIST institutional mark in the navigation's upper-right corner. */
+.nav-christ-logo{display:flex;align-items:center;justify-content:flex-end;flex:0 0 auto}
+.nav-christ-logo img{width:auto;height:58px;max-width:220px;object-fit:contain}
+.nav.is-scrolled .nav-christ-logo img{height:46px}
+@media(max-width:820px){.nav .nav-christ-logo{display:flex}.nav-christ-logo img{height:42px;max-width:130px}.nav.is-scrolled .nav-christ-logo img{height:36px}}
 </style>
 </head>
 <body>
@@ -875,28 +908,30 @@ body.cyclops-looming .storm{z-index:8996}
 <!-- loader -->
 <div class="loader" id="loader" aria-hidden="true">
   <div class="loader-word loader-expectations" id="loaderWord">EXPECTATIONS 2K26</div>
-  <div class="loader-sub">Department of Data Science and Statistics</div>
+  <div class="loader-sub">Department of Statistics and Data Science</div>
   <div class="loader-track"><div class="loader-bar" id="loaderBar"></div></div>
 </div>
 
 <!-- navigation -->
 <nav class="nav" id="nav">
-  <a class="nav-logo" href="#hero" data-hover>ODYSSE<em>Y</em></a>
+  <a class="nav-logo" href="#hero" data-hover aria-label="Expectations 2K26 home"><img src="/assets/expectations-logo.png" alt="Expectations 2K26"></a>
   <ul class="nav-links">
     <li><a href="#storm" data-hover>The Voyage</a></li>
     <li><a href="#events" data-hover>Events</a></li>
     <li><a href="#itinerary" data-hover>Itinerary</a></li>
-    <li><a href="#tracks" data-hover>Tracks</a></li>
+    <li><a href="#tracks" data-hover>Accommodation</a></li>
     <li><a href="#patrons" data-hover>Patrons</a></li>
   </ul>
-  <button class="nav-cta" data-hover data-magnetic onclick="document.getElementById('register').scrollIntoView({behavior:'smooth'})">Register</button>
+  <div class="nav-christ-logo" aria-label="CHRIST (Deemed to be University)">
+    <img src="/assets/christ-logo.png" alt="CHRIST (Deemed to be University)">
+  </div>
   <button class="nav-burger" id="burger" data-hover aria-label="Menu"><span></span><span></span><span></span></button>
 </nav>
 <div class="mobile-menu" id="mobileMenu">
   <a href="#storm" data-hover>The Voyage</a>
   <a href="#events" data-hover>Events</a>
   <a href="#itinerary" data-hover>Itinerary</a>
-  <a href="#tracks" data-hover>Tracks</a>
+  <a href="#tracks" data-hover>Accommodation</a>
   <a href="#patrons" data-hover>Patrons</a>
   <a href="#register" data-hover style="color:var(--gold)">Register</a>
 </div>
@@ -909,18 +944,14 @@ body.cyclops-looming .storm{z-index:8996}
   <div class="hero-content" id="heroContent">
     <div class="hero-institution">
       <p class="hero-event-name">Expectations 2K26</p>
-      <p class="hero-department">Department of Data Science and Statistics</p>
+      <p class="hero-department">Department of Statistics and Data Science</p>
     </div>
     <h1 class="hero-title" id="heroTitle" aria-label="Odyssey">ODYSSEY</h1>
-    <p class="hero-sub">One voyage. A thousand discoveries.</p>
-    <p class="hero-meta"><span>March 12 — 14</span><i>◆</i><span>Aegean Hall</span><i>◆</i><span>3 Days · 1 Epic</span></p>
+    <p class="hero-sub">Navigating the Seas Of Data</p>
+    <p class="hero-meta"><span>September 28–29</span></p>
     <div class="hero-cta-row">
-      <button class="btn-gold" data-hover data-magnetic onclick="document.getElementById('register').scrollIntoView({behavior:'smooth'})">Begin the Voyage</button>
+      <button class="btn-gold" data-hover data-magnetic onclick="document.getElementById('register').scrollIntoView({behavior:'smooth'})">Register</button>
     </div>
-  </div>
-  <div class="hero-scroll" aria-hidden="true">
-    <small>Scroll</small>
-    <div class="hero-scroll-line"></div>
   </div>
 </header>
 
@@ -928,8 +959,6 @@ body.cyclops-looming .storm{z-index:8996}
 <section class="storm" id="storm" aria-label="The storm crossing">
   <canvas id="stormCanvas" aria-hidden="true"></canvas>
   <div class="storm-tint" aria-hidden="true"></div>
-  <canvas id="lightningCanvas" aria-hidden="true"></canvas>
-  <div class="storm-flash" id="stormFlash" aria-hidden="true"></div>
   <div class="storm-content">
     <blockquote class="storm-quote rv">
       “The sea does not reward those who wait at the shore.
@@ -943,22 +972,22 @@ body.cyclops-looming .storm{z-index:8996}
 <section class="section" id="overview">
   <div class="section-inner">
     <div class="section-head">
-      <span class="section-tag rv">The Event</span>
-      <h2 class="section-title rv">A Flagship Voyage <span class="gold">of Ideas</span></h2>
-      <p class="section-lede rv">Not a conference. An expedition — charted across three days of discovery, craft and ambition.</p>
+      <h2 class="section-title overview-title rv">ABOUT E[X]PECTATIONS’26</h2>
+      <!-- <p class="section-lede rv">Not a conference. An expedition — charted across three days of discovery, craft and ambition.</p> -->
     </div>
     <div class="overview-grid">
-      <h3 class="overview-display rv-left">Every era has its <span class="gold">odyssey</span>. This is ours — a gathering of the curious, the courageous and the relentless.</h3>
+      <h3 class="overview-display rv-left"><span class="gold">Exciting Prize Pool</span> <ol>1st Prize - ₹7000</ol> <ol>2nd Prize - ₹5000</ol> <ol>3rd Prize - ₹3000</ol></h3>
       <div class="overview-copy rv-right">
-        <p>ODYSSEY assembles the world's builders, thinkers and explorers for seventy-two hours of uncompromising ambition. Keynotes that read like prophecies. Challenges that demand cunning worthy of Ithaca's king. Rooms where the next decade is quietly decided.</p>
-        <p>From the first horizon to the final homecoming, the experience is engineered as a single continuous journey — each hour a waypoint, each encounter a current pulling you further from the familiar shore.</p>
+        <p>E [X]PECTATIONS is the annual intercollegiate fest organized by the Department of Statistics and Data Science at CHRIST (Deemed to be University).</p>
+        <p>This year's theme <span class="gold">The Odyssey - Navigating the Seas of Data</span>.</p>
+        <p>Join us for an exciting array of technical and non-technical events that challenge your analytical skills, creativity, and teamwork. Whether you're a data enthusiast or just curious about the world of statistics, E[X]PECTATIONS'26 has something for everyone.</p>
       </div>
     </div>
     <div class="stats">
-      <div class="stat rv" data-delay="0"><div class="stat-num"><span data-count="2500">0</span><sup>+</sup></div><div class="stat-label">Voyagers</div></div>
-      <div class="stat rv" data-delay="120"><div class="stat-num"><span data-count="72">0</span></div><div class="stat-label">Hours of Odyssey</div></div>
-      <div class="stat rv" data-delay="240"><div class="stat-num"><span data-count="30">0</span></div><div class="stat-label">Epic Challenges</div></div>
-      <div class="stat rv" data-delay="360"><div class="stat-num">$<span data-count="100">0</span>K</div><div class="stat-label">Prize Pool</div></div>
+      <div class="stat rv" data-delay="0"><div class="stat-num"><span data-count="16">0</span>+</div><div class="stat-label">Events</div></div>
+      <div class="stat rv" data-delay="120"><div class="stat-num"><span data-count="200">0</span>+</div><div class="stat-label">Participants</div></div>
+      <div class="stat rv" data-delay="240"><div class="stat-num"><span data-count="3">0</span></div><div class="stat-label">Event Categories</div></div>
+      <div class="stat rv" data-delay="360"><div class="stat-num">₹<span data-count="150">0</span>K</div><div class="stat-label">Prize Pool</div></div>
     </div>
   </div>
 </section>
@@ -970,119 +999,159 @@ body.cyclops-looming .storm{z-index:8996}
   <div class="section-inner">
     <div class="section-head">
       <span class="section-tag rv">The Programme</span>
-      <h2 class="section-title rv">Moments on the <span class="gold">Voyage</span></h2>
-      <p class="section-lede rv">Select a passage to explore the experiences soon to be announced.</p>
+      <h2 class="section-title rv">E[X]PECTATIONS <span class="gold">EVENTS</span></h2>
+      <p class="section-lede rv">Three currents — technical, non-technical and pre-fest — choose your passage.</p>
     </div>
-    <div class="events-expanded rv-scale" id="eventsExpanded" role="list" aria-label="Upcoming events">
-      <article class="event-expand-card is-active" role="listitem" tabindex="0" data-event-card style="--glow-x:28%;--event-image:none"><div class="event-card-inner"><span class="event-card-num">01 / INTELLIGENCE</span><h3 class="event-card-title">The Data Horizon</h3><div class="event-card-detail"><p>A flagship exploration of analytical thinking, machine intelligence and discoveries found when data meets curiosity.</p><span>Programme details announcing soon</span></div></div></article>
-      <article class="event-expand-card" role="listitem" tabindex="0" data-event-card style="--glow-x:52%;--event-image:none"><div class="event-card-inner"><span class="event-card-num">02 / ANALYTICS</span><h3 class="event-card-title">Signals in the Deep</h3><div class="event-card-detail"><p>An immersive space for statistical insight, visual storytelling and decisions shaped by evidence.</p><span>Programme details announcing soon</span></div></div></article>
-      <article class="event-expand-card" role="listitem" tabindex="0" data-event-card style="--glow-x:75%;--event-image:none"><div class="event-card-inner"><span class="event-card-num">03 / AI</span><h3 class="event-card-title">Athena’s Algorithm</h3><div class="event-card-detail"><p>Model craft, responsible AI and the human judgement that turns computation into meaningful progress.</p><span>Programme details announcing soon</span></div></div></article>
-      
+    <div class="events-expanded rv-scale" id="eventsExpanded" role="list" aria-label="Event categories">
+      <article class="event-expand-card is-active" role="listitem" tabindex="0" data-event-card data-category-href="/events/technical" style="--glow-x:25%;--event-image:url(https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1400&q=85)"><div class="event-card-inner"><span class="event-card-num">I / TECHNICAL</span><h3 class="event-card-title">Technical Events</h3><div class="event-card-detail"><p>Interviews, SQL investigation, statistics, data science and an escape-room odyssey.</p><span>5 events · Explore passage</span></div></div></article>
+      <article class="event-expand-card" role="listitem" tabindex="0" data-event-card data-category-href="/events/non-technical" style="--glow-x:50%;--event-image:url(https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1400&q=85)"><div class="event-card-inner"><span class="event-card-num">II / NON-TECH</span><h3 class="event-card-title">Non Technical Events</h3><div class="event-card-detail"><p>Treasure hunts, live auctions and impossible pitches built for teamwork and flair.</p><span>3 events · Explore passage</span></div></div></article>
+      <article class="event-expand-card" role="listitem" tabindex="0" data-event-card data-category-href="/events/pre-expectations" style="--glow-x:75%;--event-image:url(https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=1400&q=85)"><div class="event-card-inner"><span class="event-card-num">III / PRE-FEST</span><h3 class="event-card-title">Pre Expectations Events</h3><div class="event-card-detail"><p>Warm-up events and pre-fest experiences leading up to Expectations 2K26.</p><span>Announcing soon · Explore passage</span></div></div></article>
     </div>
-    <p class="events-expand-hint">Select an event to expand its passage</p>
+    <p class="events-expand-hint">Select a category to view its events</p>
   </div>
 </section>
 
 <div class="rule" aria-hidden="true"></div>
 
 <!-- ============ ITINERARY ============ -->
-<section class="section" id="itinerary">
-  <div class="section-inner">
-    <div class="section-head">
-      <span class="section-tag rv">Event Schedule</span>
-      <h2 class="section-title rv">The Voyage <span class="gold">Ahead</span></h2>
-      <p class="section-lede rv">Three days, charted like a crossing — from embarkation to homecoming.</p>
-    </div>
-    <div class="itinerary-wrap" id="itinWrap">
-      <div class="itin-path" aria-hidden="true"><div class="itin-path-fill" id="itinFill"></div></div>
-
-      <div class="itin-day rv" data-delay="0">
-        <div class="itin-node" aria-hidden="true"></div>
-        <div class="itin-info">
-          <p class="itin-kicker">Day I — March 12</p>
-          <h3 class="itin-title">Embarkation</h3>
-          <p class="itin-sub">Leaving the familiar shore.</p>
-        </div>
-        <ul class="itin-list">
-          <li><span class="itin-time">09:00</span><span class="itin-event">The Call to Voyage</span><span class="itin-note">Opening ceremony &amp; keynote — Grand Aegean Hall</span></li>
-          <li><span class="itin-time">13:00</span><span class="itin-event">Charting the Unknown</span><span class="itin-note">Track briefings &amp; crew formation</span></li>
-          <li><span class="itin-time">19:00</span><span class="itin-event">Night of a Thousand Sails</span><span class="itin-note">Welcome banquet under the constellations</span></li>
-        </ul>
-      </div>
-
-      <div class="itin-day rv" data-delay="0">
-        <div class="itin-node" aria-hidden="true"></div>
-        <div class="itin-info">
-          <p class="itin-kicker">Day II — March 13</p>
-          <h3 class="itin-title">The Open Sea</h3>
-          <p class="itin-sub">Where storms make sailors.</p>
-        </div>
-        <ul class="itin-list">
-          <li><span class="itin-time">08:30</span><span class="itin-event">Trials of the Deep</span><span class="itin-note">30 challenges open across all tracks</span></li>
-          <li><span class="itin-time">15:00</span><span class="itin-event">Counsel of Athena</span><span class="itin-note">Masterclasses &amp; mentor circles</span></li>
-          <li><span class="itin-time">21:00</span><span class="itin-event">The Sirens' Stage</span><span class="itin-note">Midnight demos &amp; live orchestral score</span></li>
-        </ul>
-      </div>
-
-      <div class="itin-day rv" data-delay="0">
-        <div class="itin-node" aria-hidden="true"></div>
-        <div class="itin-info">
-          <p class="itin-kicker">Day III — March 14</p>
-          <h3 class="itin-title">Homecoming</h3>
-          <p class="itin-sub">Ithaca, at last.</p>
-        </div>
-        <ul class="itin-list">
-          <li><span class="itin-time">10:00</span><span class="itin-event">The Final Crossing</span><span class="itin-note">Grand finale pitches before the Pantheon jury</span></li>
-          <li><span class="itin-time">16:00</span><span class="itin-event">Laurels &amp; Legends</span><span class="itin-note">Awards ceremony — $100K prize pool</span></li>
-          <li><span class="itin-time">20:00</span><span class="itin-event">The Last Horizon</span><span class="itin-note">Closing fire on the waterfront</span></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
+<!-- ============ ITINERARY ============ --> 
+<section class="section" id="itinerary"> 
+  <div class="section-inner"> 
+    <div class="section-head"> 
+      <span class="section-tag rv">Event Schedule</span> 
+      <h2 class="section-title rv">The Voyage <span class="gold">Ahead</span></h2> 
+      <p class="section-lede rv">A journey of challenges, creation, competition, and the final voyage beyond the horizon.</p> 
+    </div> 
+    <div class="itinerary-wrap" id="itinWrap"> 
+      <div class="itin-path" aria-hidden="true"><div class="itin-path-fill" id="itinFill"></div></div> 
+ 
+      <div class="itin-day rv" data-delay="0"> 
+        <div class="itin-node" aria-hidden="true"></div> 
+        <div class="itin-info"> 
+          <p class="itin-kicker">Pre-Expectations — September 21–26</p> 
+          <h3 class="itin-title">Pre-Expectations</h3> 
+          <p class="itin-sub">The voyage begins before the main event.</p> 
+        </div> 
+        <ul class="itin-list"> 
+          <li><span class="itin-time">21 Sep</span><span class="itin-event">Forge of Hephaestus</span><span class="itin-note">Minecraft Building</span></li> 
+          <li><span class="itin-time">22 Sep</span><span class="itin-event">Chronicles of the Voyage</span><span class="itin-note">Reel Making</span></li> 
+          <li><span class="itin-time">23 Sep</span><span class="itin-event">The Argonaut's Cup</span><span class="itin-note">FIFA</span></li> 
+          <li><span class="itin-time">24 Sep</span><span class="itin-event">The Trickster's Bazaar</span><span class="itin-note">Potpourri</span></li> 
+          <li><span class="itin-time">25 Sep</span><span class="itin-event">Hermes' Gauntlet</span><span class="itin-note">The Herald's Trial — General Quiz</span></li> 
+          <li><span class="itin-time">26 Sep</span><span class="itin-event">Prometheus' Forge</span><span class="itin-note">The Unbound Vigil — Hackathon</span></li> 
+        </ul> 
+      </div> 
+ 
+      <div class="itin-day rv" data-delay="0"> 
+        <div class="itin-node" aria-hidden="true"></div> 
+        <div class="itin-info"> 
+          <p class="itin-kicker">The First Crossing</p> 
+          <h3 class="itin-title">Day I — September 28</h3> 
+          <p class="itin-sub">Where the voyage truly begins.</p> 
+        </div> 
+        <ul class="itin-list"> 
+          <li><span class="itin-time">10:30–12:30</span><span class="itin-event">Stat Wars: Battle of Probabilities</span><span class="itin-note">Statistics Competition — Technical</span></li> 
+          <li><span class="itin-time">10:30–12:30</span><span class="itin-event">Quest for Ithaca: The Hidden Voyage</span><span class="itin-note">Treasure Hunt — Non-Technical</span></li> 
+          <li><span class="itin-time">12:30–13:30</span><span class="itin-event">Lunch Break</span><span class="itin-note">—</span></li> 
+          <li><span class="itin-time">13:30–15:30</span><span class="itin-event">The Oracle's Archive</span><span class="itin-note">Data Investigation &amp; SQL Challenge — Technical</span></li> 
+          <li><span class="itin-time">13:30–17:00</span><span class="itin-event">Olympian League Auction: The Heroes' Draft</span><span class="itin-note">IPL Auction — Non-Technical</span></li> 
+          <li><span class="itin-time">15:00–16:30</span><span class="itin-event">Siren's Stage: Where Waves Dance</span><span class="itin-note">Group Dance — Non-Technical</span></li> 
+        </ul> 
+      </div> 
+ 
+      <div class="itin-day rv" data-delay="0"> 
+        <div class="itin-node" aria-hidden="true"></div> 
+        <div class="itin-info"> 
+          <p class="itin-kicker">Beyond the Horizon</p> 
+          <h3 class="itin-title">Day II — September 29</h3> 
+          <p class="itin-sub">The final trials before the last voyage.</p> 
+        </div> 
+        <ul class="itin-list"> 
+          <li><span class="itin-time">09:00–11:00</span><span class="itin-event">Data Feud: The Oracle's Verdict</span><span class="itin-note">Family-Feud-Style Survey Battle — Technical</span></li> 
+          <li><span class="itin-time">09:00–11:00</span><span class="itin-event">The Fates' Wager</span><span class="itin-note">Escape Room — Technical</span></li> 
+          <li><span class="itin-time">11:00–13:00</span><span class="itin-event">Trial of Athena: Wisdom Under Pressure</span><span class="itin-note">Stress Interview — Technical</span></li> 
+          <li><span class="itin-time">11:00–13:00</span><span class="itin-event">The Impossible Pitch: Sirens of Commerce</span><span class="itin-note">AI-Powered Marketing Challenge / Ad Mads — Signature Event</span></li> 
+          <li><span class="itin-time">13:00–14:00</span><span class="itin-event">Lunch Break</span><span class="itin-note">—</span></li> 
+          <li><span class="itin-time">14:00–15:00</span><span class="itin-event">Myths in Motion</span><span class="itin-note">Fashion Show — Non-Technical</span></li> 
+          <li><span class="itin-time">15:00–16:00</span><span class="itin-event">The Last Voyage: Beyond the Horizon</span><span class="itin-note">Final Event</span></li> 
+        </ul> 
+      </div> 
+    </div> 
+  </div> 
+</section> 
+ 
 <div class="rule" aria-hidden="true"></div>
 
 <!-- ============ TRACKS ============ -->
-<section class="section tracks" id="tracks">
+<!-- ============ ACCOMMODATION ============ -->
+<section class="section tracks" id="accommodation">
   <div class="section-inner">
     <div class="section-head">
-      <span class="section-tag rv">Choose Your Path</span>
-      <h2 class="section-title rv">Four <span class="gold">Currents</span></h2>
-      <p class="section-lede rv">Every voyager sails under one banner. Choose the current that pulls you.</p>
+      <span class="section-tag rv">For Students</span>
+      <h2 class="section-title rv">Essential <span class="gold">Details</span></h2>
+      <p class="section-lede rv">We are pleased to offer accommodation for students participating from colleges outside Bangalore.</p>
     </div>
+
     <div class="tracks-grid">
-      <div class="tracks-nav rv-left" role="tablist" aria-label="Event tracks">
-        <button class="track-tab is-active" data-track="0" data-hover role="tab"><span class="num">I.</span><span class="name">The Siren's Code</span></button>
-        <button class="track-tab" data-track="1" data-hover role="tab"><span class="num">II.</span><span class="name">Poseidon's Depths</span></button>
-        <button class="track-tab" data-track="2" data-hover role="tab"><span class="num">III.</span><span class="name">Athena's Forge</span></button>
-        <button class="track-tab" data-track="3" data-hover role="tab"><span class="num">IV.</span><span class="name">The Ithaca Project</span></button>
+      <div class="tracks-nav rv-left" role="tablist" aria-label="Accommodation details">
+        <button class="track-tab is-active" data-track="0" data-hover role="tab">
+          <span class="num">I.</span>
+          <span class="name">Accommodation</span>
+        </button>
+        <button class="track-tab" data-track="1" data-hover role="tab">
+          <span class="num">II.</span>
+          <span class="name">Registration</span>
+        </button>
       </div>
+
       <div class="tracks-panel rv-right">
+
         <div class="track-detail is-active" data-panel="0">
-          <span class="track-glyph">♆</span>
-          <h3 class="track-h">The Siren's Code</h3>
-          <p class="track-p">Artificial intelligence that sings — and the discipline not to wreck upon it. Build models, agents and systems that charm the impossible into the inevitable. For those who hear the song and steer anyway.</p>
-          <div class="track-tags"><span>AI / ML</span><span>Agents</span><span>Foundation Models</span></div>
+          <span class="track-glyph">🏛</span>
+          <h3 class="track-h">Accommodation</h3>
+          <p class="track-p">
+            We are pleased to offer accommodation for students participating from colleges outside Bangalore.
+            Please note that the accommodation is limited to students and will be allocated on a
+            first-come, first-served basis.
+          </p>
+
+          <div class="track-tags">
+            <span>27th &amp; 28th September</span>
+            <span>Limited Availability</span>
+          </div>
+
+          <p class="track-p"><br>
+            The accommodation will be available on 27 and 28 September (3 days , 2 Nights)
+          </p>
+
+          <p class="track-p">
+            <strong>Make sure to secure your spot early!</strong>
+          </p>
         </div>
+
         <div class="track-detail" data-panel="1">
-          <span class="track-glyph">⚓</span>
-          <h3 class="track-h">Poseidon's Depths</h3>
-          <p class="track-p">Deep technology for those unafraid of pressure. Infrastructure, hardware, energy and the systems that hold civilisations above water. The deeper you go, the greater the treasure.</p>
-          <div class="track-tags"><span>Deep Tech</span><span>Infrastructure</span><span>Climate &amp; Energy</span></div>
+          <span class="track-glyph">✦</span>
+          <h3 class="track-h">Registration</h3>
+          <p class="track-p">
+            Individual registrations can be completed either online or through on spot registrations, which will be open on the 28th and 29th of September.
+          </p>
+
+          <div class="track-tags">
+            <span>Online Registration</span>
+            <span>On-Spot Registration</span>
+            <span>28th &amp; 29th September</span>
+          </div>
+
+          <p class="track-p"><br>
+            If it's a group event, please make sure to register individually first, and you can team up
+            with the same event. Also, be sure to check the event schedule and plan accordingly!
+          </p>
+
+          <p class="track-p">
+            <strong>Don't miss out on this marvellous event!</strong>
+          </p>
         </div>
-        <div class="track-detail" data-panel="2">
-          <span class="track-glyph">🦉</span>
-          <h3 class="track-h">Athena's Forge</h3>
-          <p class="track-p">Strategy, design and craft — hammered to a divine standard. Product thinking, brand worlds and interfaces with the poise of marble and the precision of a spear-throw.</p>
-          <div class="track-tags"><span>Design</span><span>Product</span><span>Strategy</span></div>
-        </div>
-        <div class="track-detail" data-panel="3">
-          <span class="track-glyph">⛵</span>
-          <h3 class="track-h">The Ithaca Project</h3>
-          <p class="track-p">The founder's crossing: from open sea to home shore. Ventures with a destination worth a decade of storms. Pitch before the Pantheon and sail home with the laurels.</p>
-          <div class="track-tags"><span>Startups</span><span>Venture</span><span>Go-to-Market</span></div>
-        </div>
+
       </div>
     </div>
   </div>
@@ -1195,9 +1264,11 @@ body.cyclops-looming .storm{z-index:8996}
    ============================================================ */
 (function(){
 "use strict";
-const prefersReduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const prefersReduced = true;
 const isCoarse = matchMedia('(pointer: coarse)').matches;
-const DPR = Math.min(window.devicePixelRatio || 1, 1.75);
+/* Decorative canvases do not need full device-pixel resolution.  This cap avoids
+   rendering several full-screen scenes at 2×/3× resolution on high-DPI displays. */
+const DPR = Math.min(window.devicePixelRatio || 1, 1.25);
 const lerp = (a,b,t)=>a+(b-a)*t;
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 
@@ -1581,7 +1652,7 @@ function makeOcean(canvas, opts){
   requestAnimationFrame(draw);
 }
 
-makeOcean(document.getElementById('oceanCanvas'), {horizon:.55, layers:10, ship:true, roughness:1.38, speed: prefersReduced?0.001:1.16});
+makeOcean(document.getElementById('oceanCanvas'), {horizon:.55, layers:10, moon:false, ship:false, roughness:1.38, speed: prefersReduced?0.001:1.16});
 makeOcean(document.getElementById('regCanvas'),  {horizon:.30, layers:6, moon:false, dim:.6, speed: prefersReduced?0.001:.7});
 
 /* ============================================================
@@ -1925,6 +1996,7 @@ makeOcean(document.getElementById('regCanvas'),  {horizon:.30, layers:6, moon:fa
 (function(){
   const canvas = document.getElementById('lightningCanvas');
   const flash = document.getElementById('stormFlash');
+  if (!canvas || !flash) return;
   const ctx = canvas.getContext('2d');
   let W=0,H=0, bolts=[], visible=false;
 
