@@ -23,9 +23,14 @@ app = Flask(__name__, static_folder=str(DIST), static_url_path="")
 @app.route("/<path:path>")
 def react_app(path: str):
     """Return built assets when present; otherwise let React Router resolve the route."""
-    candidate = DIST / path
-    if path and candidate.is_file():
-        return send_from_directory(DIST, path)
+    if path:
+        try:
+            # Resolve path absolutely to prevent traversal attacks
+            candidate = (DIST / path).resolve()
+            if candidate.is_file() and str(candidate).startswith(str(DIST.resolve())):
+                return send_from_directory(DIST, path)
+        except Exception:
+            pass
     return send_from_directory(DIST, "index.html")
 
 

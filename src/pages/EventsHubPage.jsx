@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import SiteStars from '../components/SiteStars';
-import { Header, Footer } from '../components/Layout';
-import CardDeck from '../components/CardDeck';
-import EventCanvas from '../components/EventCanvas';
+import { Header, Footer } from '../components/layout';
+import EventGrid from '../components/event-hub/EventGrid';
+import EventCanvas from '../components/common/EventCanvas';
 import { events, findEventCategory, getEventsByGroup } from '../data/events';
 
 export default function EventsHubPage({ category = null }) {
@@ -25,7 +25,7 @@ export default function EventsHubPage({ category = null }) {
           ) : null}
           {visibleEvents.length > 0 ? (
             <>
-              <CardDeck events={visibleEvents} onSelect={setSelected} />
+              <EventGrid events={visibleEvents} onSelectEvent={setSelected} />
               {categoryMeta ? (
                 <div className="events-category-foot">
                   <Link className="events-category-back" to="/">

@@ -6,7 +6,6 @@ import {
   EventAboutSection,
   EventRoundsSection,
   EventRulesSection,
-  EventEvaluationSection,
   EventOrganizersSection,
   EventRegistrationSection,
 } from './event-detail';
@@ -27,7 +26,6 @@ export default function EventPageLayout({ event }) {
         <EventAboutSection event={event} />
         <EventRoundsSection event={event} />
         <EventRulesSection event={event} />
-        <EventEvaluationSection event={event} />
         <EventOrganizersSection event={event} />
         <EventRegistrationSection event={event} />
       </main>
