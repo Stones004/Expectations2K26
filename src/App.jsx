@@ -1,4 +1,5 @@
-import {Routes,Route} from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
+import { ROUTES } from './data/constants';
 import HomePage from './pages/HomePage';
 import EventsHubPage from './pages/EventsHubPage';
 import EventsSlugPage from './pages/EventsSlugPage';
