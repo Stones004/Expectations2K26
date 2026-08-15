@@ -29,7 +29,7 @@ export default function Header() {
 
         {/* Navigation Links */}
         <nav>
-          <Link to={ROUTES.EVENTS}>Events</Link>
+          <Link to={ROUTES.HOME}>Events</Link>
           <a href="/#itinerary">Itinerary</a>
           <a href="/#tracks">Tracks</a>
         </nav>

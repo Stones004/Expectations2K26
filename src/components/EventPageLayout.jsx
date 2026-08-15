@@ -7,7 +7,8 @@ import {
   EventRoundsSection,
   EventRulesSection,
   EventOrganizersSection,
-  EventRegistrationSection,
+  EventDetailsSection,
+  EventEvaluationSection,
 } from './event-detail';
 
 /**
@@ -25,9 +26,16 @@ export default function EventPageLayout({ event }) {
         <EventInfoSection event={event} />
         <EventAboutSection event={event} />
         <EventRoundsSection event={event} />
+        {event.details?.length > 0 && (
+          <EventDetailsSection event={event} />
+        )}
+
+        {['sirens-stage', 'myths-in-motion'].includes(event.slug) && (
+          <EventEvaluationSection event={event} />
+        )}
         <EventRulesSection event={event} />
         <EventOrganizersSection event={event} />
-        <EventRegistrationSection event={event} />
+
       </main>
       <Footer />
     </>

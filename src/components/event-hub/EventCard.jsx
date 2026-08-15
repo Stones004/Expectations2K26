@@ -35,7 +35,7 @@ export default function EventCard({ event, index, isSelected, onPreview, onRoute
       >
         <span className="deck-card-glow" />
         <span className="deck-title">{event.title}</span>
-        <span className="deck-description">{event.summary}</span>
+        {/*<span className="deck-description">{event.summary}</span>*/}
       </button>
       <Link
         className="deck-route"

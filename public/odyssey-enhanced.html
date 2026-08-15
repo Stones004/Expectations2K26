@@ -41,7 +41,7 @@
       <li><a href="#storm" data-hover>The Voyage</a></li>
       <li><a href="#events" data-hover>Events</a></li>
       <li><a href="#itinerary" data-hover>Itinerary</a></li>
-      <li><a href="#tracks" data-hover>Accommodation</a></li>
+      <li><a href="#accommodation" data-hover>Accommodation</a></li>
       <li><a href="#patrons" data-hover>Patrons</a></li>
     </ul>
     <div class="nav-christ-logo" aria-label="CHRIST (Deemed to be University)">
@@ -54,7 +54,7 @@
     <a href="#storm" data-hover>The Voyage</a>
     <a href="#events" data-hover>Events</a>
     <a href="#itinerary" data-hover>Itinerary</a>
-    <a href="#tracks" data-hover>Accommodation</a>
+    <a href="#accomodation" data-hover>Accommodation</a>
     <a href="#patrons" data-hover>Patrons</a>
     <a href="#register" data-hover style="color:var(--gold)">Register</a>
   </div>
@@ -187,7 +187,6 @@
   <div class="rule" aria-hidden="true"></div>
 
   <!-- ============ ITINERARY ============ -->
-  <!-- ============ ITINERARY ============ -->
   <section class="section" id="itinerary">
     <div class="section-inner">
       <div class="section-head">
@@ -278,7 +277,6 @@
 
   <div class="rule" aria-hidden="true"></div>
 
-  <!-- ============ TRACKS ============ -->
   <!-- ============ ACCOMMODATION ============ -->
   <section class="section tracks" id="accommodation">
     <div class="section-inner">
@@ -387,77 +385,388 @@
     </div>
   </section>
 
-  <!-- ============ REGISTER ============ -->
-  <section class="section register" id="register">
+  <!-- ============ CONTACT / FINAL HARBOUR ============ -->
+  <section class="section register contact-section" id="register">
+
+    <!-- KEEP: existing Odyssey animated background -->
     <canvas id="regCanvas" aria-hidden="true"></canvas>
     <div class="register-veil" aria-hidden="true"></div>
-    <div class="section-inner">
-      <div class="section-head">
-        <span class="section-tag rv">The Destination</span>
-        <h2 class="section-title rv">Begin Your <span class="gold">Odyssey</span></h2>
-        <p class="section-lede rv">The tide turns once a year. Claim your place aboard.</p>
+
+    <div class="section-inner contact-inner">
+
+      <!-- ================= CONTACT HEADER ================= -->
+
+      <div class="section-head contact-header">
+
+        <span class="section-tag rv">
+          The Final Harbour
+        </span>
+
+        <h2 class="section-title rv">
+          Contact <span class="gold">Us</span>
+        </h2>
+
+        <p class="section-lede rv">
+          Need help navigating the voyage?
+          Our coordinators are here to guide you.
+        </p>
+
       </div>
-      <form class="reg-form" id="regForm" novalidate>
-        <div class="reg-row">
-          <div class="field rv"><input type="text" placeholder="First name" required aria-label="First name"></div>
-          <div class="field rv"><input type="text" placeholder="Last name" required aria-label="Last name"></div>
+
+
+      <!-- ================= LOCATION ================= -->
+
+      <div class="contact-location rv">
+
+        <div class="location-info">
+
+          <div class="location-icon">
+
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+
+              <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z" stroke="currentColor" stroke-width="1.6"
+                stroke-linecap="round" stroke-linejoin="round" />
+
+              <circle cx="12" cy="10" r="3" stroke="currentColor" stroke-width="1.6" />
+
+            </svg>
+
+          </div>
+
+          <div>
+
+            <h3>
+              CHRIST (Deemed to be University)
+            </h3>
+
+            <p>
+              Hosur Road, Bangalore – 560029,
+              Karnataka, India
+            </p>
+
+          </div>
+
         </div>
-        <div class="field rv"><input type="email" placeholder="Email address" required aria-label="Email"></div>
-        <div class="field rv"><input type="text" placeholder="Organisation / Institution" aria-label="Organisation">
+
+
+        <!-- ================= MAP ================= -->
+
+        <div class="contact-map">
+
+          <a href="https://www.google.com/maps/dir//Christ+University,+Hosur+Rd,+Bengaluru,+Karnataka/@12.9341599,77.5982763,17z"
+            target="_blank" rel="noopener noreferrer" class="map-overlay-link" data-hover>
+
+            <span class="map-overlay-text">
+              Open in Maps ↗
+            </span>
+
+          </a>
+
+
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3888.6284536892566!2d77.59827631482144!3d12.934159990881905!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae1556b0d7867b%3A0x17c3d0b0c56f0d6c!2sChrist%20University%20-%20Department%20of%20Statistics!5e0!3m2!1sen!2sin!4v1698419823456!5m2!1sen!2sin"
+            width="100%" height="420" style="border:0" allowfullscreen loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade" title="CHRIST University location"></iframe>
+
         </div>
-        <div class="field rv">
-          <select required aria-label="Choose your current">
-            <option value="" disabled selected>Choose your current</option>
-            <option>The Siren's Code — AI</option>
-            <option>Poseidon's Depths — Deep Tech</option>
-            <option>Athena's Forge — Design &amp; Strategy</option>
-            <option>The Ithaca Project — Ventures</option>
-          </select>
-        </div>
-        <div class="reg-submit-row rv">
-          <button type="submit" class="btn-gold" data-hover data-magnetic>Embark&nbsp;&nbsp;⟶</button>
-        </div>
-      </form>
-      <div class="reg-success" id="regSuccess">
-        <span class="glyph">⛵</span>
-        <h3>Welcome Aboard</h3>
-        <p>Your place on the voyage is held. Watch the horizon — and your inbox.</p>
+
       </div>
+
+
+      <!-- ================= COORDINATORS ================= -->
+
+      <div class="coordinators-wrapper" id="coordinators-container"></div>
+
     </div>
+
   </section>
 
-  <!-- ============ FOOTER ============ -->
+  <!-- ============================================================
+     ODYSSEY FOOTER
+     ============================================================ -->
+
   <footer class="footer">
-    <div class="footer-grid">
-      <div>
-        <div class="footer-brand">ODYSSE<em>Y</em></div>
-        <p class="footer-quote">“Tell me, O Muse, of that ingenious hero who travelled far and wide.” — Homer. The
-          Expectations Event invites you to write the next chapter of your own epic.</p>
+
+    <!-- BRANDING -->
+    <div class="footer-branding">
+
+      <div class="footer-logos">
+
+        <img src="/assets/expectations-logo.png" alt="Expectations 2K26" class="footer-expectations-logo" />
+
+        <img src="/assets/christ-logo.png" alt="CHRIST (Deemed to be University)" class="footer-christ-logo" />
+
       </div>
-      <div>
-        <h4 class="footer-h">Navigate</h4>
-        <ul class="footer-links">
-          <li><a href="#hero" data-hover>Home</a></li>
-          <li><a href="#events" data-hover>Events</a></li>
-          <li><a href="#itinerary" data-hover>Itinerary</a></li>
-          <li><a href="#tracks" data-hover>Tracks</a></li>
-          <li><a href="#register" data-hover>Register</a></li>
-        </ul>
+
+
+      <!-- ODYSSEY THEME -->
+      <div class="footer-tagline">
+
+        <div class="footer-tagline-title">
+          <span>The Odyssey</span>
+          <i>✦</i>
+        </div>
+
+        <div class="footer-tagline-voyage">
+
+          <span class="voyage-word">Navigating</span>
+
+          <span class="voyage-connector">the</span>
+
+          <span class="voyage-word">Seas</span>
+
+          <span class="voyage-connector">of</span>
+
+          <span class="voyage-word">Data</span>
+
+        </div>
+
+        <div class="footer-wave">
+          <span></span>
+        </div>
+
       </div>
-      <div>
-        <h4 class="footer-h">Harbour</h4>
-        <ul class="footer-links">
-          <li><a href="mailto:voyage@odyssey.events" data-hover>voyage@odyssey.events</a></li>
-          <li><a href="#" data-hover>Press &amp; Media</a></li>
-          <li><a href="#" data-hover>Become a Patron</a></li>
-          <li><a href="#" data-hover>Code of the Sea</a></li>
-        </ul>
+
+
+      <!-- DEPARTMENT -->
+      <div class="footer-department">
+        Department of Statistics and Data Science
+        <span>|</span>
+        CHRIST (Deemed to be University)
       </div>
+
     </div>
-    <div class="footer-bottom">
-      <span>© MMXXVI Odyssey — The Expectations Event</span>
-      <span>Charted in gold · Bound for Ithaca</span>
+
+
+    <!-- ==========================================================
+       SOCIAL LINKS
+       ========================================================== -->
+
+    <div class="footer-socials">
+
+      <!-- Instagram -->
+      <a href="https://www.instagram.com/expectations.26_cu?igsh=MTh5M3gyaDQ2eDRkbQ==" target="_blank"
+        rel="noopener noreferrer" aria-label="Instagram" class="footer-social" data-hover>
+        <img src="/assets/instagram.png" alt="Instagram">
+      </a>
+
+
+      <!-- LinkedIn -->
+      <a href="https://www.linkedin.com/in/statistics-datascience-christuniversity?utm_source=share_via&utm_content=profile&utm_medium=member_ios target="
+        _blank" rel="noopener noreferrer" aria-label="LinkedIn" class="footer-social" data-hover>
+        <img src="/assets/linkedin.png" alt="LinkedIn">
+      </a>
+
+
+      <!-- Email -->
+      <a href="mailto:expectations@fest.christuniversity.in" aria-label="Email" class="footer-social" data-hover>
+        <img src="/assets/gmail.png" alt="Email">
+      </a>
+
     </div>
+
+
+    <!-- ==========================================================
+       DEVELOPER CREW
+       ========================================================== -->
+
+    <div class="footer-devs">
+
+      <div class="footer-dev-label">
+
+        <span>THE DEVS</span>
+
+        <small>
+          Meet the Devs behind the voyage
+        </small>
+
+      </div>
+
+
+      <div class="developer-trail">
+
+        <div class="developer-trail-line"></div>
+
+
+        <!-- AASHI -->
+        <div class="developer-dot-wrapper">
+
+          <button type="button" class="developer-dot" aria-label="View Aashi"></button>
+
+          <div class="developer-tooltip">
+
+            <span class="developer-tooltip-number">
+              01
+            </span>
+
+            <strong>
+              Aashi
+            </strong>
+
+            <small>
+              Developer
+            </small>
+
+            <a href="https://github.com/ashlex1511" target="_blank" rel="noopener noreferrer" class="developer-github">
+              GitHub ↗
+            </a>
+
+          </div>
+
+        </div>
+
+
+        <!-- CHETHAN -->
+        <div class="developer-dot-wrapper">
+
+          <button type="button" class="developer-dot" aria-label="View Chethan"></button>
+
+          <div class="developer-tooltip">
+
+            <span class="developer-tooltip-number">
+              02
+            </span>
+
+            <strong>
+              Chethan
+            </strong>
+
+            <small>
+              Developer
+            </small>
+
+            <a href="https://github.com/Cheth618" target="_blank" rel="noopener noreferrer" class="developer-github">
+              GitHub ↗
+            </a>
+
+          </div>
+
+        </div>
+
+
+        <!-- DIPAYAN -->
+        <div class="developer-dot-wrapper">
+
+          <button type="button" class="developer-dot" aria-label="View Dipayan Roy"></button>
+
+          <div class="developer-tooltip">
+
+            <span class="developer-tooltip-number">
+              03
+            </span>
+
+            <strong>
+              Dipayan Roy
+            </strong>
+
+            <small>
+              Developer
+            </small>
+
+            <a href="https://github.com/dipayanroy049-rgb" target="_blank" rel="noopener noreferrer"
+              class="developer-github">
+              GitHub ↗
+            </a>
+
+          </div>
+
+        </div>
+
+
+        <!-- MONISH -->
+        <div class="developer-dot-wrapper">
+
+          <button type="button" class="developer-dot" aria-label="View Monish"></button>
+
+          <div class="developer-tooltip">
+
+            <span class="developer-tooltip-number">
+              04
+            </span>
+
+            <strong>
+              Monish
+            </strong>
+
+            <small>
+              Developer
+            </small>
+
+            <a href="https://github.com/monish-M-07" target="_blank" rel="noopener noreferrer" class="developer-github">
+              GitHub ↗
+            </a>
+
+          </div>
+
+        </div>
+
+
+        <!-- PRAJWAL -->
+        <div class="developer-dot-wrapper">
+
+          <button type="button" class="developer-dot" aria-label="View Prajwal Murali"></button>
+
+          <div class="developer-tooltip">
+
+            <span class="developer-tooltip-number">
+              05
+            </span>
+
+            <strong>
+              Prajwal Murali
+            </strong>
+
+            <small>
+              Developer
+            </small>
+
+            <a href="https://github.com/PrajwalMurali" target="_blank" rel="noopener noreferrer"
+              class="developer-github">
+              GitHub ↗
+            </a>
+
+          </div>
+
+        </div>
+
+
+        <!-- DARREN -->
+        <div class="developer-dot-wrapper">
+
+          <button type="button" class="developer-dot" aria-label="View Darren"></button>
+
+          <div class="developer-tooltip">
+
+            <span class="developer-tooltip-number">
+              06
+            </span>
+
+            <strong>
+              Darren
+            </strong>
+
+            <small>
+              Developer
+            </small>
+
+            <a href="https://github.com/Stones004" target="_blank" rel="noopener noreferrer" class="developer-github">
+              GitHub ↗
+            </a>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- FINAL CREDIT -->
+    <div class="footer-credit">
+      © 2026 E[X]PECTATIONS'26 · The Odyssey
+    </div>
+
   </footer>
 
   <script src="odyssey-enhanced.js"></script>

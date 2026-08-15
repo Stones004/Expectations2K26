@@ -34,7 +34,7 @@ const makeEvent = (data) => ({
   ...data,
   rules: data.rules || defaultRules,
   evaluation: data.evaluation || defaultEvaluation,
-  organizers,
+  organizers: data.organizers || organizers,
   rounds: data.rounds
 });
 
@@ -55,7 +55,7 @@ export const eventCategories = [
     summary:
       'Treasure hunts, live auctions and impossible pitches — three non-technical events built for teamwork and flair.',
     image: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1400&q=85',
-    count: 3
+    count: 5
   },
   {
     slug: 'pre-expectations',
@@ -74,47 +74,524 @@ export const findEventCategory = (slug) => eventCategories.find((category) => ca
 
 export const events = [
   makeEvent({
-    slug: 'stress-interview',
-    number: '01',
+    slug: 'trials-of-athena',
+    number: '09',
     group: 'technical',
     category: 'Technical',
-    title: 'Stress Interview',
-    tagline: 'Perform under pressure.',
+    title: 'Trials of Athena: Wisdom Under Pressure',
+    tagline: 'Think clearly. Stay composed. Prove your wisdom.',
+
     summary:
-      'A technical event evaluating knowledge, problem-solving, confidence and communication in a simulated high-pressure interview environment.',
-    image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=1400&q=85',
+      'A technical event designed to evaluate technical knowledge, problem-solving ability, confidence, communication skills, and performance under pressure in a simulated interview environment.',
+
+    image:
+      'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=1400&q=85',
+
     info: [
       ['Format', 'Individual'],
-      ['Team size', 'Solo participant'],
-      ['Duration', 'One event day'],
+      ['Mode', 'Offline'],
+      ['Duration', '2 hours'],
+      ['Rounds', '2'],
       ['Track', 'Technical']
     ],
+
     about:
-      'Stress Interview is designed to evaluate participants\' technical knowledge, problem-solving ability, confidence, communication skills, and ability to perform effectively under pressure in a simulated interview environment.',
+      'Trials of Athena: Wisdom Under Pressure is a technical event designed to evaluate participants’ technical knowledge, problem-solving ability, confidence, communication skills, and ability to perform effectively under pressure in a simulated interview environment.',
+
     rounds: [
       [
         'Aptitude & Code Completion Qualifying Test',
-        'A written qualifying test with aptitude questions and code completion tasks to assess logical reasoning, programming knowledge and code understanding. Top performers advance to Round 2.'
+        'Participants will take a written qualifying test consisting of aptitude questions to assess logical reasoning and problem-solving skills, along with code completion questions.'
       ],
       [
         'Stress Interview',
-        'Shortlisted participants face a one-on-one interactive session with the judging panel — navigating engaging conversations, creative scenarios and unexpected twists. Evaluates confidence, communication, analytical thinking, adaptability and presence of mind.'
+        'Shortlisted participants will take part in an engaging one-on-one interactive session with the judging panel. Each participant will navigate engaging conversations, creative scenarios, and unexpected twists inspired by the event theme.'
       ]
     ],
+
     rules: [
-      'Participants must report to the venue 15 minutes before the scheduled start.',
-      'Participants must attend in formal attire and carry a printed copy of their updated resume.',
-      'Mobile phones, smartwatches, laptops and other electronic devices are prohibited during the event.',
-      'Individual participation only — no discussion or external assistance.',
-      'Only participants who qualify in Round 1 proceed to the Stress Interview.',
+      'Participants must attend the event in formal attire.',
+      'Each participant must carry a printed copy of their updated resume.',
+      'The use of mobile phones, smartwatches, laptops, or other electronic devices is prohibited during the event.',
+      'Individual participation only; discussion or external assistance is not permitted.',
+      'Only participants who qualify in Round 1 will proceed to the Stress Interview.',
       'Participants should be prepared to answer questions related to anything mentioned in their resume.',
-      'Professional behaviour must be maintained throughout; the judging panel\'s decision is final.'
+      'Participants must maintain professional behaviour throughout the event.',
+      'The decision of the judging panel will be final.'
     ],
-    evaluation: [
-      ['Technical knowledge', '30%'],
-      ['Problem-solving', '25%'],
-      ['Communication', '25%'],
-      ['Confidence under pressure', '20%']
+
+    organizers: [
+      {
+        name: 'Athira',
+        role: 'Event Organizer',
+        image: '',
+        email: '',
+        phone: '+91 79770 20787',
+        linkedin: ''
+      },
+      {
+        name: 'Akansha Singh',
+        role: 'Event Organizer',
+        image: '',
+        email: '',
+        phone: '+91 72507 27006',
+        linkedin: ''
+      }
+    ]
+  }),
+
+  makeEvent({
+    slug: 'stat-wars',
+    number: '03',
+    group: 'technical',
+    category: 'Statistics',
+    title: 'STAT WARS: Battle of Probabilities',
+    tagline: 'Navigate uncertainty with confidence.',
+
+    summary:
+      'A multi-round technical quiz competition combining statistics, probability, logical reasoning, analytical thinking and teamwork through written and interactive challenges.',
+
+    image:
+      'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&w=1400&q=85',
+
+    info: [
+      ['Format', 'Team'],
+      ['Team size', '2 members'],
+      ['Mode', 'Offline'],
+      ['Duration', '2 hours'],
+      ['Rounds', '3'],
+      ['Track', 'Statistics & Probability']
+    ],
+
+    about:
+      'STAT WARS: Battle of Probabilities is a multi-round technical quiz competition which combines statistics, probability, logical reasoning, analytical thinking and teamwork, designed to engage teams in problem solving through written and interactive challenges.',
+
+    rounds: [
+      [
+        "The Oracle's Test",
+        'The event will begin with a screening round conducted through a pen-and-paper test. It will cover problems from statistics, probability, logical reasoning, and estimation.'
+      ],
+      [
+        'The Battle Arena',
+        'The teams shortlisted from Round 1 will enter this interactive round of rapid-fire questions, estimation games and puzzles. The activities will take place in a fast-paced manner, testing the quick thinking of the teams.'
+      ],
+      [
+        'The Final Quest',
+        'The teams still standing after The Battle Arena will face questions of high difficulty in a live buzzer round. The questions will test the theoretical knowledge as well as the practical knowledge of the teams.'
+      ]
+    ],
+
+    rules: [
+      'Participants are expected to bring their own scientific calculators. Graphing calculators are strictly prohibited.',
+      'Any electronic devices including, but not limited to, smartwatches, phones, laptops, and earphones/headphones are strictly not allowed in the quiz room.',
+      'Each team gets only one chance to answer each question.',
+      'Tie-breaker questions will be asked if required.',
+      'Any breach of rules or malpractice will result in disqualification.',
+      'The decision of the organising team will be final.'
+    ],
+
+    organizers: [
+      {
+        name: 'Mohamed Namis A',
+        role: 'Event Organizer',
+        image: '',
+        email: '',
+        phone: '+91 73970 26812',
+        linkedin: ''
+      },
+      {
+        name: 'Chiranshie Vyas',
+        role: 'Event Organizer',
+        image: '',
+        email: '',
+        phone: '+91 88265 78459',
+        linkedin: ''
+      }
+    ]
+  }),
+
+  makeEvent({
+    slug: 'data-feud',
+    number: '04',
+    group: 'technical',
+    category: 'Data Science',
+    title: "Data Feud: The Oracle's Verdict",
+    tagline: 'Think with data. Think like the crowd.',
+
+    summary:
+      'A technical team competition combining Data Science, AI, Statistics, logical reasoning, and survey-based challenges to test analytical thinking, problem solving, and the ability to think with data and like the crowd.',
+
+    image:
+      'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1400&q=85',
+
+    info: [
+      ['Format', 'Team'],
+      ['Team size', '2–3 members'],
+      ['Mode', 'Offline'],
+      ['Duration', '2 hours'],
+      ['Rounds', '3'],
+      ['Track', 'Data Science & AI']
+    ],
+
+    about:
+      "Data Feud: The Oracle's Verdict is a technical team competition combining Data Science, AI, Statistics, logical reasoning, and survey-based challenges. The event tests analytical thinking, problem solving, data interpretation, and the ability to think with data and like the crowd.",
+
+    rounds: [
+      [
+        'Hidden Crossword Challenge',
+        'Teams solve a crossword featuring clues from Data Science, AI, Programming, Statistics, and Technology. Highlighted words reveal a hidden concept connecting the answers. Skills tested: Technical Knowledge, Pattern Recognition, and Logical Thinking.'
+      ],
+      [
+        'Decode the Crowd',
+        'Teams reconstruct a corrupted survey report using charts, comments, statistics, and visualizations. Teams must match surveys, identify missing questions, spot misleading insights, rebuild a dashboard, and predict missing responses. Skills tested: Data Interpretation, Critical Thinking, and Teamwork.'
+      ],
+      [
+        'Data Feud',
+        'A Family Feud-style survey finale where teams predict the most popular responses from a pre-event student survey. Points are awarded based on the number of respondents giving each answer, with opportunities to steal points after three strikes. Skills tested: Quick Thinking, Public Opinion, and Strategy.'
+      ]
+    ],
+
+    rules: [
+      'Mobile phones, smart devices, and internet access are prohibited unless permitted by the organisers.',
+      'Teams must follow the instructions and time limits specified for each round.',
+      'Tie-breakers may be conducted if required.',
+      'Malpractice or misconduct will result in disqualification.',
+      'Judges’ and organisers’ decisions will be final.'
+    ],
+
+    organizers: [
+      {
+        name: 'Adlyn Glenita D Cunha',
+        role: 'Event Organizer',
+        image: '',
+        email: '',
+        phone: '+91 63622 87045',
+        linkedin: ''
+      },
+      {
+        name: 'Christal Deepthi Serrao',
+        role: 'Event Organizer',
+        image: '',
+        email: '',
+        phone: '+91 96116 46059',
+        linkedin: ''
+      }
+    ]
+  }),
+
+  makeEvent({
+    slug: 'fates-wager',
+    number: '05',
+    group: 'technical',
+    category: 'Escape Room',
+    title: "The Fates' Wager",
+    tagline: 'Solve. Unlock. Advance. Race against time.',
+
+    summary:
+      'A fast-paced escape-room challenge where teams navigate a series of technical, non-technical, and mini-game challenges. Solve, unlock, and advance through the quest while racing against time.',
+
+    image:
+      'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1400&q=85',
+
+    info: [
+      ['Format', 'Escape-room challenge'],
+      ['Team size', '2–3 members'],
+      ['Mode', 'Offline'],
+      ['Duration', '2 hours'],
+      ['Rounds', '2 + Event-long Side Quest'],
+      ['Track', 'Technical & Non-Technical']
+    ],
+
+    about:
+      "The Fates' Wager is a fast-paced escape-room challenge where teams navigate a series of technical, non-technical, and mini-game challenges. Teams must solve challenges, unlock stations, collect clues, and advance through the quest while racing against time.",
+
+    rounds: [
+      [
+        'Qualification',
+        'If 30+ teams participate, a preliminary quiz will be conducted to shortlist the top 15 teams for the main quest.'
+      ],
+      [
+        'Main Quest',
+        'Teams navigate a series of technical, non-technical, and mini-game challenges across the designated roadmap. Challenges must be completed within the allotted time to progress through the quest.'
+      ]
+    ],
+
+    challenges: {
+      technical: [
+        [
+          "Hermes' Workshop: Python Debugging",
+          'Find and fix bugs in Python code to unlock the station.'
+        ],
+        [
+          "Apollo's Observatory: Data Visualization Storytelling",
+          'Interpret a data visualization and present a 90-second data story.'
+        ],
+        [
+          'The Outlier Oracle',
+          'Identify an outlier using IQR or Z-score and use the result to crack the code.'
+        ],
+        [
+          'Probability Prophecy',
+          'Solve chained probability challenges using dice and cards.'
+        ],
+        [
+          "Poseidon's Ledger",
+          'Solve a physical SQL JOIN challenge using card-based tables.'
+        ]
+      ],
+
+      nonTechnical: [
+        [
+          'Tile Matching',
+          'Find matching Odyssey-themed tiles within the allotted time limit.'
+        ],
+        [
+          'Bottle Matching',
+          'Match bottles to clues using their physical characteristics.'
+        ]
+      ],
+
+      miniGames: [
+        'Bottle Flip',
+        'Ball in Cup',
+        'Paper Airplane',
+        'Puzzle',
+        'Envelope Draw',
+        'Paper Boat',
+        'Memory Sentence',
+        'Riddle Solver'
+      ]
+    },
+
+    sideQuest: {
+      title: 'The Fractured Cipher',
+      description:
+        'Complete the designated stations to collect 6 clue fragments. Combine the fragments at the Final Crossing to solve the hidden cipher and earn bonus points.'
+    },
+
+    rules: [
+      'Teams must follow the designated roadmap and complete challenges within the allotted time.',
+      'No outside assistance or tampering with clues or props is permitted.',
+      'Malpractice or rule violations will result in disqualification.',
+      'Tie-breakers may be conducted if required.',
+      'The organisers’ decision will be final.'
+    ],
+
+    organizers: [
+      {
+        name: 'Darren Dsouza',
+        role: 'Event Organizer',
+        image: '',
+        email: '',
+        phone: '+91 99024 75502',
+        linkedin: ''
+      },
+      {
+        name: 'Jasmine',
+        role: 'Event Organizer',
+        image: '',
+        email: '',
+        phone: '+91 76390 11108',
+        linkedin: ''
+      }
+    ]
+  }),
+
+  makeEvent({
+    slug: 'quest-of-ithaca',
+    number: '06',
+    group: 'non-technical',
+    category: 'Non-Technical',
+    title: 'Quest for Ithaca: The Hidden Voyage',
+    tagline: 'Every clue leads one step closer to Ithaca.',
+
+    summary:
+      'A campus-wide treasure hunt where teams embark on an adventurous journey inspired by The Odyssey. Participants solve mythology-themed riddles, complete exciting checkpoint challenges, and uncover hidden clues while racing across campus to find their way back to Ithaca.',
+
+    image:
+      'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=1400&q=85',
+
+    info: [
+      ['Format', 'Team'],
+      ['Team size', '2–3 members'],
+      ['Mode', 'Offline'],
+      ['Duration', '2 hours'],
+      ['Rounds', '2'],
+      ['Track', 'Non-Technical']
+    ],
+
+    about:
+      'The Quest of Ithaca is a campus-wide treasure hunt where teams embark on an adventurous journey inspired by The Odyssey. Participants solve mythology-themed riddles, complete exciting checkpoint challenges, and uncover hidden clues while racing across campus to find their way back to Ithaca. The event combines observation, teamwork, quick thinking, and strategy into a thrilling expedition where every clue leads one step closer to victory.',
+
+    rounds: [
+      [
+        "The Oracle's Test",
+        'Teams compete in a simultaneous qualifier consisting of observation and memory-based challenges. Participants explore a designated area for a limited time before recalling hidden symbols, objects, and clues. Top-performing teams qualify for the main treasure hunt.'
+      ],
+      [
+        'Voyage to Ithaca',
+        'Qualified teams race across multiple themed checkpoints around the campus. Each checkpoint features a unique challenge including riddles, hidden-object searches, audio clues, team decision-making tasks, and puzzle-solving. The first team to successfully complete all checkpoints and reach Ithaca wins.'
+      ]
+    ],
+
+    rules: [
+      'Team members must remain together throughout the event.',
+      'Checkpoints must be completed in the prescribed order.',
+      'Mobile phones and external assistance are prohibited unless specified.',
+      'Teams may request hints with an associated time penalty.',
+      'Any tampering with clues or unfair practices will lead to disqualification.',
+      "Judges' decisions are final."
+    ],
+
+    organizers: [
+      {
+        name: 'Sristi Banerjee',
+        role: 'Event Organizer',
+        image: '',
+        email: '',
+        phone: '+91 81000 14022',
+        linkedin: ''
+      },
+      {
+        name: 'Pendyala Hema Meghana',
+        role: 'Event Organizer',
+        image: '',
+        email: '',
+        phone: '+91 83740 31151',
+        linkedin: ''
+      }
+    ]
+  }),
+
+  makeEvent({
+    slug: 'olympian-league-auction',
+    number: '07',
+    group: 'non-technical',
+    category: 'Non-Technical',
+    title: "Olympian League Auction: The Heroes' Draft",
+    tagline: 'Build your dynasty. Bid smart. Rule the league.',
+
+    summary:
+      'A strategic auction-based competition where teams step into the shoes of franchise owners to build the strongest possible squad within a fixed budget. Combining cricket knowledge, analytical thinking, budgeting, and decision-making, participants must outbid their competitors while maintaining a balanced team and making smart investment choices.',
+
+    image:
+      'https://images.unsplash.com/photo-1531418847157-7b46bddb825a?auto=format&fit=crop&w=1400&q=85',
+
+    info: [
+      ['Format', 'Team'],
+      ['Team size', '2–4 members'],
+      ['Mode', 'Offline'],
+      ['Duration', '3–4 hours'],
+      ['Rounds', '2'],
+      ['Track', 'Non-Technical']
+    ],
+
+    about:
+      "The Olympian League Auction is a strategic auction-based competition where teams step into the shoes of franchise owners to build the strongest possible squad within a fixed budget. Combining cricket knowledge, analytical thinking, budgeting, and decision-making, participants must outbid their competitors while maintaining a balanced team and making smart investment choices. Success depends on strategy rather than simply purchasing star players.",
+
+    rounds: [
+      [
+        "Oracle's Screening",
+        'Teams compete in a preliminary quiz based on IPL, cricket, sports analytics, and logical reasoning. The highest-scoring teams qualify for the live auction.'
+      ],
+      [
+        "Heroes' Draft",
+        'Qualified teams participate in a live IPL-style auction. Teams strategically bid for players while managing their budget and squad composition. The final squad is evaluated based on balance, strategy, budget utilization, and overall team strength.'
+      ]
+    ],
+
+    rules: [
+      'Teams must stay within the allotted auction purse.',
+      'Franchise allocation is decided by the organizers.',
+      'Auctioneer decisions are final.',
+      'Mobile phones are not permitted during the screening quiz.',
+      'Teams must satisfy all squad composition requirements.',
+      "Judges' decisions are final."
+    ],
+
+    organizers: [
+      {
+        name: 'Sibin',
+        role: 'Event Organizer',
+        image: '',
+        email: '',
+        phone: '+91 80787 71574',
+        linkedin: ''
+      },
+      {
+        name: 'Adhi',
+        role: 'Event Organizer',
+        image: '',
+        email: '',
+        phone: '+91 81110 13164',
+        linkedin: ''
+      }
+    ]
+  }),
+
+  makeEvent({
+    slug: 'impossible-pitch',
+    number: '08',
+    group: 'non-technical',
+    category: 'Marketing',
+    title: 'The Impossible Pitch: Sirens of Commerce',
+    tagline: 'Sell the unsellable.',
+
+    summary:
+      'A creative marketing challenge where teams transform an absurd or impractical product into a marketable success using AI tools and creative software. Teams develop a complete branding and marketing campaign before presenting and defending their ideas before a judging panel.',
+
+    image:
+      'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1400&q=85',
+
+    info: [
+      ['Format', 'Team'],
+      ['Team size', '2–3 members'],
+      ['Mode', 'Offline'],
+      ['Duration', '2.5 hours'],
+      ['Rounds', '2'],
+      ['Track', 'Marketing']
+    ],
+
+    about:
+      'The Impossible Pitch is a creative marketing challenge where teams transform an absurd or impractical product into a marketable success. Using AI tools and creative software, participants develop a complete branding and marketing campaign before presenting and defending their ideas before a judging panel. The event tests creativity, innovation, persuasive communication, and strategic thinking under time constraints.',
+
+    rounds: [
+      [
+        'The Forge',
+        'Teams receive a randomly assigned unconventional product. Using AI tools and creative software, participants develop a complete marketing campaign and create at least one promotional asset.'
+      ],
+      [
+        'The Grilling',
+        'Teams present their campaign through a live pitch. Judges challenge the team’s marketing strategy through cross-questioning. Teams defend their decisions and justify how they overcame the product’s limitations.'
+      ]
+    ],
+
+    rules: [
+      'Products allotted by the organizers cannot be exchanged.',
+      'All creative work must be produced during the event.',
+      'AI usage is permitted but must be disclosed.',
+      'Content must remain appropriate for a university audience.',
+      'Presentation time limits must be strictly followed.',
+      "Judges' decisions are final."
+    ],
+
+    organizers: [
+      {
+        name: 'Simran Rajput',
+        role: 'Event Organizer',
+        image: '',
+        email: '',
+        phone: '+91 78921 82139',
+        linkedin: ''
+      },
+      {
+        name: 'Pratap Mangalam',
+        role: 'Event Organizer',
+        image: '',
+        email: '',
+        phone: '+91 73385 71742',
+        linkedin: ''
+      }
     ]
   }),
 
@@ -125,347 +602,468 @@ export const events = [
     category: 'SQL & Analytics',
     title: "The Oracle's Archive",
     tagline: 'Investigate. Query. Uncover the truth.',
-    summary:
-      'A team SQL challenge where data investigators explore a corrupted archival database, clean anomalies and reconstruct the sequence of events using evidence-based reasoning.',
-    image: 'https://images.unsplash.com/photo-1544383835-bda2bc66a55d?auto=format&fit=crop&w=1400&q=85',
-    info: [
-      ['Format', 'Team challenge'],
-      ['Team size', '2–3 participants'],
-      ['Duration', '2.5 hours'],
-      ['Track', 'SQL & Data Investigation']
-    ],
-    about:
-      "The Oracle's Archive combines SQL programming with analytical thinking. Teams act as data investigators working with a corrupted archival database linked to a fictional incident — uncovering clues, reconstructing events and arriving at logical conclusions supported by SQL query outputs.",
-    rounds: [
-      [
-        'Elimination Round (if required)',
-        'If registrations exceed capacity, an elimination round of MCQs, puzzles or crosswords will be conducted.'
-      ],
-      [
-        'Excavation (45 minutes)',
-        'Teams receive the archival database and explore it using SQL queries. Identify missing values, duplicates, inconsistencies and suspicious patterns. Submit a Findings Sheet with all observations and supporting SQL queries.'
-      ],
-      [
-        'The Unlocked Archive (35 minutes)',
-        'A second linked dataset is released. Teams connect new data with Round 1 findings using JOINs, subqueries and other SQL techniques to refine their investigation.'
-      ],
-      [
-        'The Verdict (20 min prep + 5 min presentation)',
-        'Teams present their investigation process, key findings, supporting SQL queries and final theory before the judging panel. Judges may request re-execution of any submitted query.'
-      ]
-    ],
-    rules: [
-      'Teams must consist of 2–3 participants.',
-      'Bring your own fully charged laptop with MySQL Workbench installed.',
-      'Only SQL queries executed on the provided database are permitted.',
-      'Internet access and external resources are strictly prohibited.',
-      'Do not modify the database structure unless explicitly instructed.',
-      'Submit complete SQL query log along with the final conclusion.',
-      'Plagiarism, collaboration between teams or unauthorized resources result in disqualification.',
-      'Judges may ask participants to execute any submitted query during the final round.'
-    ],
-    evaluation: [
-      ['Investigation process', '25%'],
-      ['SQL query quality', '30%'],
-      ['Analytical reasoning', '25%'],
-      ['Presentation & justification', '20%']
-    ]
-  }),
 
-  makeEvent({
-    slug: 'stat-wars',
-    number: '03',
-    group: 'technical',
-    category: 'Statistics',
-    title: "STAT WARS: The Battle of Probabilities",
-    tagline: 'Navigate uncertainty with confidence.',
     summary:
-      'A multi-round statistics and probability quiz combining logical reasoning, analytical thinking and teamwork through written and interactive challenges.',
-    image: 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&w=1400&q=85',
+      'A technical team event combining SQL, analytical thinking, and problem-solving. Participants act as data investigators, using a corrupted archival database containing anomalies, missing data, and hidden clues to analyse, cross-reference, and reconstruct events.',
+
+    image:
+      'https://images.unsplash.com/photo-1544383835-bda2bc66a55d?auto=format&fit=crop&w=1400&q=85',
+
     info: [
-      ['Format', 'Team quiz'],
+      ['Format', 'Team'],
       ['Team size', '2 members'],
-      ['Duration', '120 minutes'],
-      ['Track', 'Statistics & Probability']
-    ],
-    about:
-      'Stat Wars is a multi-round technical quiz competition combining statistics, probability, logical reasoning, analytical thinking and teamwork — designed to engage teams in problem solving through written and interactive challenges.',
-    rounds: [
-      [
-        "The Oracle's Test",
-        'A screening pen-and-paper test covering statistics, probability, logical reasoning and estimation. Teams that pass advance to Round 2.'
-      ],
-      [
-        'The Battle Arena',
-        'Shortlisted teams enter an interactive round of rapid-fire questions, estimation games and puzzles in a fast-paced format testing quick thinking.'
-      ],
-      [
-        'The Final Quest',
-        'Remaining teams face high-difficulty questions in a live buzzer round testing theoretical and practical knowledge. Highest score wins.'
-      ]
-    ],
-    rules: [
-      'Participants compete in teams of 2.',
-      'Bring your own scientific calculator; graphing calculators are strictly prohibited.',
-      'Electronic devices including smartwatches, phones, laptops and earphones are not allowed in the quiz room.',
-      'Each team gets one chance to answer each question.',
-      'Tie-breaker questions will be asked if required.',
-      'Any breach of rules or malpractice results in disqualification.'
-    ],
-    evaluation: [
-      ['Statistical knowledge', '35%'],
-      ['Probability & reasoning', '30%'],
-      ['Speed & accuracy', '20%'],
-      ['Teamwork', '15%']
-    ]
-  }),
-
-  makeEvent({
-    slug: 'data-feud',
-    number: '04',
-    group: 'technical',
-    category: 'Data Science',
-    title: 'Data Feud',
-    tagline: 'Think like the crowd.',
-    summary:
-      'A team-based competition testing analytical thinking, logical reasoning and creativity through puzzles, data interpretation and survey-based gameplay inspired by Family Feud.',
-    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1400&q=85',
-    info: [
-      ['Format', 'Team competition'],
-      ['Team size', '2–3 members'],
-      ['Duration', '~2 hours'],
-      ['Track', 'Data Science & AI']
-    ],
-    about:
-      'Data Feud combines puzzles, reasoning tasks and survey-based gameplay to create an interactive experience inspired by Data Science, Artificial Intelligence, Technology and Public Opinion — testing analytical thinking, teamwork and the ability to think like the majority.',
-    rounds: [
-      [
-        'Hidden Crossword Challenge (30 minutes)',
-        'Teams complete a crossword with clues related to Data Science, AI, Programming, Statistics and Technology. Highlighted words reveal a hidden connecting theme — evaluating technical knowledge and pattern recognition.'
-      ],
-      [
-        'Decode the Crowd (40–45 minutes)',
-        'Teams reconstruct a corrupted survey report through five tasks: matching charts to categories, identifying missing questions, spotting fake insights, rebuilding a dashboard and predicting crowd responses — culminating in an executive summary.'
-      ],
-      [
-        'Data Feud Finale (30 minutes)',
-        'Top 4 teams compete in a Family Feud-style round predicting the most common survey responses. Face-offs, strikes and steal opportunities determine the winner and runner-up.'
-      ]
-    ],
-    rules: [
-      'Each team must consist of 2–3 participants.',
-      'Report at least 15 minutes before the event.',
-      'Mobile phones, smart devices and internet access are prohibited unless instructed.',
-      'Follow instructions for each round; time penalties apply where applicable.',
-      'All event materials must be returned after the competition.',
-      'Tie-breaker questions will be conducted if required; judges\' decisions are final.'
-    ],
-    evaluation: [
-      ['Technical knowledge', '25%'],
-      ['Data interpretation', '30%'],
-      ['Critical thinking', '25%'],
-      ['Team collaboration', '20%']
-    ]
-  }),
-
-  makeEvent({
-    slug: 'fates-wager',
-    number: '05',
-    group: 'technical',
-    category: 'Escape Room',
-    title: "The Fates' Wager",
-    tagline: 'Navigate the seas of data.',
-    summary:
-      'An escape-room style odyssey where teams of 2–3 complete five technical and two non-technical station challenges along a time-scored roadmap across campus.',
-    image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1400&q=85',
-    info: [
-      ['Format', 'Escape room odyssey'],
-      ['Team size', '2–3 participants'],
-      ['Duration', '120 minutes'],
-      ['Track', 'Technical & Non-Technical']
-    ],
-    about:
-      'The Odyssey: Navigating the Seas of Data — a series of five technical tasks and two non-technical tasks where teams follow a predefined roadmap to complete challenges and earn time-based points. A shared side quest, The Fractured Cipher, offers bonus points for teams collecting all six clue fragments.',
-    rounds: [
-      [
-        'Qualifier (if 30+ teams)',
-        'A quiz determines which 15 teams qualify for the main event when registrations exceed capacity.'
-      ],
-      [
-        "Hermes' Workshop — Python Debugging",
-        'Fix broken Python snippets on printed cards to produce correct output and unlock the station lock.'
-      ],
-      [
-        "Apollo's Observatory — Data Visualization Storytelling",
-        'Interpret a data visualization and deliver a 90-second verbal story explaining what the data shows and why it matters.'
-      ],
-      [
-        'The Outlier Oracle',
-        'Identify the outlier in a printed dataset using IQR or z-score; the outlier ID becomes the lock code.'
-      ],
-      [
-        'Probability Prophecy',
-        'Solve 2–3 linked probability questions using dice/card draws; answers combine to form the unlock code.'
-      ],
-      [
-        "Poseidon's Ledger — SQL",
-        'A hands-on, no-laptop SQL challenge using physical index-card tables that teams manually JOIN to answer a written query.'
-      ],
-      [
-        'Non-Technical Stations & Mini-Games',
-        'Tile matching, bottle matching and a suite of mini-games including bottle flip, ball in cup, paper airplane, puzzles and riddles.'
-      ],
-      [
-        'Side Quest — The Fractured Cipher',
-        'Each completed station yields one clue fragment. All six fragments combine into a keyword solved at the Final Crossing for bonus points.'
-      ]
-    ],
-    rules: [
-      'Teams of 2–3 participants; scoring is time-based — faster completion earns higher points.',
-      'Follow the predefined roadmap and complete stations in order.',
-      'Qualifier round applies when registrations exceed 30 teams.',
-      'Maintain fair play across all technical and non-technical stations.',
-      'Any form of malpractice leads to disqualification.'
-    ],
-    evaluation: [
-      ['Speed & completion', '40%'],
-      ['Technical accuracy', '30%'],
-      ['Team coordination', '20%'],
-      ['Side quest bonus', '10%']
-    ]
-  }),
-
-  makeEvent({
-    slug: 'quest-of-ithaca',
-    number: '06',
-    group: 'non-technical',
-    category: 'Non-Technical',
-    title: 'Quest of Ithaca: The Hidden Voyage',
-    tagline: 'Every clue leads closer to home.',
-    summary:
-      'A campus-wide treasure hunt where teams solve mythology-themed riddles, complete checkpoint challenges and race across campus to find their way back to Ithaca.',
-    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=1400&q=85',
-    info: [
-      ['Format', 'Treasure hunt'],
-      ['Team size', '2–3 members'],
-      ['Duration', '2 hours'],
-      ['Track', 'Non-Technical']
-    ],
-    about:
-      'The Quest of Ithaca is a campus-wide treasure hunt inspired by The Odyssey. Participants solve mythology-themed riddles, complete exciting checkpoint challenges and uncover hidden clues while racing across campus — combining observation, teamwork, quick thinking and strategy.',
-    rounds: [
-      [
-        "The Oracle's Test",
-        'A simultaneous qualifier with observation and memory-based challenges. Teams explore a designated area, then recall hidden symbols, objects and clues. Top performers advance to the main hunt.'
-      ],
-      [
-        'Voyage to Ithaca',
-        'Qualified teams race across themed campus checkpoints featuring riddles, hidden-object searches, audio clues, team decision-making tasks and puzzle-solving. First team to complete all checkpoints and reach Ithaca wins.'
-      ]
-    ],
-    rules: [
-      'Team members must remain together throughout the event.',
-      'Checkpoints must be completed in the prescribed order.',
-      'Mobile phones and external assistance are prohibited unless specified.',
-      'Hints may be requested with an associated time penalty.',
-      'Tampering with clues or unfair practices leads to disqualification.',
-      'Judges\' decisions are final.'
-    ],
-    evaluation: [
-      ['Speed & navigation', '35%'],
-      ['Puzzle-solving', '30%'],
-      ['Teamwork', '20%'],
-      ['Observation & memory', '15%']
-    ]
-  }),
-
-  makeEvent({
-    slug: 'olympian-league-auction',
-    number: '07',
-    group: 'non-technical',
-    category: 'Non-Technical',
-    title: "Olympian League Auction: The Heroes' Draft",
-    tagline: 'Build your dynasty.',
-    summary:
-      'A strategic IPL-style auction where teams act as franchise owners, bidding for players within a fixed budget to build the strongest balanced squad.',
-    image: 'https://images.unsplash.com/photo-1531418847157-7b46bddb825a?auto=format&fit=crop&w=1400&q=85',
-    info: [
-      ['Format', 'Live auction'],
-      ['Team size', '2–4 members'],
-      ['Duration', '3–4 hours'],
-      ['Track', 'Non-Technical']
-    ],
-    about:
-      'The Olympian League Auction is a strategic auction-based competition where teams step into the shoes of franchise owners. Combining cricket knowledge, analytical thinking, budgeting and decision-making, participants outbid competitors while maintaining a balanced squad and making smart investment choices.',
-    rounds: [
-      [
-        "Oracle's Screening",
-        'A preliminary quiz based on IPL, cricket, sports analytics and logical reasoning. Highest-scoring teams qualify for the live auction.'
-      ],
-      [
-        "Heroes' Draft",
-        'Qualified teams participate in a live IPL-style auction, strategically bidding for players while managing budget and squad composition. Final squads are evaluated on balance, strategy, budget utilization and overall team strength.'
-      ]
-    ],
-    rules: [
-      'Teams must stay within the allotted auction purse.',
-      'Franchise allocation is decided by the organizers.',
-      'Auctioneer decisions are final.',
-      'Mobile phones are not permitted during the screening quiz.',
-      'Teams must satisfy all squad composition requirements.',
-      'Judges\' decisions are final.'
-    ],
-    evaluation: [
-      ['Cricket knowledge', '25%'],
-      ['Budget management', '30%'],
-      ['Squad balance', '30%'],
-      ['Strategic bidding', '15%']
-    ]
-  }),
-
-  makeEvent({
-    slug: 'impossible-pitch',
-    number: '08',
-    group: 'non-technical',
-    category: 'Non-Technical',
-    title: 'The Impossible Pitch: Sirens of Commerce',
-    tagline: 'Sell the unsellable.',
-    summary:
-      'A creative marketing challenge where teams transform an absurd product into a marketable success using AI tools, then pitch and defend their campaign before a judging panel.',
-    image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1400&q=85',
-    info: [
-      ['Format', 'Marketing pitch'],
-      ['Team size', '2–3 members'],
+      ['Mode', 'Offline'],
       ['Duration', '2.5 hours'],
-      ['Track', 'Non-Technical']
+      ['Rounds', '2'],
+      ['Track', 'SQL & Analytics']
     ],
+
     about:
-      'The Impossible Pitch is a creative marketing challenge where teams transform an absurd or impractical product into a marketable success. Using AI tools and creative software, participants develop a complete branding and marketing campaign before presenting and defending their ideas — testing creativity, innovation, persuasive communication and strategic thinking under time constraints.',
+      'The Oracle’s Archive is a technical team event combining SQL, analytical thinking, and problem-solving. Participants act as data investigators, using a corrupted archival database containing anomalies, missing data, and hidden clues to analyse, cross-reference, and reconstruct events. Every conclusion must be supported by SQL-based evidence, making logical reasoning essential.',
+
     rounds: [
       [
-        'The Forge',
-        'Teams receive a randomly assigned unconventional product. Using AI tools and creative software, they develop a complete marketing campaign and create at least one promotional asset.'
+        'Excavation',
+        '45 Minutes — Participants receive the initial archival database and investigate it using SQL queries. Identify missing values, duplicate records, inconsistencies, anomalies, and suspicious patterns, and gather preliminary evidence.'
       ],
       [
-        'The Grilling',
-        'Teams present their campaign through a live pitch. Judges cross-examine the marketing strategy; teams defend their decisions and justify how they overcame the product\'s limitations.'
+        'The Unlocked Archive',
+        '35 Minutes — A second linked dataset is released, requiring participants to connect it with their Round 1 findings using JOINs, subqueries, and other SQL techniques. They must analyse the new evidence, uncover deeper connections, and refine their investigation and conclusions.'
       ]
     ],
+
     rules: [
-      'Products allotted by organizers cannot be exchanged.',
-      'All creative work must be produced during the event.',
-      'AI usage is permitted but must be disclosed.',
-      'Content must remain appropriate for a university audience.',
-      'Presentation time limits must be strictly followed.',
-      'Judges\' decisions are final.'
+      'Participants must bring their own fully charged laptops with MySQL Workbench pre-installed.',
+      'Only SQL queries executed on the provided database are permitted.',
+      'A complete SQL query log and final conclusion must be submitted.',
+      'Internet and external resources are strictly prohibited.',
+      'The database structure must not be modified unless instructed by the organizers.',
+      'Plagiarism, inter-team collaboration, or unauthorized resources will result in disqualification.',
+      'Judges may ask participants to re-execute any submitted query.',
+      'The judges’ decision is final and binding.'
     ],
-    evaluation: [
-      ['Creativity & innovation', '30%'],
-      ['Marketing strategy', '25%'],
-      ['Presentation & persuasion', '25%'],
-      ['Defence under questioning', '20%']
+
+    organizers: [
+      {
+        name: 'Ann Maria Anil',
+        role: 'Event Organizer',
+        image: '',
+        email: '',
+        phone: '+91 63610 26699',
+        linkedin: ''
+      },
+      {
+        name: 'Sai Sanjana D',
+        role: 'Event Organizer',
+        image: '',
+        email: '',
+        phone: '+91 97315 19874',
+        linkedin: ''
+      }
     ]
-  })
+  }),
+
+  makeEvent({
+    slug: 'sirens-stage',
+    number: '10',
+    group: 'non-technical',
+    category: 'Dance',
+    title: "Siren's Stage: Where Waves Dance",
+    tagline: 'Where rhythm meets the tide.',
+
+    summary:
+      'A high-energy dance competition showcasing choreography, synchronization, creativity, musicality, and stage presence.',
+
+    image:
+      'https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?auto=format&fit=crop&w=1400&q=85',
+
+    info: [
+      ['Format', 'Team performance'],
+      ['Team size', '6–9 members'],
+      ['Mode', 'Offline'],
+      ['Duration', 'Maximum 5 minutes'],
+      ['Track', 'Dance']
+    ],
+
+    about:
+      "Siren's Stage: Where Waves Dance is a high-energy dance competition showcasing choreography, synchronization, creativity, musicality, and stage presence. Teams compete through carefully crafted performances while demonstrating energy, execution, thematic expression, and visual impact.",
+
+    details: [
+      {
+        title: 'The Screen Mirror Concept',
+        items: [
+          [
+            'Video Selection',
+            'Teams must select one cinema video song or a clean montage clip.'
+          ],
+          [
+            'Video Submission',
+            'The high-definition video must be submitted in 1080p MP4 format along with the audio file 72 hours before the event.'
+          ],
+          [
+            'Exact Step Match',
+            'Teams will be evaluated on how accurately they replicate the original step-by-step choreography, hook steps, dancer formations, expressions, and dynamic timing relative to the video.'
+          ],
+          [
+            'Role Distribution',
+            'Teams must assign lead roles such as Hero/Heroine and backing dancers to reflect the original video layout on stage.'
+          ],
+          [
+            'Visual Similarity',
+            'Matching the colour palettes, style, and iconic look of the original music video contributes to the Costumes & Cinematic Accuracy criterion.'
+          ]
+        ]
+      },
+
+      {
+        title: 'Team Composition & Eligibility',
+        items: [
+          [
+            'Active Dancers',
+            'Minimum of 6 and maximum of 15 active dancers on stage.'
+          ],
+          [
+            'Cross-Participation',
+            'A student cannot perform in more than one dance team during the competition.'
+          ]
+        ]
+      },
+
+      {
+        title: 'Timing & Penalties',
+        items: [
+          [
+            'Performance Duration',
+            'The total clip must be between 3 and 5 minutes.'
+          ],
+          [
+            'Clock Start',
+            'Timing begins with the start of the background video playback and the first step on stage.'
+          ],
+          [
+            'Clock End',
+            'Timing stops when the video terminates or dancers freeze in the final frame.'
+          ],
+          [
+            'Overtime Penalty',
+            'Routines exceeding 5 minutes receive an automatic deduction of 0.5 points for every 10 seconds over time.'
+          ]
+        ]
+      },
+
+      {
+        title: 'Stage Transitions',
+        items: [
+          [
+            'Buffer Window',
+            'A strict 2-minute buffer is provided between teams for stage entry, exit, and AV checks.'
+          ],
+          [
+            'Props',
+            'Any props used must be placed on stage and completely cleared within the 2-minute window.'
+          ],
+          [
+            'Queueing',
+            'The next scheduled team must line up backstage during the active performance of the preceding team.'
+          ]
+        ]
+      },
+
+      {
+        title: 'Media Submission & Technical Check',
+        items: [
+          [
+            'Video Format',
+            'MP4, 1080p.'
+          ],
+          [
+            'Audio Format',
+            'MP3.'
+          ],
+          [
+            'Submission',
+            'Video and audio must be submitted through the online portal before the deadline.'
+          ],
+          [
+            'Backup Media',
+            'Teams must carry backup copies of both video and audio on a clearly labelled USB flash drive.'
+          ]
+        ]
+      },
+
+      {
+        title: 'Safety & Stage Rules',
+        items: [
+          [
+            'Costume Integrity',
+            'Costumes must align with Christ University standards and remain secure during dynamic movement.'
+          ],
+          [
+            'Prohibited Items',
+            'Open fire, water, powder, glass, loose confetti, and slippery materials are prohibited.'
+          ],
+          [
+            'Clean Stage',
+            'Performers must leave the stage clean and safe for subsequent teams.'
+          ],
+          [
+            'Green Room',
+            'Teams are responsible for their belongings, garments, headpieces, armour props, and makeup kits.'
+          ]
+        ]
+      }
+    ],
+
+    rules: [
+      'A participant may perform in only one team.',
+      'All teams must adhere to the allotted performance and transition time.',
+      'Props must be safely managed and cleared within the transition period.',
+      'Any inappropriate content, malpractice, or violation of rules may lead to disqualification.',
+      'The decision of the judges will be final.'
+    ],
+
+    evaluation: [
+      ['Choreography & Execution', '30%'],
+      ['Theme & Musicality', '30%'],
+      ['Stage Presence & Energy', '20%'],
+      ['Costumes & Props', '20%']
+    ],
+
+    organizers: [
+      {
+        name: 'Adduri Srivallika',
+        role: 'Event Organizer',
+        image: '',
+        email: '',
+        phone: '+91 74167 03262',
+        linkedin: ''
+      },
+      {
+        name: 'Aliza Elizabeth',
+        role: 'Event Organizer',
+        image: '',
+        email: '',
+        phone: '+91 70122 44801',
+        linkedin: ''
+      }
+    ]
+  }),
+
+  makeEvent({
+    slug: 'myths-in-motion',
+    number: '01',
+    group: 'non-technical',
+    category: 'Fashion',
+    title: 'Myths in Motion',
+    tagline: 'Where mythology meets the runway.',
+
+    summary:
+      'A creative team-based fashion event showcasing style, originality, storytelling, presentation, and teamwork through a themed runway.',
+
+    image: '',
+
+    info: [
+      ['Format', 'Team'],
+      ['Team size', '8–10 models + maximum 3 support crew'],
+      ['Mode', 'Offline'],
+      ['Duration', '2 hours'],
+      ['Rounds', '1'],
+      ['Track', 'Fashion']
+    ],
+
+    about:
+      'Myths in Motion invites participating crews to step into ancient antiquity and bring the legends, deities, and mortals of Greek mythology to life on the runway. Teams must present a cohesive collection that merges authentic classical motifs with high-concept fashion design and modern tailoring.',
+
+    rounds: [
+      [
+        'Runway Showcase',
+        'Maximum 5 Minutes — Teams present 8–10 models in a themed Greek mythology-inspired runway. Performances are judged on Mythological Depiction & Concept, Garment Design & Craftsmanship, Walking & Posture, and Grooming, Makeup & Styling.'
+      ]
+    ],
+
+    details: [
+      {
+        title: 'Schedule',
+        items: [
+          ['Day', 'Day 2'],
+          ['Date', '29th September'],
+          ['Time', '2:00 PM – 3:00 PM']
+        ]
+      },
+
+      {
+        title: 'Creative Theme Mandate',
+        items: [
+          [
+            'Theme Focus',
+            'Collections must draw inspiration exclusively from Greek Mythology and Classical Antiquity, including Olympians, Titans, Demigods, Myths & Legends, Heroic Epics, or Architectural/Artistic Eras of Classical Greece.'
+          ],
+          [
+            'Concept Note / Script',
+            'Teams must submit a 100-word Concept Note along with their track submission, detailing the specific Greek myth or deity roster being depicted, garment inspiration, and creative narrative.'
+          ],
+          [
+            'Modern Interpretation Bonus',
+            'Up to 5 bonus points will be awarded under Garment Design for teams that successfully blend classical draping techniques such as chitons, peploi, himations, and golden laurel motifs with contemporary high-fashion silhouettes.'
+          ]
+        ]
+      },
+
+      {
+        title: 'Team Composition & Backstage Rules',
+        items: [
+          [
+            'Model Limits',
+            'Minimum of 8 and maximum of 10 models per team on stage.'
+          ],
+          [
+            'Support Crew',
+            'Maximum of 3 backstage members, including designers, makeup artists, and assistants.'
+          ],
+          [
+            'Reporting Time',
+            'All models and support crew must report to the backstage green room 45 minutes before the event starts. Late arrivals will result in a direct walkover to the next team.'
+          ],
+          [
+            'Green Room Etiquette',
+            'Teams are fully responsible for their belongings, garments, headpieces, armor props, and makeup kits. The organizing committee is not liable for loss or theft.'
+          ],
+          [
+            'Sequence Sheet',
+            'A detailed sequence sheet mapping the order of model appearances, including character names and roles, must be handed to the backstage coordinator during reporting.'
+          ]
+        ]
+      },
+
+      {
+        title: 'Timing & Stage Guidelines',
+        items: [
+          [
+            'Total Performance Limit',
+            'Maximum of 5 minutes total per team, including setup and performance.'
+          ],
+          [
+            'Grace Period',
+            'Exactly 2 minutes are allocated for stage setup and complete stage clearing.'
+          ],
+          [
+            'Overtime Penalty',
+            'A deduction of 2 marks will be applied for every 30 seconds over the 5-minute limit.'
+          ],
+          [
+            'No Live Changing',
+            'All outfit changes must take place inside the green room. Changing behind props or on stage is strictly prohibited.'
+          ],
+          [
+            'Stage & Audience Limits',
+            'Models must remain on the stage area. Jumping off the stage, physically interacting with judges, or throwing items into the audience is forbidden.'
+          ]
+        ]
+      },
+
+      {
+        title: 'Decency Code & Restrictions',
+        items: [
+          [
+            'Christ University Decency Code',
+            'Outfits must strictly adhere to campus decorum. Garments must be fully lined and appropriately structured.'
+          ],
+          [
+            'Zero Vulgarity',
+            'Inappropriate gestures, suggestive posing, or explicit background music will result in instant disqualification.'
+          ],
+          [
+            'Hazard Restrictions',
+            'Fire, water, liquids, real metal sharp weapons, powders, and loose glitter or confetti are strictly banned on stage.'
+          ],
+          [
+            'Permitted Props',
+            'Lightweight prop weapons such as foam or wooden tridents, shields, or staffs are permitted if they are inspectable and safe.'
+          ],
+          [
+            'Stage Cleanliness',
+            'Teams must leave the stage completely clean after their performance.'
+          ]
+        ]
+      },
+
+      {
+        title: 'Audio & Visual Requirements',
+        items: [
+          [
+            'Track Submission',
+            'Music tracks must be submitted in MP3 format through the online portal at least 48 hours before the event.'
+          ],
+          [
+            'Backup Media',
+            'Teams must bring a backup copy on a clearly labelled USB flash drive to the sound console during reporting.'
+          ],
+          [
+            'Audio Cues',
+            'One support crew member must sit at the sound desk to coordinate audio start and stop cues with the technician.'
+          ],
+          [
+            'LED Screen / Projector',
+            'Background visuals must be submitted alongside the audio track. Static images or simple video loops only.'
+          ]
+        ]
+      },
+
+      {
+        title: 'Tie-Breaker',
+        items: [
+          [
+            'First Criterion',
+            'In case of a tie, Mythological Depiction & Concept will be considered first.'
+          ],
+          [
+            'Second Criterion',
+            'If the tie persists, Garment Design will determine the winner.'
+          ]
+        ]
+      }
+    ],
+
+    rules: [
+      'All models and support crew must report to the backstage green room 45 minutes before the event starts.',
+      'The total performance time is 5 minutes, including setup and performance.',
+      'A deduction of 2 marks will be applied for every 30 seconds over the 5-minute limit.',
+      'All outfit changes must take place inside the green room.',
+      'Outfits, gestures, music, and performances must follow Christ University decency standards.',
+      'Vulgarity, inappropriate gestures, suggestive posing, or explicit background music will result in immediate disqualification.',
+      'Fire, water, liquids, real metal sharp weapons, powders, and loose glitter or confetti are prohibited.',
+      'Teams must leave the stage completely clean after their performance.',
+      'Teams must submit their music in MP3 format at least 48 hours before the event.',
+      'Background visuals, if used, must be submitted alongside the audio track.',
+      'The judges’ decision is final, binding, and absolute.'
+    ],
+
+    evaluation: [
+      ['Mythological Depiction & Concept', '30%'],
+      ['Garment Design & Craftsmanship', '30%'],
+      ['Walking & Posture', '20%'],
+      ['Grooming, Makeup & Styling', '20%']
+    ],
+
+    organizers: [
+      {
+        name: 'Adduri Srivallika',
+        role: 'Event Organizer',
+        image: '',
+        email: '',
+        phone: '+91 74167 03262',
+        linkedin: ''
+      },
+      {
+        name: 'Aliza Elizabeth',
+        role: 'Event Organizer',
+        image: '',
+        email: '',
+        phone: '+91 70122 44801',
+        linkedin: ''
+      }
+    ]
+  }),
 ];
 
 export const getEventsByGroup = (group) => events.filter((event) => event.group === group);
