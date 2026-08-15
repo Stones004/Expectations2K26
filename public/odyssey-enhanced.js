@@ -1,12 +1,13 @@
-﻿
 /* ============================================================
-   ODYSSEY â€” motion & atmosphere engine (zero dependencies)
+   ODYSSEY — motion & atmosphere engine (zero dependencies)
    ============================================================ */
 (function(){
 "use strict";
-const prefersReduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const prefersReduced = true;
 const isCoarse = matchMedia('(pointer: coarse)').matches;
-const DPR = Math.min(window.devicePixelRatio || 1, 1.75);
+/* Decorative canvases do not need full device-pixel resolution.  This cap avoids
+   rendering several full-screen scenes at 2×/3× resolution on high-DPI displays. */
+const DPR = Math.min(window.devicePixelRatio || 1, 1.25);
 const lerp = (a,b,t)=>a+(b-a)*t;
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 
@@ -127,14 +128,14 @@ if (!isCoarse && !prefersReduced){
   });
 }
 
-/* ---------- expanding programme cards â€” inspired by the supplied accordion interaction, built dependency-free ---------- */
+/* ---------- expanding programme cards — inspired by the supplied accordion interaction, built dependency-free ---------- */
 (function(){
   const wrap=document.getElementById('eventsExpanded');if(!wrap)return;const cards=[...wrap.querySelectorAll('[data-event-card]')];
   function activate(card){cards.forEach(item=>{const active=item===card;item.classList.toggle('is-active',active);item.setAttribute('aria-expanded',active?'true':'false')})}
   cards.forEach(card=>{card.setAttribute('aria-expanded',card.classList.contains('is-active')?'true':'false');card.addEventListener('click',()=>activate(card));card.addEventListener('mouseenter',()=>{if(!isCoarse)activate(card)});card.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();activate(card)}})});
 })();
 
-/* ---------- event carousel â€” content is deliberately centralized for the forthcoming programme ---------- */
+/* ---------- event carousel — content is deliberately centralized for the forthcoming programme ---------- */
 (function(){
   const carousel=document.getElementById('eventsCarousel');if(!carousel)return;
   const slides=[...carousel.querySelectorAll('.event-slide')],dots=carousel.querySelector('.event-dots');let current=0,timer;
@@ -174,7 +175,7 @@ document.getElementById('regForm').addEventListener('submit',e=>{
 });
 
 /* ============================================================
-   SCROLL ENGINE â€” one rAF loop, lerped values
+   SCROLL ENGINE — one rAF loop, lerped values
    ============================================================ */
 const heroContent = document.getElementById('heroContent');
 const stormSection = document.getElementById('storm');
@@ -197,7 +198,7 @@ function scrollLoop(){
   heroContent.style.transform = `translateY(${smoothY*0.34}px) scale(${1-hp*0.06})`;
   heroContent.style.opacity = String(1 - hp*1.25);
 
-  /* storm parallax â€” fed into the canvas scene for layered depth */
+  /* storm parallax — fed into the canvas scene for layered depth */
   const sr = stormSection.getBoundingClientRect();
   if (sr.bottom > 0 && sr.top < hh){
     const sp = clamp((hh - sr.top)/(hh + sr.height), 0, 1);
@@ -214,7 +215,7 @@ function scrollLoop(){
 requestAnimationFrame(scrollLoop);
 
 /* ============================================================
-   OCEAN â€” realistic layered water  (hero)
+   OCEAN — realistic layered water  (hero)
    ============================================================ */
 function makeOcean(canvas, opts){
   const ctx = canvas.getContext('2d');
@@ -254,9 +255,9 @@ function makeOcean(canvas, opts){
     const waterY=wave(px),pitch=Math.atan2(wave(px+38*DPR)-wave(px-38*DPR),76*DPR)*.78,bob=Math.sin(time*.72)*1.8*DPR,S=clamp(W/(330*DPR),1.15,3.05)*DPR;
     ctx.save();ctx.translate(px,waterY-5*S+bob);ctx.rotate(pitch);ctx.scale(S,S);
     ctx.strokeStyle='rgba(215,225,226,.18)';ctx.lineWidth=1.2;ctx.beginPath();ctx.moveTo(-28,5);ctx.quadraticCurveTo(-60,9,-89,18);ctx.stroke();
-    const hull=ctx.createLinearGradient(0,-8,0,8);hull.addColorStop(0,'#1b2027');hull.addColorStop(1,'#05080d');ctx.fillStyle=hull;ctx.beginPath();ctx.moveTo(-28,-3);ctx.quadraticCurveTo(-30,-9,-25,-12);ctx.lineTo(27,-4);ctx.quadraticCurveTo(34,-7,38,-11);ctx.lineTo(34,1);ctx.quadraticCurveTo(7,9,-20,6);ctx.quadraticCurveTo(-27,4,-28,-3);ctx.fill();ctx.strokeStyle='rgba(220,183,101,.72)';ctx.lineWidth=.7;ctx.stroke();ctx.beginPath();ctx.moveTo(-25,-2);ctx.quadraticCurveTo(5,1,32,-1);ctx.stroke();
+    const hull=ctx.createLinearGradient(0,-8,0,8);hull.addColorStop(0,'#1b2027');hull.addColorStop(1,'#05080d');ctx.fillStyle=hull;ctx.beginPath();
     ctx.strokeStyle='#10151d';ctx.lineWidth=1.4;ctx.beginPath();ctx.moveTo(0,-2);ctx.lineTo(0,-46);ctx.stroke();const sail=ctx.createLinearGradient(-15,-39,14,-12);sail.addColorStop(0,'rgba(225,213,181,.8)');sail.addColorStop(1,'rgba(126,120,104,.68)');ctx.fillStyle=sail;ctx.beginPath();ctx.moveTo(-16,-39);ctx.lineTo(16,-39);ctx.quadraticCurveTo(20,-24,13,-11);ctx.quadraticCurveTo(0,-8,-13,-12);ctx.quadraticCurveTo(-18,-24,-16,-39);ctx.fill();ctx.strokeStyle='rgba(143,107,42,.6)';ctx.lineWidth=.7;ctx.beginPath();ctx.moveTo(-15,-27);ctx.quadraticCurveTo(0,-24,15,-27);ctx.stroke();
-    /* The shipâ€™s lantern is the human counter-light to the Cyclops eye. */
+    /* The ship’s lantern is the human counter-light to the Cyclops eye. */
     const lantern=ctx.createRadialGradient(-9,-5,0,-9,-5,12);lantern.addColorStop(0,'rgba(255,244,202,1)');lantern.addColorStop(.16,'rgba(255,218,132,.92)');lantern.addColorStop(.52,'rgba(201,162,75,.28)');lantern.addColorStop(1,'rgba(201,162,75,0)');ctx.fillStyle=lantern;ctx.beginPath();ctx.arc(-9,-5,12,0,7);ctx.fill();ctx.fillStyle='rgba(255,242,190,.96)';ctx.beginPath();ctx.arc(-9,-5,1.15,0,7);ctx.fill();ctx.restore();
   }
 
@@ -320,9 +321,9 @@ function makeOcean(canvas, opts){
     ctx.fillStyle='rgba(235,208,143,.22)';
     ctx.fillRect(0,hor-1,W,1.4*DPR);
 
-    /* wave layers â€” perspective: tighter & dimmer near horizon */
+    /* wave layers — perspective: tighter & dimmer near horizon */
     for (let L=0; L<o.layers; L++){
-      const p = L/(o.layers-1);                      // 0 horizon â†’ 1 shore
+      const p = L/(o.layers-1);                      // 0 horizon → 1 shore
       const yBase = hor + Math.pow(p,1.65)*(H-hor)*0.96 + 6;
       const amp  = (2 + Math.pow(p,1.8)*26) * DPR * o.roughness;
       const freq = 0.012/DPR * (1 - p*0.72);
@@ -390,11 +391,11 @@ function makeOcean(canvas, opts){
   requestAnimationFrame(draw);
 }
 
-makeOcean(document.getElementById('oceanCanvas'), {horizon:.55, layers:10, ship:true, roughness:1.38, speed: prefersReduced?0.001:1.16});
+makeOcean(document.getElementById('oceanCanvas'), {horizon:.55, layers:10, moon:false, ship:false, roughness:1.38, speed: prefersReduced?0.001:1.16});
 makeOcean(document.getElementById('regCanvas'),  {horizon:.30, layers:6, moon:false, dim:.6, speed: prefersReduced?0.001:.7});
 
 /* ============================================================
-   STORM CROSSING â€” procedural storm sky, rain, heavy seas,
+   STORM CROSSING — procedural storm sky, rain, heavy seas,
    and a trireme that sails the waves edge to edge, forever
    ============================================================ */
 (function(){
@@ -501,11 +502,11 @@ makeOcean(document.getElementById('regCanvas'),  {horizon:.30, layers:6, moon:fa
     .observe(stormSection);
 
   /* ---- the trireme ---- */
-  const ship = { x: -0.18, y: 0, rot: 0, vx: 0.00026 };  /* x in [âˆ’.2, 1.2] */
+  const ship = { x: -0.18, y: 0, rot: 0, vx: 0.00026 };  /* x in [−.2, 1.2] */
 
   function drawShip(time, advance=true){
     const px=ship.x*W;
-    /* Scale it down slightly; lift its reference point so the hull rides on â€” not inside â€” the wave. */
+    /* Scale it down slightly; lift its reference point so the hull rides on — not inside — the wave. */
     const S=clamp(W/(305*DPR),1.15,4.35),u=DPR*S;
     const targetY=waveY(px,SHIP_LAYER_P,time)-7.8*u;
     const ahead=waveY(px+42*DPR,SHIP_LAYER_P,time),behind=waveY(px-42*DPR,SHIP_LAYER_P,time);
@@ -648,7 +649,7 @@ makeOcean(document.getElementById('regCanvas'),  {horizon:.30, layers:6, moon:fa
     ctx.fillStyle='rgba(190,200,215,.14)';
     ctx.fillRect(0,hor-1,W,1.4*DPR);
 
-    /* wave layers, far â†’ near; ship sails between mid layers */
+    /* wave layers, far → near; ship sails between mid layers */
     const LAYERS = 9;
     let shipDrawn = false;
     for (let L=0; L<LAYERS; L++){
@@ -729,11 +730,12 @@ makeOcean(document.getElementById('regCanvas'),  {horizon:.30, layers:6, moon:fa
 })();
 
 /* ============================================================
-   LIGHTNING â€” the storm's fury
+   LIGHTNING — the storm's fury
    ============================================================ */
 (function(){
   const canvas = document.getElementById('lightningCanvas');
   const flash = document.getElementById('stormFlash');
+  if (!canvas || !flash) return;
   const ctx = canvas.getContext('2d');
   let W=0,H=0, bolts=[], visible=false;
 
@@ -812,7 +814,7 @@ makeOcean(document.getElementById('regCanvas'),  {horizon:.30, layers:6, moon:fa
   })();
 })();
 
-/* ---------- interactive celestial field â€” proximity constellations inspired by the supplied dots interaction ---------- */
+/* ---------- interactive celestial field — proximity constellations inspired by the supplied dots interaction ---------- */
 (function(){
   const c=document.getElementById('siteStars');if(!c)return;const ctx=c.getContext('2d');let W=0,H=0,visible=true,scroll=0;
   const mouse={x:-9999,y:-9999,tx:-9999,ty:-9999};const stars=Array.from({length:96},(_,i)=>({x:Math.random(),y:Math.random(),r:.5+Math.random()*1.42,phase:Math.random()*Math.PI*2,twinkle:i%8===0}));
@@ -874,4 +876,3 @@ makeOcean(document.getElementById('regCanvas'),  {horizon:.30, layers:6, moon:fa
 })();
 
 })();
-

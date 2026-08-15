@@ -1,7 +1,6 @@
-﻿
 /* ============================================================
-   ODYSSEY â€” Design System
-   Palette: deep black Â· warm gold Â· ivory Â· bronze
+   ODYSSEY — Design System
+   Palette: deep black · warm gold · ivory · bronze
    ============================================================ */
 :root{
   --black:        #04070D;
@@ -148,6 +147,7 @@ button,input,select,textarea{font:inherit;color:inherit}
   letter-spacing:.34em;color:var(--ivory);
 }
 .nav-logo em{color:var(--gold);font-style:normal}
+.nav-logo img{display:block;width:62px;height:62px;object-fit:contain}
 .nav-links{display:flex;gap:2.4rem;list-style:none}
 .nav-links a{
   position:relative;font-size:.72rem;font-weight:400;
@@ -205,9 +205,18 @@ button,input,select,textarea{font:inherit;color:inherit}
   letter-spacing:.08em;line-height:1.16;color:var(--ivory);
 }
 .section-title .gold{color:var(--gold)}
+.overview-title{
+  margin:0;
+  font-size:clamp(2.35rem,5.8vw,4.25rem);
+  letter-spacing:.14em;
+  text-indent:.14em;
+  line-height:1.2;
+  color:var(--gold-light);
+  text-shadow:0 0 20px rgba(235,208,143,.18);
+}
 .section-lede{
   max-width:620px;margin:1.6rem auto 0;
-  font-family:var(--font-serif);font-size:clamp(1.08rem,1.6vw,1.3rem);
+  font-family:var(--font-serif);font-style:italic;font-size:clamp(1.08rem,1.6vw,1.3rem);
   font-style:italic;color:var(--ivory-dim);line-height:1.7;
 }
 
@@ -230,7 +239,7 @@ button,input,select,textarea{font:inherit;color:inherit}
   background:linear-gradient(90deg,transparent,var(--line) 22%,rgba(201,162,75,.5) 50%,var(--line) 78%,transparent);
 }
 .rule::after{
-  content:"â—†";position:absolute;left:50%;top:50%;
+  content:"◆";position:absolute;left:50%;top:50%;
   transform:translate(-50%,-50%);font-size:.55rem;color:var(--gold);
   background:var(--black);padding:0 1.1rem;
 }
@@ -328,7 +337,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 @keyframes scrollDrop{0%{transform:translateY(-110%)}55%{transform:translateY(110%)}100%{transform:translateY(110%)}}
 
 /* ============================================================
-   POSEIDON STORM â€” continuously moving background
+   POSEIDON STORM — continuously moving background
    ============================================================ */
 .storm{
   position:relative;height:120vh;min-height:720px;overflow:hidden;
@@ -362,7 +371,7 @@ button,input,select,textarea{font:inherit;color:inherit}
   margin-top:1.6rem;font-size:.72rem;letter-spacing:.42em;text-transform:uppercase;
   color:rgba(244,239,228,.55);
 }
-.storm-cite::before{content:"â€” "}
+.storm-cite::before{content:"— "}
 
 /* ============================================================
    OVERVIEW
@@ -407,7 +416,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 }
 
 /* ============================================================
-   PANTHEON â€” character portraits
+   PANTHEON — character portraits
    ============================================================ */
 .pantheon{background:linear-gradient(180deg,var(--black) 0%,var(--black-2) 50%,var(--black) 100%)}
 .pantheon-grid{
@@ -467,7 +476,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 .char:hover .char-desc{max-height:130px;opacity:1}
 
 /* ============================================================
-   ITINERARY â€” journey schedule
+   ITINERARY — journey schedule
    ============================================================ */
 .itinerary-wrap{position:relative;max-width:880px;margin:0 auto}
 .itin-path{
@@ -505,7 +514,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 .itin-note{display:block;margin-top:.2rem;font-size:.8rem;color:var(--ivory-faint)}
 
 /* ============================================================
-   TRACKS â€” interactive exploration
+   TRACKS — interactive exploration
    ============================================================ */
 .tracks{background:linear-gradient(180deg,var(--black) 0%,var(--black-2) 60%,var(--black) 100%)}
 .tracks-grid{display:grid;grid-template-columns:.92fr 1.08fr;gap:clamp(2.5rem,5vw,5rem);align-items:stretch}
@@ -562,7 +571,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 }
 
 /* ============================================================
-   PATRONS â€” sponsors
+   PATRONS — sponsors
    ============================================================ */
 .patron-tier{
   font-size:.64rem;letter-spacing:.4em;text-transform:uppercase;
@@ -712,7 +721,7 @@ button,input,select,textarea{font:inherit;color:inherit}
   .char-img{filter:grayscale(.15) brightness(.8)}
 }
 
-/* HERO REFINEMENT â€” cinematic data voyage layer */
+/* HERO REFINEMENT — cinematic data voyage layer */
 .hero::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(90deg,rgba(3,7,13,.42),transparent 28%,transparent 72%,rgba(3,7,13,.42)),radial-gradient(70% 42% at 50% 52%,transparent 26%,rgba(2,5,10,.34) 100%)}
 #heroDataCanvas{position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-events:none;mix-blend-mode:screen;opacity:.72}
 .hero-haze{z-index:2;background:radial-gradient(50% 30% at 50% 42%,rgba(235,208,143,.10),transparent 72%),linear-gradient(to bottom,rgba(1,5,11,.58),transparent 30%,transparent 57%,rgba(2,5,10,.9) 100%)}
@@ -748,27 +757,27 @@ button,input,select,textarea{font:inherit;color:inherit}
 /* --- composition pass: the event identity owns the first frame --- */
 .loader-expectations{font-size:clamp(1.55rem,4.5vw,3.25rem);letter-spacing:.16em;text-indent:.16em;white-space:nowrap}
 .hero-content{height:100%;margin-top:0;display:flex;align-items:center;justify-content:center}
-.hero-institution{position:absolute;left:50%;top:50%;width:min(100%,900px);margin:0;transform:translate(-50%,-50%);animation:institutionReveal 1.25s 1.75s var(--ease-out) forwards;z-index:2}
-@keyframes institutionReveal{from{opacity:0;transform:translate(-50%,calc(-50% + 26px))}to{opacity:1;transform:translate(-50%,-50%)}}
+.hero-institution{position:absolute;left:50%;top:50%;width:min(100%,900px);margin:0;transform:translate(-50%,calc(-50% - 2rem));animation:institutionReveal 1.25s 1.75s var(--ease-out) forwards;z-index:2}
+@keyframes institutionReveal{from{opacity:0;transform:translate(-50%,calc(-50% - 2rem + 26px))}to{opacity:1;transform:translate(-50%,calc(-50% - 2rem))}}
 .hero-event-name{font-size:clamp(2.25rem,5.2vw,4.6rem);letter-spacing:.3em;text-indent:.3em;line-height:1.08}
 .hero-department{font-size:clamp(.7rem,1.22vw,1rem);margin-top:1rem}
 .hero-institution::after{width:104px;margin-top:1.4rem}
 /* Odyssey remains a quiet voyage signature beneath the central event identity. */
-.hero-title{position:absolute;top:calc(50% + clamp(7rem,13vw,10.5rem));left:50%;transform:translateX(-50%);width:100%;font-size:clamp(1.4rem,3vw,2.3rem);letter-spacing:.32em;text-indent:.32em;opacity:.82}
+.hero-title{position:absolute;top:calc(50% + clamp(5.5rem,13vw,9rem));left:50%;transform:translateX(-50%);width:100%;font-size:clamp(1.4rem,3vw,2.3rem);letter-spacing:.32em;text-indent:.32em;opacity:.82}
 .hero-title span{animation-delay:inherit!important}
-.hero-sub{position:absolute;top:calc(50% + clamp(9.7rem,17vw,13rem));left:0;right:0;margin:0;font-size:clamp(1rem,1.7vw,1.25rem)}
-.hero-meta{position:absolute;top:calc(50% + clamp(12.4rem,21vw,15.5rem));left:0;right:0;margin:0}.hero-cta-row{position:absolute;top:calc(50% + clamp(14.6rem,25vw,18.5rem));left:0;right:0;margin:0}
+.hero-sub{position:absolute;top:calc(50% + clamp(8.2rem,17vw,11.5rem));left:0;right:0;margin:0;font-size:clamp(1.2rem,2.1vw,1.55rem)}
+.hero-meta{position:absolute;top:calc(50% + clamp(10.9rem,21vw,14rem));left:0;right:0;margin:0}.hero-cta-row{position:absolute;top:calc(50% + clamp(13.1rem,25vw,17rem));left:0;right:0;margin:0}
 /* A narrow, low-opacity shoreline wash gives the programme cards a living transition. */
 .events-carousel::after{content:"";position:absolute;z-index:1;left:-12%;bottom:-4px;width:124%;height:68px;pointer-events:none;opacity:.38;background:radial-gradient(42px 16px at 20px 0,transparent 48%,rgba(221,229,224,.34) 51%,transparent 56%) 0 0/84px 32px repeat-x,linear-gradient(to top,rgba(107,141,160,.22),transparent 76%);filter:blur(.3px);animation:shoreWash 8s linear infinite}
 @keyframes shoreWash{0%{transform:translateX(-4%) translateY(18px);opacity:.08}18%{opacity:.45}48%{transform:translateX(3%) translateY(-3px);opacity:.34}76%{opacity:.16}100%{transform:translateX(8%) translateY(18px);opacity:.08}}
 .event-slide>*{position:relative;z-index:2}
-@media(max-width:560px){.loader-expectations{font-size:1.25rem;letter-spacing:.1em;text-indent:.1em}.hero-event-name{font-size:clamp(2rem,10vw,3rem);letter-spacing:.18em;text-indent:.18em}.hero-department{font-size:.61rem;letter-spacing:.14em;padding:0 1.2rem}.hero-title{top:calc(50% + 7.3rem);font-size:1.2rem;letter-spacing:.25em;text-indent:.25em}.hero-sub{top:calc(50% + 9.5rem);font-size:.95rem}.hero-meta{top:calc(50% + 11.8rem)}.hero-cta-row{top:calc(50% + 14rem)}.events-carousel::after{height:56px}}
+@media(max-width:560px){.loader-expectations{font-size:1.25rem;letter-spacing:.1em;text-indent:.1em}.hero-event-name{font-size:clamp(2rem,10vw,3rem);letter-spacing:.18em;text-indent:.18em}.hero-department{font-size:.61rem;letter-spacing:.14em;padding:0 1.2rem}.hero-title{top:calc(50% + 5.8rem);font-size:1.2rem;letter-spacing:.25em;text-indent:.25em}.hero-sub{top:calc(50% + 8rem);font-size:1.1rem}.hero-meta{top:calc(50% + 10.3rem)}.hero-cta-row{top:calc(50% + 12.5rem)}.events-carousel::after{height:56px}}
 @media(prefers-reduced-motion:reduce){.events-carousel::after{animation:none}}
 
 
 /* --- site-wide celestial field + Odyssey expanded event cards --- */
 #siteStars{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;background:radial-gradient(ellipse at 50% 8%,rgba(18,32,52,.22),transparent 45%)}
-.nav,.hero,.storm,.section,.footer,.rule{z-index:1}.section,.footer{isolation:isolate}
+.nav,.hero,.storm,.section,.rule{z-index:1}.section,.footer{isolation:isolate}
 .tracks{background:linear-gradient(180deg,rgba(4,7,13,.88),rgba(7,12,22,.82) 60%,rgba(4,7,13,.9) 100%)}
 .register{background:rgba(7,12,22,.86)}.footer{background:rgba(4,7,13,.92)}
 .events-expanded{position:relative;display:flex;gap:10px;height:clamp(390px,48vw,540px);max-width:1180px;margin:auto}
@@ -799,7 +808,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 @media(max-width:700px){.event-card-title,.event-expand-card.is-active .event-card-title{margin-left:3.45rem;transform:none}.event-expand-card.is-active .event-card-title{margin-left:0}.event-expand-card:hover .event-card-title,.event-expand-card.is-active .event-card-title{transform:translateX(.2rem)}}
 
 
-/* Event titles begin as a clean 90Â° spine and settle horizontally only on expansion. */
+/* Event titles begin as a clean 90° spine and settle horizontally only on expansion. */
 @media(min-width:701px){
   .event-expand-card .event-card-title{position:absolute;left:1.45rem;bottom:1.55rem;width:max-content;max-width:none;white-space:nowrap;transform:rotate(-90deg);transform-origin:left bottom;margin:0;color:var(--ivory);}
   .event-expand-card:hover .event-card-title{transform:rotate(-90deg) translateX(0);}
@@ -815,6 +824,15 @@ button,input,select,textarea{font:inherit;color:inherit}
 .event-card-detail{transition:max-height .58s cubic-bezier(.22,1,.36,1),opacity .3s .12s ease,transform .5s cubic-bezier(.22,1,.36,1)}
 .event-expand-card:not(.is-active) .event-card-detail{transition:opacity .16s ease,max-height .4s ease,transform .28s ease}
 @media(prefers-reduced-motion:reduce){.event-expand-card,.event-card-title,.event-card-detail{transition:none!important}}
+
+/* Hovering a category immediately brings that programme card into focus. */
+@media (hover:hover) and (pointer:fine){
+  .events-expanded:has(.event-expand-card:hover) .event-expand-card:not(:hover){flex:.72;border-color:rgba(201,162,75,.19);filter:none}
+  .events-expanded .event-expand-card:hover{flex:4.1;border-color:rgba(235,208,143,.68);filter:brightness(1.12);box-shadow:0 20px 55px rgba(0,0,0,.34),inset 0 0 0 1px rgba(235,208,143,.08)}
+  .events-expanded .event-expand-card:hover::after{opacity:.62;transform:translateX(5%)}
+  .events-expanded .event-expand-card:hover .event-card-title{position:relative;left:auto;bottom:auto;width:auto;white-space:normal;transform:translateX(.55rem);transform-origin:left center;color:var(--gold-light);font-size:clamp(1.7rem,3.2vw,3.2rem);margin-bottom:.5rem}
+  .events-expanded .event-expand-card:hover .event-card-detail{max-height:240px;opacity:1;transform:none}
+}
 
 
 /* Event imagery: set --event-image:url('your-image.jpg') on any .event-expand-card when assets arrive. */
@@ -832,15 +850,16 @@ button,input,select,textarea{font:inherit;color:inherit}
 .nav::after{content:"";position:absolute;left:clamp(1.4rem,4.5vw,4rem);right:clamp(1.4rem,4.5vw,4rem);bottom:0;height:1px;background:linear-gradient(90deg,rgba(201,162,75,.38),rgba(235,208,143,.12) 28%,transparent 50%,rgba(235,208,143,.12) 72%,rgba(201,162,75,.38));opacity:.45}
 .nav.is-scrolled{box-shadow:0 12px 34px rgba(0,0,0,.22)}
 .nav-logo{display:flex;align-items:center;gap:.7rem;text-shadow:0 0 18px rgba(201,162,75,.18)}
-.nav-logo::before{content:"âœ¦";font-family:var(--font-serif);font-size:.92rem;color:var(--gold);text-shadow:0 0 13px rgba(235,208,143,.65);animation:navStar 4.5s ease-in-out infinite}
+.nav-logo::before{content:"✦";font-family:var(--font-serif);font-size:.92rem;color:var(--gold);text-shadow:0 0 13px rgba(235,208,143,.65);animation:navStar 4.5s ease-in-out infinite}
 @keyframes navStar{50%{transform:rotate(45deg) scale(1.18);color:var(--gold-light)}}
+.nav-logo::before{display:none}
 .nav-cta{position:relative;overflow:hidden;border-color:rgba(201,162,75,.46);box-shadow:inset 0 0 18px rgba(201,162,75,.04)}
 .nav-cta::before{content:"";position:absolute;inset:3px;border:1px solid rgba(235,208,143,.12);pointer-events:none}.nav-cta:hover{box-shadow:0 8px 24px rgba(201,162,75,.16),inset 0 0 18px rgba(201,162,75,.08)}
 .footer{overflow:hidden;background:linear-gradient(165deg,rgba(8,16,28,.97),rgba(4,7,13,.98) 62%)!important}
 .footer::before{content:"";position:absolute;z-index:0;inset:0;pointer-events:none;background:radial-gradient(48% 85% at 82% 8%,rgba(201,162,75,.09),transparent 67%),repeating-radial-gradient(ellipse at 75% 112%,transparent 0 19px,rgba(201,162,75,.045) 20px 21px,transparent 22px 40px);opacity:.8}
 .footer::after{content:"";position:absolute;z-index:1;left:0;right:0;top:0;height:1px;background:linear-gradient(90deg,transparent,rgba(235,208,143,.72) 50%,transparent);box-shadow:0 0 20px rgba(201,162,75,.26)}
 .footer-grid,.footer-bottom{z-index:2}.footer-brand{position:relative;padding-left:2.15rem;text-shadow:0 0 24px rgba(201,162,75,.16)}
-.footer-brand::before{content:"âœ¦";position:absolute;left:0;top:50%;transform:translateY(-52%);font-family:var(--font-serif);font-size:1.45rem;color:var(--gold);text-shadow:0 0 16px rgba(235,208,143,.55)}
+.footer-brand::before{content:"✦";position:absolute;left:0;top:50%;transform:translateY(-52%);font-family:var(--font-serif);font-size:1.45rem;color:var(--gold);text-shadow:0 0 16px rgba(235,208,143,.55)}
 .footer-h{position:relative;display:inline-block}.footer-h::after{content:"";position:absolute;left:0;bottom:-.65rem;width:34px;height:1px;background:linear-gradient(90deg,var(--gold),transparent)}
 .footer-quote{border-left:1px solid rgba(201,162,75,.28);padding-left:1.1rem}.footer-bottom{position:relative}.footer-bottom::before{content:"";position:absolute;left:50%;top:-1px;transform:translate(-50%,-50%) rotate(45deg);width:6px;height:6px;background:var(--gold);box-shadow:0 0 12px rgba(235,208,143,.65)}
 @media(max-width:820px){.nav::after{left:1.4rem;right:1.4rem}.footer::before{background:radial-gradient(70% 55% at 50% 0%,rgba(201,162,75,.08),transparent 70%)}}
@@ -851,4 +870,16 @@ button,input,select,textarea{font:inherit;color:inherit}
 body::after{content:"";position:fixed;inset:0;z-index:8995;pointer-events:none;background:radial-gradient(ellipse at var(--cyclops-x,20%) 42%,rgba(0,0,0,.08),rgba(0,0,0,.62) 25%,rgba(0,0,0,.93) 100%);opacity:var(--cyclops-dim,0);transition:opacity .28s ease;mix-blend-mode:multiply}
 body.cyclops-looming .storm{z-index:8996}
 
+/* Calmer motion profile: retain responsive feedback without continuous visual movement. */
+*,*::before,*::after{animation-duration:.28s!important;animation-iteration-count:1!important;transition-duration:.2s!important}
+.grain,.hero-scroll-line::after,.nav-logo::before,.events-carousel::after,.hero-cta-row .btn-gold,.patron-marquee-track{animation:none!important}
+.events-expanded .event-card-detail{display:none}
+/* Prominent event dates, with room between the subtitle, date and call to action. */
+.hero-meta{top:calc(50% + clamp(12.2rem,22vw,15.4rem));font-size:clamp(.9rem,1.3vw,1.1rem);font-weight:500;letter-spacing:.28em;color:var(--gold-light);text-shadow:0 0 12px rgba(255,241,195,.5),0 0 24px rgba(201,162,75,.38)}.hero-cta-row{top:calc(50% + clamp(15rem,26vw,18.5rem))}
+@media(max-width:560px){.hero-meta{top:calc(50% + 11.6rem);font-size:.8rem;letter-spacing:.2em}.hero-cta-row{top:calc(50% + 14.2rem)}}
 
+/* CHRIST institutional mark in the navigation's upper-right corner. */
+.nav-christ-logo{display:flex;align-items:center;justify-content:flex-end;flex:0 0 auto}
+.nav-christ-logo img{width:auto;height:58px;max-width:220px;object-fit:contain}
+.nav.is-scrolled .nav-christ-logo img{height:46px}
+@media(max-width:820px){.nav .nav-christ-logo{display:flex}.nav-christ-logo img{height:42px;max-width:130px}.nav.is-scrolled .nav-christ-logo img{height:36px}}
