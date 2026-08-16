@@ -107,6 +107,7 @@
   }, { threshold: .6 });
   document.querySelectorAll('[data-count]').forEach(el => cio.observe(el));
 
+
   /* ---------- tilt cards + light follow ---------- */
   if (!isCoarse && !prefersReduced) {
     document.querySelectorAll('[data-tilt]').forEach(card => {
