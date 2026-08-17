@@ -150,38 +150,41 @@ textarea {
   background: radial-gradient(ellipse at center, transparent 58%, rgba(0, 0, 0, .42) 100%);
 }
 
-/* ---------- custom cursor ---------- */
-.cursor-dot,
-.cursor-ring {
+/* ============================================================
+   MINIMAL GOLD CURSOR
+   ============================================================ */
+
+.cursor-dot {
   position: fixed;
+
   top: 0;
   left: 0;
+
+  width: 7px;
+  height: 7px;
+
   border-radius: 50%;
+
   pointer-events: none;
+
   z-index: 9990;
+
   transform: translate(-50%, -50%);
+
+  background: #EBD08F;
+
+  box-shadow:
+    0 0 6px rgba(235, 208, 143, .75),
+    0 0 14px rgba(201, 162, 75, .35);
+
   will-change: transform;
 }
 
-.cursor-dot {
-  width: 6px;
-  height: 6px;
-  background: var(--gold-light)
-}
+
+/* Completely remove the old cursor ring */
 
 .cursor-ring {
-  width: 38px;
-  height: 38px;
-  border: 1px solid rgba(201, 162, 75, .45);
-  transition: width .35s var(--ease-out), height .35s var(--ease-out),
-    border-color .35s, background .35s;
-}
-
-.cursor-ring.is-hover {
-  width: 64px;
-  height: 64px;
-  border-color: rgba(235, 208, 143, .85);
-  background: rgba(201, 162, 75, .07);
+  display: none !important;
 }
 
 @media (hover:none),
@@ -764,7 +767,7 @@ textarea {
 
 .hero-scroll {
   position: absolute;
-  bottom: 2.4rem;
+  bottom: 4rem;
   left: 50%;
   transform: translateX(-50%);
   z-index: 3;
@@ -4960,4 +4963,961 @@ body.cyclops-looming .storm {
       13px;
   }
 
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ============================================================
+   ODYSSEY CHARACTER REVEAL
+   Cursor-following spotlight
+   ============================================================ */
+
+.hero-character {
+  position: absolute;
+  inset: 0;
+
+  overflow: hidden;
+
+  pointer-events: none;
+  user-select: none;
+
+  z-index: 15;
+}
+
+
+/* ============================================================
+   CHARACTER IMAGE
+   ============================================================ */
+
+.hero-character__image {
+  position: absolute;
+  inset: 0;
+
+  background-image: var(--character-image);
+
+  background-repeat: no-repeat;
+  background-position: center bottom;
+
+  background-size: auto 88%;
+
+  opacity: 1;
+
+  pointer-events: none;
+
+  /*
+     The characters are completely hidden initially.
+     JavaScript moves the spotlight using these variables.
+  */
+
+  -webkit-mask-image:
+    radial-gradient(circle 260px at var(--hero-spot-x, -1000px) var(--hero-spot-y, -1000px),
+
+      rgba(255, 255, 255, 1) 0%,
+      rgba(255, 255, 255, 1) 40%,
+      rgba(255, 255, 255, .75) 60%,
+      rgba(255, 255, 255, .40) 75%,
+      rgba(255, 255, 255, .12) 88%,
+      rgba(255, 255, 255, 0) 100%);
+
+  mask-image:
+    radial-gradient(circle 260px at var(--hero-spot-x, -1000px) var(--hero-spot-y, -1000px),
+
+      rgba(255, 255, 255, 1) 0%,
+      rgba(255, 255, 255, 1) 40%,
+      rgba(255, 255, 255, .75) 60%,
+      rgba(255, 255, 255, .40) 75%,
+      rgba(255, 255, 255, .12) 88%,
+      rgba(255, 255, 255, 0) 100%);
+
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+
+  /* Cinematic image transition */
+  transition:
+    filter .55s ease,
+    transform .75s cubic-bezier(.16, 1, .3, 1),
+    opacity .45s ease;
+
+  will-change:
+    filter,
+    transform,
+    mask-image;
+}
+
+
+/* ============================================================
+   ODYSSEUS
+   ============================================================ */
+
+.hero-character--odysseus {
+  z-index: 15;
+}
+
+.hero-character--odysseus .hero-character__image {
+  background-position: -5% bottom;
+}
+
+/* ============================================================
+   ODYSSEUS — WARM / GOLDEN REVEAL
+   ============================================================ */
+
+.hero-character--odysseus .hero-character__image {
+  filter:
+    saturate(.78) contrast(1.04) brightness(.78);
+}
+
+.hero.is-hovering-odysseus .hero-character--odysseus .hero-character__image {
+
+  filter:
+    saturate(1.12) contrast(1.08) brightness(1.05) drop-shadow(0 0 18px rgba(255, 205, 75, .22)) drop-shadow(0 0 48px rgba(255, 175, 40, .12));
+
+  transform:
+    scale(1.018);
+}
+
+
+/* ============================================================
+   ATHENA
+   ============================================================ */
+
+.hero-character--athena {
+  z-index: 16;
+}
+
+.hero-character--athena .hero-character__image {
+  background-position: 105% bottom;
+}
+
+/* ============================================================
+   ATHENA — IVORY / CELESTIAL REVEAL
+   ============================================================ */
+
+.hero-character--athena .hero-character__image {
+  filter:
+    saturate(.70) contrast(1.04) brightness(.82);
+}
+
+.hero.is-hovering-athena .hero-character--athena .hero-character__image {
+
+  filter:
+    saturate(.88) contrast(1.10) brightness(1.10) drop-shadow(0 0 18px rgba(255, 255, 255, .24)) drop-shadow(0 0 48px rgba(220, 230, 255, .14));
+
+  transform:
+    scale(1.018);
+}
+
+/* ============================================================
+   HERO TEXT ABOVE CHARACTERS
+   ============================================================ */
+
+#heroContent {
+  position: relative;
+  z-index: 40;
+}
+
+#heroTitle {
+  position: relative;
+  z-index: 41;
+}
+
+.hero-scroll {
+  z-index: 45;
+}
+
+
+/* ============================================================
+   GOLD HORIZON
+   ============================================================ */
+
+/* ============================================================
+   DYNAMIC HORIZON ARC
+   Default  → subtle gold
+   Odysseus → warm yellow
+   Athena   → white / ivory
+   ============================================================ */
+
+.hero-character__sun-curve {
+
+  position: absolute;
+
+  width: 125%;
+  height: 46%;
+
+  left: -12.5%;
+  bottom: -35%;
+
+  z-index: 25;
+
+  pointer-events: none;
+  user-select: none;
+
+  background:
+    rgba(5, 9, 15, .90);
+
+  border-radius:
+    50% 50% 0 0;
+
+  /* Default */
+  border-top:
+    3px solid rgba(201, 162, 75, .42);
+
+  box-shadow:
+    0 -2px 5px rgba(201, 162, 75, .18),
+    0 -7px 16px rgba(201, 162, 75, .10),
+    0 -16px 34px rgba(201, 162, 75, .06);
+
+  transition:
+    border-color .65s ease,
+    box-shadow .65s ease,
+    background .65s ease;
+
+  filter: none;
+}
+
+
+/* ============================================================
+   SOFT LOWER GRADIENT
+   ============================================================ */
+
+.hero-character__sun-curve::after {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  pointer-events: none;
+
+  background:
+    linear-gradient(to bottom,
+      rgba(7, 12, 22, .10),
+      rgba(7, 12, 22, .28) 45%,
+      rgba(4, 7, 13, .62));
+}
+
+/* ============================================================
+   ODYSSEUS — GOLD HORIZON
+   ============================================================ */
+
+.hero.is-hovering-odysseus .hero-character__sun-curve {
+
+  border-top-color:
+    rgba(255, 211, 76, .98);
+
+  box-shadow:
+    0 -2px 5px rgba(255, 248, 190, .90),
+    0 -7px 16px rgba(255, 215, 80, .62),
+    0 -15px 32px rgba(255, 190, 50, .38),
+    0 -28px 60px rgba(255, 165, 30, .16);
+}
+
+
+/* ============================================================
+   ATHENA — CELESTIAL WHITE HORIZON
+   ============================================================ */
+
+.hero.is-hovering-athena .hero-character__sun-curve {
+
+  border-top-color:
+    rgba(255, 255, 255, .98);
+
+  box-shadow:
+    0 -2px 5px rgba(255, 255, 255, .95),
+    0 -7px 16px rgba(245, 248, 255, .68),
+    0 -15px 32px rgba(225, 235, 255, .38),
+    0 -28px 60px rgba(205, 220, 255, .15);
+}
+
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 900px) {
+
+  .hero-character__image {
+    background-size: auto 72%;
+  }
+
+}
+
+
+@media (max-width: 600px) {
+
+  .hero-character__image {
+    background-size: auto 60%;
+  }
+
+  .hero-character__sun-curve {
+    width: 160%;
+
+    left: -30%;
+
+    bottom: -42%;
+
+    border-top-width: 2px;
+  }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ============================================================
+   ODYSSEY HERO — CINEMATIC COMPOSITION
+   ============================================================ */
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  min-height: 640px;
+}
+
+
+/* ============================================================
+   CHARACTER LAYERS
+   ============================================================ */
+
+.hero-character {
+  position: absolute;
+  inset: 0;
+
+  overflow: hidden;
+  pointer-events: none;
+  user-select: none;
+}
+
+
+/* ------------------------------------------------------------
+   ODYSSEUS — LEFT CORNER
+   ------------------------------------------------------------ */
+
+.hero-character--odysseus {
+  position: absolute;
+  inset: 0;
+
+  z-index: 15;
+
+  /* Push the character toward the left edge */
+  transform: translateX(-10vw);
+}
+
+
+
+
+/* ------------------------------------------------------------
+   ATHENA — RIGHT CORNER
+   ------------------------------------------------------------ */
+
+.hero-character--athena {
+  position: absolute;
+  inset: 0;
+
+  z-index: 16;
+
+  /* Push the character toward the right edge */
+  transform: translateX(10vw);
+}
+
+
+.hero-character--athena .hero-character__image {
+  position: absolute;
+  inset: 0;
+
+  background-repeat: no-repeat;
+  background-position: right bottom;
+  background-size: auto 88%;
+
+  opacity: 1;
+
+  // TEMPORARILY DISABLE SPOTLIGHT 
+  -webkit-mask-image: none !important;
+  mask-image: none !important;
+}
+
+.hero-character--odysseus .hero-character__image {
+  position: absolute;
+  inset: 0;
+
+  background-repeat: no-repeat;
+  background-position: left bottom;
+  background-size: auto 88%;
+
+  opacity: 1;
+
+  // TEMPORARILY DISABLE SPOTLIGHT 
+  -webkit-mask-image: none !important;
+  mask-image: none !important;
+}
+
+
+
+
+/* ============================================================
+   CURSOR REVEAL — CHARACTER IMAGES
+   ============================================================ */
+
+/*.hero-character--odysseus .hero-character__image,
+.hero-character--athena .hero-character__image {
+  position: absolute;
+  inset: 0;
+
+  background-repeat: no-repeat;
+
+  opacity: 1;
+
+  pointer-events: none;
+
+  -webkit-mask-image:
+    radial-gradient(circle 260px at var(--hero-spot-x, -1000px) var(--hero-spot-y, -1000px),
+
+      rgba(255, 255, 255, 1) 0%,
+      rgba(255, 255, 255, 1) 38%,
+      rgba(255, 255, 255, .82) 55%,
+      rgba(255, 255, 255, .55) 68%,
+      rgba(255, 255, 255, .25) 82%,
+      rgba(255, 255, 255, .06) 94%,
+      rgba(255, 255, 255, 0) 100%);
+
+  mask-image:
+    radial-gradient(circle 260px at var(--hero-spot-x, -1000px) var(--hero-spot-y, -1000px),
+
+      rgba(255, 255, 255, 1) 0%,
+      rgba(255, 255, 255, 1) 38%,
+      rgba(255, 255, 255, .82) 55%,
+      rgba(255, 255, 255, .55) 68%,
+      rgba(255, 255, 255, .25) 82%,
+      rgba(255, 255, 255, .06) 94%,
+      rgba(255, 255, 255, 0) 100%);
+
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+
+  will-change:
+    mask-image,
+    -webkit-mask-image;
+} */
+
+
+
+/* ============================================================
+   CENTRAL CONTENT
+   ============================================================ */
+
+#heroContent {
+  position: relative;
+
+  z-index: 40;
+
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+}
+
+
+/* ============================================================
+   EXPECTATIONS / INSTITUTION
+   ============================================================ */
+
+.hero-institution {
+  position: absolute;
+
+  top: 50%;
+  left: 50%;
+
+  width: min(92%, 1000px);
+
+  margin: 0;
+
+  transform:
+    translate(-50%, calc(-50% - 70px));
+
+  z-index: 42;
+
+  text-align: center;
+}
+
+
+/* Main title */
+
+.hero-event-name {
+  font-family: var(--font-display);
+
+  font-size:
+    clamp(2rem, 5vw, 4.5rem);
+
+  font-weight: 500;
+
+  line-height: 1.05;
+
+  letter-spacing: .28em;
+  text-indent: .28em;
+
+  color: var(--gold-light);
+
+  text-shadow:
+    0 0 12px rgba(255, 241, 195, .30),
+    0 0 35px rgba(201, 162, 75, .28);
+}
+
+
+/* Department */
+
+.hero-department {
+  margin-top: 1.1rem;
+
+  font-family: var(--font-sans);
+
+  font-size:
+    clamp(.62rem, 1.15vw, .9rem);
+
+  font-weight: 400;
+
+  letter-spacing: .25em;
+
+  text-transform: uppercase;
+
+  color:
+    rgba(244, 239, 228, .82);
+}
+
+
+/* Gold separator */
+
+.hero-institution::after {
+  content: "";
+
+  display: block;
+
+  width: 110px;
+  height: 1px;
+
+  margin:
+    1.35rem auto 0;
+
+  background:
+    linear-gradient(90deg,
+      transparent,
+      var(--gold-light),
+      transparent);
+}
+
+
+/* ============================================================
+   ODYSSEY
+   ============================================================ */
+
+.hero-title {
+  position: absolute;
+
+  top: calc(50% + 55px);
+  left: 50%;
+
+  width: 100%;
+
+  transform: translateX(-50%);
+
+  z-index: 42;
+
+  font-size:
+    clamp(1.45rem, 3vw, 2.4rem);
+
+  letter-spacing: .32em;
+  text-indent: .32em;
+
+  opacity: .85;
+
+  text-align: center;
+}
+
+
+/* ============================================================
+   TAGLINE
+   ============================================================ */
+
+.hero-sub {
+  position: absolute;
+
+  top: calc(50% + 125px);
+
+  left: 0;
+  right: 0;
+
+  margin: 0;
+
+  z-index: 42;
+
+  font-family: var(--font-serif);
+
+  font-style: italic;
+
+  font-size:
+    clamp(1.05rem, 2vw, 1.5rem);
+
+  letter-spacing: .03em;
+
+  color:
+    rgba(244, 239, 228, .72);
+
+  text-shadow:
+    0 2px 20px rgba(0, 0, 0, .65);
+
+  text-align: center;
+}
+
+
+/* ============================================================
+   DATE
+   ============================================================ */
+
+.hero-meta {
+  position: absolute;
+
+  top: calc(46% + 205px);
+
+  left: 0;
+  right: 0;
+
+  z-index: 42;
+
+  margin: 0;
+
+  display: flex;
+
+  justify-content: center;
+
+  font-size:
+    clamp(.65rem, 1vw, .78rem);
+
+  font-weight: 500;
+
+  letter-spacing: .28em;
+
+  color:
+    var(--gold-light);
+}
+
+
+/* ============================================================
+   REGISTER BUTTON
+   ============================================================ */
+
+.hero-cta-row {
+  position: absolute;
+
+  top: calc(50% + 255px);
+
+  left: 0;
+  right: 0;
+
+  z-index: 42;
+
+  margin: 0;
+
+  display: flex;
+
+  justify-content: center;
+}
+
+
+.hero-cta-row .btn-gold {
+  min-width: 220px;
+
+  padding:
+    1.15rem 3rem;
+
+  font-size: .72rem;
+
+  letter-spacing: .30em;
+
+  box-shadow:
+    0 12px 35px rgba(201, 162, 75, .18);
+}
+
+
+/* ============================================================
+   GOLD HORIZON
+   ============================================================ */
+
+.hero-character__sun-curve {
+  position: absolute;
+
+  width: 125%;
+  height: 42%;
+
+  left: -12.5%;
+  bottom: -32%;
+
+  z-index: 25;
+
+  pointer-events: none;
+
+  background:
+    rgba(7, 12, 22, .90);
+
+  border-radius:
+    50% 50% 0 0;
+
+  border-top:
+    2px solid rgba(235, 208, 143, .78);
+
+  box-shadow:
+    0 -2px 5px rgba(235, 208, 143, .35),
+    0 -7px 16px rgba(201, 162, 75, .18),
+    0 -15px 32px rgba(201, 162, 75, .10),
+    0 -28px 55px rgba(201, 162, 75, .045);
+}
+
+
+/* Soft dark interior */
+
+.hero-character__sun-curve::after {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  pointer-events: none;
+
+  background:
+    linear-gradient(to bottom,
+      rgba(7, 12, 22, .02),
+      rgba(7, 12, 22, .18) 48%,
+      rgba(4, 7, 13, .55));
+}
+
+
+/* ============================================================
+   TABLET
+   ============================================================ */
+
+@media (max-width: 900px) {
+
+  .hero-character--odysseus {
+    transform: translateX(-16vw);
+  }
+
+  .hero-character--athena {
+    transform: translateX(16vw);
+  }
+
+  .hero-character--odysseus .hero-character__image,
+  .hero-character--athena .hero-character__image {
+    background-size: auto 72%;
+  }
+
+  .hero-event-name {
+    font-size:
+      clamp(1.8rem, 6vw, 3rem);
+  }
+}
+
+
+/* ============================================================
+   MOBILE — EXTREME CORNER CHARACTERS
+   ============================================================ */
+
+@media (max-width: 600px) {
+
+  /* ---------------------------------------------
+     CHARACTER CONTAINERS
+     --------------------------------------------- */
+
+  .hero-character--odysseus,
+  .hero-character--athena {
+    transform: none;
+  }
+
+
+  /* ---------------------------------------------
+     ODYSSEUS — EXTREME BOTTOM LEFT
+     --------------------------------------------- */
+
+  .hero-character--odysseus .hero-character__image {
+    background-position: left bottom !important;
+    background-size: auto 40% !important;
+
+    transform:
+      translateX(-25vw) !important;
+
+    transform-origin:
+      left bottom;
+  }
+
+
+  /* ---------------------------------------------
+     ATHENA — EXTREME BOTTOM RIGHT
+     --------------------------------------------- */
+
+  .hero-character--athena {
+    transform: none !important;
+  }
+
+  .hero-character--athena .hero-character__image {
+    background-position: right bottom !important;
+    background-size: auto 40% !important;
+
+    transform:
+      translateX(25vw) !important;
+
+    transform-origin:
+      right bottom;
+  }
+
+
+  /* ---------------------------------------------
+     CENTRAL CONTENT
+     --------------------------------------------- */
+
+  .hero-institution {
+    transform:
+      translate(-50%, calc(-50% - 45px));
+  }
+
+
+  .hero-event-name {
+    font-size:
+      clamp(1.55rem, 8vw, 2.5rem);
+
+    letter-spacing: .18em;
+    text-indent: .18em;
+  }
+
+
+  .hero-department {
+    font-size: .58rem;
+    letter-spacing: .13em;
+    padding: 0 1rem;
+  }
+
+
+  .hero-title {
+    top:
+      calc(50% + 45px);
+
+    font-size: 1.15rem;
+  }
+
+
+  .hero-sub {
+    top:
+      calc(50% + 95px);
+
+    font-size: 1rem;
+  }
+
+
+  .hero-meta {
+    top:
+      calc(50% + 155px);
+
+    font-size: .58rem;
+  }
+
+
+  .hero-cta-row {
+    top:
+      calc(55% + 200px);
+  }
+
+
+  .hero-cta-row .btn-gold {
+    min-width: 175px;
+
+    padding:
+      .95rem 2rem;
+  }
+
+
+  /* ---------------------------------------------
+     HORIZON
+     --------------------------------------------- */
+
+  .hero-character__sun-curve {
+    width: 160%;
+    left: -30%;
+    bottom: -40%;
+    border-top-width: 2px;
+  }
+
+}
+
+
+
+/* ============================================================
+   FORCE CUSTOM GOLD CURSOR EVERYWHERE
+   ============================================================ */
+
+html,
+body,
+body * {
+  cursor: none !important;
 }

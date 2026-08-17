@@ -85,7 +85,7 @@ export const events = [
       'A technical event designed to evaluate technical knowledge, problem-solving ability, confidence, communication skills, and performance under pressure in a simulated interview environment.',
 
     image:
-      'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=1400&q=85',
+      '/assets/trials-of-athena.jpg',
 
     info: [
       ['Format', 'Individual'],
@@ -152,7 +152,7 @@ export const events = [
       'A multi-round technical quiz competition combining statistics, probability, logical reasoning, analytical thinking and teamwork through written and interactive challenges.',
 
     image:
-      'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&w=1400&q=85',
+      '/assets/Battle-of-Probabilities.jpg',
 
     info: [
       ['Format', 'Team'],
@@ -222,7 +222,7 @@ export const events = [
       'A technical team competition combining Data Science, AI, Statistics, logical reasoning, and survey-based challenges to test analytical thinking, problem solving, and the ability to think with data and like the crowd.',
 
     image:
-      'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1400&q=85',
+      '/assets/The-Oracles-Verdict.jpg',
 
     info: [
       ['Format', 'Team'],
@@ -291,7 +291,7 @@ export const events = [
       'A fast-paced escape-room challenge where teams navigate a series of technical, non-technical, and mini-game challenges. Solve, unlock, and advance through the quest while racing against time.',
 
     image:
-      'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1400&q=85',
+      '/assets/The-Fates-Wager.jpg',
 
     info: [
       ['Format', 'Escape-room challenge'],
@@ -409,7 +409,7 @@ export const events = [
       'A campus-wide treasure hunt where teams embark on an adventurous journey inspired by The Odyssey. Participants solve mythology-themed riddles, complete exciting checkpoint challenges, and uncover hidden clues while racing across campus to find their way back to Ithaca.',
 
     image:
-      'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=1400&q=85',
+      '/assets/The-Hidden-Voyage.jpg',
 
     info: [
       ['Format', 'Team'],
@@ -475,7 +475,7 @@ export const events = [
       'A strategic auction-based competition where teams step into the shoes of franchise owners to build the strongest possible squad within a fixed budget. Combining cricket knowledge, analytical thinking, budgeting, and decision-making, participants must outbid their competitors while maintaining a balanced team and making smart investment choices.',
 
     image:
-      'https://images.unsplash.com/photo-1531418847157-7b46bddb825a?auto=format&fit=crop&w=1400&q=85',
+      '/assets/The-Heroes-Draft.jpg',
 
     info: [
       ['Format', 'Team'],
@@ -541,7 +541,7 @@ export const events = [
       'A creative marketing challenge where teams transform an absurd or impractical product into a marketable success using AI tools and creative software. Teams develop a complete branding and marketing campaign before presenting and defending their ideas before a judging panel.',
 
     image:
-      'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1400&q=85',
+      '/assets/Sirens-of-Commerce.jpg',
 
     info: [
       ['Format', 'Team'],
@@ -607,7 +607,7 @@ export const events = [
       'A technical team event combining SQL, analytical thinking, and problem-solving. Participants act as data investigators, using a corrupted archival database containing anomalies, missing data, and hidden clues to analyse, cross-reference, and reconstruct events.',
 
     image:
-      'https://images.unsplash.com/photo-1544383835-bda2bc66a55d?auto=format&fit=crop&w=1400&q=85',
+      '/assets/The-Oracles-Archive.jpg',
 
     info: [
       ['Format', 'Team'],
@@ -675,7 +675,7 @@ export const events = [
       'A high-energy dance competition showcasing choreography, synchronization, creativity, musicality, and stage presence.',
 
     image:
-      'https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?auto=format&fit=crop&w=1400&q=85',
+      '/assets/Sirens-Stage.jpg',
 
     info: [
       ['Format', 'Team performance'],
@@ -860,7 +860,7 @@ export const events = [
     summary:
       'A creative team-based fashion event showcasing style, originality, storytelling, presentation, and teamwork through a themed runway.',
 
-    image: '',
+    image: '/assets/MYTHS-IN-MOTION.jpg',
 
     info: [
       ['Format', 'Team'],

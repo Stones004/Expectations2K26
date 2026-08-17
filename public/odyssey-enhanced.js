@@ -67,6 +67,201 @@
     });
   }
 
+
+  /* ============================================================
+   ODYSSEY CHARACTER SPOTLIGHT
+   ============================================================ */
+
+  (function initHeroCharacterSpotlight() {
+
+    const hero = document.getElementById('hero');
+
+    if (!hero) return;
+
+    const isCoarse =
+      matchMedia('(pointer: coarse)').matches;
+
+    if (isCoarse) return;
+
+
+    const SPOTLIGHT_R = 100;
+
+    let mouseX = -1000;
+    let mouseY = -1000;
+
+    let smoothX = -1000;
+    let smoothY = -1000;
+
+    let rafId = null;
+
+
+    /* ----------------------------------------------------------
+       Mouse position
+       ---------------------------------------------------------- */
+
+    const handleMouseMove = (e) => {
+
+      const rect =
+        hero.getBoundingClientRect();
+
+      mouseX =
+        e.clientX - rect.left;
+
+      mouseY =
+        e.clientY - rect.top;
+
+    };
+
+
+    const handleMouseLeave = () => {
+
+      mouseX = -1000;
+      mouseY = -1000;
+
+      hero.classList.remove(
+        'is-hovering-odysseus',
+        'is-hovering-athena'
+      );
+
+    };
+
+
+    hero.addEventListener(
+      'mousemove',
+      handleMouseMove,
+      { passive: true }
+    );
+
+    hero.addEventListener(
+      'mouseleave',
+      handleMouseLeave
+    );
+
+
+    /* ----------------------------------------------------------
+       Smooth spotlight
+       ---------------------------------------------------------- */
+
+    function animate() {
+
+      /* ----------------------------------------------------------
+         SMOOTH CURSOR
+         ---------------------------------------------------------- */
+
+      smoothX +=
+        (mouseX - smoothX) * 0.10;
+
+      smoothY +=
+        (mouseY - smoothY) * 0.10;
+
+
+      /* ----------------------------------------------------------
+         UPDATE SPOTLIGHT POSITION
+         ---------------------------------------------------------- */
+
+      hero.style.setProperty(
+        '--hero-spot-x',
+        `${smoothX}px`
+      );
+
+      hero.style.setProperty(
+        '--hero-spot-y',
+        `${smoothY}px`
+      );
+
+
+      /* ----------------------------------------------------------
+         DETERMINE ACTIVE CHARACTER
+         ---------------------------------------------------------- */
+
+      const heroWidth =
+        hero.getBoundingClientRect().width;
+
+      const leftBoundary =
+        heroWidth * 0.38;
+
+      const rightBoundary =
+        heroWidth * 0.62;
+
+
+      hero.classList.remove(
+        'is-hovering-odysseus',
+        'is-hovering-athena'
+      );
+
+
+      /* ----------------------------------------------------------
+         ODYSSEUS
+         Left 38% of hero
+         ---------------------------------------------------------- */
+
+      if (
+        smoothX >= 0 &&
+        smoothX < leftBoundary
+      ) {
+
+        hero.classList.add(
+          'is-hovering-odysseus'
+        );
+
+      }
+
+
+      /* ----------------------------------------------------------
+         ATHENA
+         Right 38% of hero
+         ---------------------------------------------------------- */
+
+      else if (
+        smoothX > rightBoundary &&
+        smoothX <= heroWidth
+      ) {
+
+        hero.classList.add(
+          'is-hovering-athena'
+        );
+
+      }
+
+
+      /* ----------------------------------------------------------
+         NEXT FRAME
+         ---------------------------------------------------------- */
+
+      rafId =
+        requestAnimationFrame(animate);
+    }
+
+
+    animate();
+
+
+    /* ----------------------------------------------------------
+       Cleanup
+       ---------------------------------------------------------- */
+
+    window.addEventListener(
+      'beforeunload',
+      () => {
+
+        cancelAnimationFrame(rafId);
+
+        hero.removeEventListener(
+          'mousemove',
+          handleMouseMove
+        );
+
+        hero.removeEventListener(
+          'mouseleave',
+          handleMouseLeave
+        );
+
+      },
+      { once: true }
+    );
+
+  })();
+
   /* ---------- nav ---------- */
   const nav = document.getElementById('nav');
   const burger = document.getElementById('burger');

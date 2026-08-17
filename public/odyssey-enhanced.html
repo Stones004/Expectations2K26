@@ -61,22 +61,86 @@
 
   <!-- ============ HERO ============ -->
   <header class="hero" id="hero">
+
     <canvas id="oceanCanvas" aria-hidden="true"></canvas>
+
     <canvas id="heroDataCanvas" aria-hidden="true"></canvas>
+
     <div class="hero-haze" aria-hidden="true"></div>
-    <div class="hero-content" id="heroContent">
-      <div class="hero-institution">
-        <p class="hero-event-name">Expectations 2K26</p>
-        <p class="hero-department">Department of Statistics and Data Science</p>
-      </div>
-      <h1 class="hero-title" id="heroTitle" aria-label="Odyssey">ODYSSEY</h1>
-      <p class="hero-sub">Navigating the Seas Of Data</p>
-      <p class="hero-meta"><span>September 28–29</span></p>
-      <div class="hero-cta-row">
-        <button class="btn-gold" data-hover data-magnetic
-          onclick="document.getElementById('register').scrollIntoView({behavior:'smooth'})">Register</button>
-      </div>
+
+
+    <!-- NEW: Odysseus -->
+    <div class="hero-character hero-character--odysseus" aria-hidden="true">
+      <div class="hero-character__image" style="--character-image: url('/assets/odysseus.png');"></div>
     </div>
+
+
+    <!-- NEW: Athena -->
+    <div class="hero-character hero-character--athena" aria-hidden="true">
+      <div class="hero-character__image" style="--character-image: url('/assets/athena.png');"></div>
+    </div>
+
+
+    <!-- NEW: gold horizon -->
+    <div class="hero-character__sun-curve" aria-hidden="true"></div>
+
+
+    <!-- =====================================================
+       ORIGINAL HERO CONTENT — DO NOT CHANGE
+       ===================================================== -->
+
+    <div class="hero-content" id="heroContent">
+
+      <div class="hero-institution">
+
+        <p class="hero-event-name">
+          Expectations 2K26
+        </p>
+
+        <p class="hero-department">
+          Department of Statistics and Data Science
+        </p>
+
+      </div>
+
+
+      <h1 class="hero-title" id="heroTitle" aria-label="Odyssey">
+        ODYSSEY
+      </h1>
+
+
+      <p class="hero-sub">
+        Navigating the Seas Of Data
+      </p>
+
+
+      <p class="hero-meta">
+        <span>September 28–29</span>
+      </p>
+
+
+      <div class="hero-cta-row">
+
+        <button class="btn-gold" data-hover data-magnetic
+          onclick="document.getElementById('register').scrollIntoView({behavior:'smooth'})">
+          Register
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- Original scroll indicator -->
+
+    <div class="hero-scroll">
+
+      <small>Begin the voyage</small>
+
+      <div class="hero-scroll-line"></div>
+
+    </div>
+
   </header>
 
   <!-- ============ THE STORM CROSSING ============ -->
@@ -552,8 +616,8 @@
 
 
       <!-- LinkedIn -->
-      <a href="https://www.linkedin.com/in/statistics-datascience-christuniversity?utm_source=share_via&utm_content=profile&utm_medium=member_ios target="
-        _blank" rel="noopener noreferrer" aria-label="LinkedIn" class="footer-social" data-hover>
+      <a href="https://www.linkedin.com/in/statistics-datascience-christuniversity?utm_source=share_via&utm_content=profile&utm_medium=member_ios"
+        target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="footer-social" data-hover>
         <img src="/assets/linkedin.png" alt="LinkedIn">
       </a>
 
