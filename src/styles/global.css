@@ -1,10 +1,10 @@
 :root {
-   --black: #04070d;
-   --blue: #0b1726;
+   --black: #111e38;
+   --blue: #183152;
    --gold: #c9a24b;
    --light: #ebd08f;
    --ivory: #f4efe4;
-   --dim: #f4efe4a8;
+   --dim: #f4efe4d9;
    --line: #c9a24b40;
    --display: 'Cinzel', Georgia, serif;
    --serif: 'Cormorant Garamond', Georgia, serif;
@@ -151,7 +151,7 @@ b {
    font-size: clamp(10px, 1.1vw, 15px);
    letter-spacing: .23em;
    text-transform: uppercase;
-   color: #f4efe4bd;
+   color: #f4efe4d9;
    margin: 14px 0
 }
 
@@ -180,7 +180,7 @@ b {
    margin-top: 20px;
    padding: 15px 27px;
    background: linear-gradient(120deg, var(--light), var(--gold), #a8825a);
-   color: #04070d;
+   color: #111e38;
    font-size: 11px;
    font-weight: 600;
    letter-spacing: .22em;
@@ -265,7 +265,7 @@ b {
    overflow: hidden;
    cursor: pointer;
    border: 1px solid var(--line);
-   background: linear-gradient(150deg, #162b44, #07121f 60%, #04070d);
+   background: linear-gradient(150deg, #162b44, #112d4d 60%, #111e38);
    transition: flex .62s cubic-bezier(.22, 1, .36, 1), border-color .4s, filter .4s;
    outline: none
 }
@@ -411,7 +411,7 @@ b {
 }
 
 .tracks-grid>div {
-   background: #07101c;
+   background: #122a49;
    padding: 34px;
    min-height: 210px
 }
@@ -442,7 +442,7 @@ b {
 
 .footer {
    padding: 80px clamp(22px, 6vw, 84px) 25px;
-   background: linear-gradient(160deg, #091421, #04070d);
+   background: linear-gradient(160deg, #152f4d, #111e38);
    border-top: 1px solid var(--line);
    overflow: hidden
 }
@@ -497,7 +497,7 @@ b {
    border-top: 1px solid var(--line);
    margin-top: 55px;
    padding-top: 20px;
-   color: #f4efe466;
+   color: #f4efe4b3;
    font-size: 10px;
    letter-spacing: .18em;
    text-transform: uppercase
@@ -525,7 +525,7 @@ b {
 }
 
 .event-hero h1 {
-   font: 500 clamp(42px, 8vw, 110px)/1.12 var(--display);
+   font: 500 clamp(32px, 5.5vw, 76px)/1.12 var(--display);
    max-width: 1000px;
    letter-spacing: .07em;
    margin: 22px
@@ -535,6 +535,85 @@ b {
    font: italic clamp(21px, 2.6vw, 31px) var(--serif);
    color: var(--dim);
    max-width: 660px
+}
+
+/* Registrations page hero: the shared .event-hero is otherwise identical
+   across every event page, so this gives it its own identity — a faint
+   compass watermark and a mini route (Read → Pay → Submit) that previews
+   the steps section right below, instead of just a title and a line. */
+.register-hero {
+   position: relative;
+   overflow: hidden
+}
+
+.register-hero-compass {
+   position: absolute;
+   z-index: -1;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   font-size: clamp(240px, 34vw, 480px);
+   line-height: 1;
+   color: color-mix(in srgb, var(--gold) 8%, transparent);
+   pointer-events: none;
+   user-select: none
+}
+
+.register-hero small i {
+   font-style: normal;
+   margin-right: 8px;
+   color: var(--gold)
+}
+
+.register-hero-route {
+   position: relative;
+   display: flex;
+   align-items: center;
+   gap: 10px;
+   list-style: none;
+   margin: 34px 0 0;
+   padding: 0;
+   font: 500 11px var(--sans);
+   letter-spacing: .2em;
+   text-transform: uppercase;
+   color: var(--dim)
+}
+
+.register-hero-route li {
+   display: flex;
+   align-items: center;
+   gap: 10px
+}
+
+.register-hero-route li:not(:last-child)::after {
+   content: '';
+   width: 30px;
+   height: 1px;
+   background: var(--line)
+}
+
+.register-hero-route span {
+   display: grid;
+   place-items: center;
+   width: 26px;
+   height: 26px;
+   border: 1px solid var(--line);
+   border-radius: 50%;
+   color: var(--gold);
+   font-size: 12px;
+   background: color-mix(in srgb, var(--gold) 6%, transparent)
+}
+
+@media(max-width:600px) {
+   .register-hero-route {
+      flex-wrap: wrap;
+      justify-content: center;
+      row-gap: 14px
+   }
+
+   .register-hero-route li:not(:last-child)::after {
+      width: 16px
+   }
 }
 
 .event-content {
@@ -700,7 +779,7 @@ code {
    width: 100%;
    height: 100vh;
    border: 0;
-   background: #04070d
+   background: #111e38
 }
 
 /* ==========================================================
@@ -732,7 +811,7 @@ code {
    display: flex;
    align-items: center;
    overflow: hidden;
-   background: radial-gradient(circle at 62% 33%, color-mix(in srgb, var(--event-accent, #e6cf8c) 19%, transparent), transparent 26%), linear-gradient(145deg, #07111d 0%, #071a29 52%, #03070d 100%)
+   background: radial-gradient(circle at 62% 33%, color-mix(in srgb, var(--event-accent, #e6cf8c) 19%, transparent), transparent 26%), linear-gradient(145deg, #122b4a 0%, #0f3859 52%, #0e203b 100%)
 }
 
 .event-hero-new:after {
@@ -865,7 +944,7 @@ code {
    right: clamp(22px, 6vw, 84px);
    display: flex;
    justify-content: space-between;
-   color: #f4efe466;
+   color: #f4efe4b3;
    font-size: 9px;
    letter-spacing: .18em;
    text-transform: uppercase
@@ -935,8 +1014,64 @@ code {
 }
 
 .event-highlights article:hover {
-   background: linear-gradient(145deg, #142a41, #06111d);
+   background: linear-gradient(145deg, #142a41, #102c4b);
    transform: translateY(-7px)
+}
+
+/* Registrations page: sequence arrows between the numbered steps, and a soft callout for the pending-links notice. */
+.event-highlights.register-steps article {
+   position: relative
+}
+
+.event-highlights.register-steps article:not(:last-child):after {
+   content: '›';
+   position: absolute;
+   z-index: 1;
+   top: 50%;
+   right: -14px;
+   transform: translateY(-50%);
+   width: 27px;
+   height: 27px;
+   display: grid;
+   place-items: center;
+   border-radius: 50%;
+   background: var(--black);
+   border: 1px solid var(--line);
+   color: var(--gold);
+   font-size: 16px;
+   line-height: 1
+}
+
+@media(max-width:700px) {
+   .event-highlights.register-steps article:not(:last-child):after {
+      content: '⌄';
+      top: auto;
+      right: auto;
+      left: 50%;
+      bottom: -14px;
+      transform: translateX(-50%)
+   }
+}
+
+.register-pending-note {
+   display: flex;
+   align-items: center;
+   gap: 12px;
+   margin: 0 auto 4px;
+   padding: 16px 22px;
+   border: 1px solid var(--line);
+   background: linear-gradient(135deg, #15304f80, #10203a80);
+   color: var(--light);
+   font-size: 13px;
+   letter-spacing: .02em;
+   text-align: left
+}
+
+.register-pending-note i {
+   font-style: normal;
+   color: var(--gold);
+   font-size: 15px;
+   flex: none
 }
 
 .event-highlights small {
@@ -1052,7 +1187,7 @@ code {
    aspect-ratio: 1/.85;
    display: grid;
    place-items: center;
-   background: radial-gradient(circle at 50% 34%, color-mix(in srgb, var(--event-accent, #e6cf8c) 23%, transparent), transparent 30%), linear-gradient(145deg, #1b3043, #070d15);
+   background: radial-gradient(circle at 50% 34%, color-mix(in srgb, var(--event-accent, #e6cf8c) 23%, transparent), transparent 30%), linear-gradient(145deg, #1b3043, #15273f);
    overflow: hidden
 }
 
@@ -1097,7 +1232,7 @@ code {
 }
 
 .gallery-grid div {
-   background: radial-gradient(circle at 65% 25%, color-mix(in srgb, var(--event-accent, #e6cf8c) 20%, transparent), transparent 29%), linear-gradient(140deg, #162c40, #060b13);
+   background: radial-gradient(circle at 65% 25%, color-mix(in srgb, var(--event-accent, #e6cf8c) 20%, transparent), transparent 29%), linear-gradient(140deg, #162c40, #13243e);
    border: 1px solid #c9a24b2e
 }
 
@@ -1106,7 +1241,7 @@ code {
 }
 
 .gallery-grid div:nth-child(2) {
-   background: linear-gradient(145deg, #0e1c2d, #76551c)
+   background: linear-gradient(145deg, #1b3758, #76551c)
 }
 
 .faq {
@@ -1154,33 +1289,74 @@ code {
 }
 
 .reserve-panel {
+   position: relative;
    max-width: 1120px;
-   margin: 90px auto 150px;
+   margin: 60px auto 100px;
    text-align: center;
    border: 1px solid var(--line);
-   background: radial-gradient(ellipse at center, color-mix(in srgb, var(--event-accent, #e6cf8c) 13%, transparent), transparent 62%), #07111b;
-   padding: clamp(70px, 10vw, 125px) 28px
+   background: radial-gradient(ellipse at center, color-mix(in srgb, var(--event-accent, #e6cf8c) 13%, transparent), transparent 62%), #132d48;
+   padding: clamp(46px, 6vw, 78px) 28px;
+   overflow: hidden
+}
+
+.reserve-panel::before {
+   content: '';
+   position: absolute;
+   inset: 0;
+   background: linear-gradient(180deg, color-mix(in srgb, var(--gold) 8%, transparent), transparent 40%);
+   pointer-events: none
+}
+
+.reserve-panel .reserve-eyebrow {
+   position: relative;
+   display: inline-flex;
+   align-items: center;
+   gap: 10px
+}
+
+.reserve-panel .reserve-eyebrow i {
+   font-style: normal;
+   font-size: 15px
 }
 
 .reserve-panel h2 {
+   position: relative;
    margin: 13px auto;
    max-width: 750px
 }
 
 .reserve-panel p {
+   position: relative;
    font: italic 22px var(--serif);
    color: var(--dim);
    max-width: 530px;
    margin: 0 auto
 }
 
+.reserve-panel .reserve-actions {
+   position: relative;
+   display: flex;
+   flex-wrap: wrap;
+   align-items: center;
+   justify-content: center;
+   gap: 8px 22px;
+   margin-top: 26px
+}
+
 .reserve-panel .gold-button {
-   margin: 32px 15px 0
+   margin: 0
 }
 
 .reserve-panel .event-text-link {
    display: inline-block;
-   margin-top: 32px
+   margin: 0
+}
+
+@media(max-width:500px) {
+   .reserve-panel .reserve-actions {
+      flex-direction: column;
+      gap: 16px
+   }
 }
 
 @media(max-width:750px) {
@@ -1257,7 +1433,7 @@ code {
    }
 
    .reserve-panel {
-      margin: 20px 22px 90px
+      margin: 20px 22px 60px
    }
 
    .event-page .section {
@@ -1282,7 +1458,7 @@ code {
    flex-direction: column;
    justify-content: center;
    padding: 100px clamp(22px, 6vw, 84px) 70px;
-   background: radial-gradient(ellipse at 50% 31%, #c9a24b19, transparent 37%), linear-gradient(155deg, #071321, #0a1d2c 52%, #04070d)
+   background: radial-gradient(ellipse at 50% 31%, #c9a24b19, transparent 37%), linear-gradient(155deg, #112e4f, #143b5a 52%, #111e38)
 }
 
 .events-deck-hero:after {
@@ -1371,7 +1547,7 @@ code {
    padding: 0;
    border: 1px solid #e6cf8c4d;
    border-radius: 5px;
-   background: linear-gradient(150deg, #1b3146, #07121d 65%, #03070d);
+   background: linear-gradient(150deg, #1b3146, #122e4a 65%, #0e203b);
    color: var(--ivory);
    overflow: hidden;
    cursor: pointer;
@@ -1487,7 +1663,7 @@ code {
 .deck-instruction {
    text-align: center;
    margin: 12px 0 0;
-   color: #f4efe47a;
+   color: #f4efe4a6;
    font-size: 9px;
    letter-spacing: .2em;
    text-transform: uppercase
@@ -1533,7 +1709,7 @@ code {
    max-height: min(780px, 90vh);
    overflow: auto;
    border: 1px solid #ebd08f75;
-   background: radial-gradient(ellipse at 90% 8%, #c9a24b24, transparent 35%), linear-gradient(135deg, #0d1e2d, #04090f);
+   background: radial-gradient(ellipse at 90% 8%, #c9a24b24, transparent 35%), linear-gradient(135deg, #1a3b59, #10243b);
    box-shadow: 0 30px 100px #000;
    animation: canvasRise .55s cubic-bezier(.22, 1, .36, 1)
 }
@@ -1569,7 +1745,7 @@ code {
    padding: 32px 22px;
    border-right: 1px solid var(--line);
    overflow: hidden;
-   background: linear-gradient(180deg, #122b40, #070d15)
+   background: linear-gradient(180deg, #122b40, #15273f)
 }
 
 .event-canvas aside>span {
@@ -1879,7 +2055,7 @@ body::-webkit-scrollbar {
 }
 
 .events-hub--minimal {
-   background: radial-gradient(ellipse at 50% 35%, rgba(28, 57, 82, .26), transparent 48%), rgba(4, 7, 13, .78)
+   background: radial-gradient(ellipse at 50% 35%, rgba(28, 57, 82, .26), transparent 48%), rgba(17, 30, 56, .78)
 }
 
 .events-deck-only:before {
@@ -1891,11 +2067,11 @@ body::-webkit-scrollbar {
 }
 
 .deck-card {
-   background: linear-gradient(145deg, rgba(27, 58, 80, .34), rgba(8, 19, 31, .46) 56%, rgba(4, 7, 13, .68));
+   background: linear-gradient(145deg, rgba(27, 58, 80, .34), rgba(20, 46, 76, .46) 56%, rgba(17, 30, 56, .68));
    border-color: rgba(235, 208, 143, .4);
    backdrop-filter: blur(17px) saturate(128%);
    -webkit-backdrop-filter: blur(17px) saturate(128%);
-   box-shadow: -8px 15px 35px rgba(0, 0, 0, .36), inset 0 1px 0 rgba(255, 247, 220, .26), inset 0 -1px 0 rgba(201, 162, 75, .18)
+   box-shadow: -8px 15px 35px rgba(28, 28, 28, .36), inset 0 1px 0 rgba(255, 247, 220, .26), inset 0 -1px 0 rgba(201, 162, 75, .18)
 }
 
 .deck-card:before {
@@ -1915,7 +2091,7 @@ body::-webkit-scrollbar {
 .deck-card:hover,
 .deck-card:focus-visible {
    border-color: rgba(255, 239, 192, .88);
-   box-shadow: 0 28px 62px rgba(0, 0, 0, .52), 0 0 32px rgba(201, 162, 75, .24), inset 0 1px 0 rgba(255, 255, 240, .45)
+   box-shadow: 0 28px 62px rgba(28, 28, 28, .52), 0 0 32px rgba(201, 162, 75, .24), inset 0 1px 0 rgba(255, 255, 240, .45)
 }
 
 .deck-symbol {
@@ -1924,7 +2100,7 @@ body::-webkit-scrollbar {
 }
 
 .event-canvas {
-   background: linear-gradient(135deg, rgba(18, 45, 64, .78), rgba(5, 11, 18, .88));
+   background: linear-gradient(135deg, rgba(18, 45, 64, .78), rgba(17, 38, 62, .88));
    backdrop-filter: blur(22px) saturate(125%);
    -webkit-backdrop-filter: blur(22px) saturate(125%)
 }
@@ -1963,14 +2139,14 @@ body::-webkit-scrollbar {
 }
 
 .event-canvas-backdrop {
-   background: radial-gradient(ellipse at 50% 25%, rgba(201, 162, 75, .14), transparent 45%), rgba(1, 4, 8, .7)
+   background: radial-gradient(ellipse at 50% 25%, rgba(201, 162, 75, .14), transparent 45%), rgba(7, 29, 58, .7)
 }
 
 .event-canvas {
    border-radius: 28px;
    border-color: rgba(235, 208, 143, .56);
-   background: linear-gradient(135deg, rgba(20, 51, 72, .72), rgba(4, 12, 20, .78));
-   box-shadow: 0 35px 120px rgba(0, 0, 0, .72), 0 0 0 1px rgba(255, 245, 210, .08) inset;
+   background: linear-gradient(135deg, rgba(20, 51, 72, .72), rgba(13, 40, 67, .78));
+   box-shadow: 0 35px 120px rgba(28, 28, 28, .72), 0 0 0 1px rgba(255, 245, 210, .08) inset;
    isolation: isolate
 }
 
@@ -1985,7 +2161,7 @@ body::-webkit-scrollbar {
 }
 
 .event-canvas aside {
-   background: linear-gradient(180deg, rgba(31, 71, 96, .46), rgba(5, 15, 25, .58));
+   background: linear-gradient(180deg, rgba(31, 71, 96, .46), rgba(14, 43, 72, .58));
    backdrop-filter: blur(18px);
    border-radius: 28px 0 0 28px
 }
@@ -2128,7 +2304,7 @@ body::-webkit-scrollbar {
    EVENT DETAIL PAGES — clear information-first Odyssey layout
    ========================================================== */
 .deck-card-image {
-   background-image: linear-gradient(0deg, rgba(2, 7, 13, .94) 0%, rgba(2, 7, 13, .36) 59%, rgba(2, 7, 13, .12)), var(--event-image);
+   background-image: linear-gradient(0deg, rgba(9, 33, 62, .94) 0%, rgba(9, 33, 62, .36) 59%, rgba(9, 33, 62, .12)), var(--event-image);
    background-size: cover;
    background-position: center
 }
@@ -2164,7 +2340,7 @@ body::-webkit-scrollbar {
    place-items: center;
    min-height: min(580px, 80vh);
    grid-template-columns: 1fr;
-   background-image: linear-gradient(0deg, rgba(3, 8, 14, .78), rgba(3, 8, 14, .24)), var(--event-image);
+   background-image: linear-gradient(0deg, rgba(13, 34, 60, .78), rgba(13, 34, 60, .24)), var(--event-image);
    background-size: cover;
    background-position: center;
    border-radius: 30px
@@ -2204,7 +2380,9 @@ body::-webkit-scrollbar {
    min-height: 75svh;
    display: flex;
    align-items: flex-end;
-   background-image: linear-gradient(0deg, #04070de8 3%, #04070d30 58%, #04070d46), var(--event-image);
+   /* Strong, even veil so the overlaid title stays legible regardless of how bright
+      or busy the event artwork underneath is. */
+   background-image: linear-gradient(0deg, rgba(17, 30, 56, .95) 8%, rgba(17, 30, 56, .68) 48%, rgba(17, 30, 56, .68) 75%, rgba(17, 30, 56, .88)), var(--event-image);
    background-size: cover;
    background-position: center
 }
@@ -2227,8 +2405,9 @@ body::-webkit-scrollbar {
 .detail-hero-copy p {
    font-size: 10px;
    letter-spacing: .27em;
-   color: var(--gold);
-   text-transform: uppercase
+   color: var(--light);
+   text-transform: uppercase;
+   text-shadow: 0 2px 12px rgba(4, 7, 13, .9)
 }
 
 .detail-hero-copy i {
@@ -2241,12 +2420,14 @@ body::-webkit-scrollbar {
    max-width: 1040px;
    margin: 18px 0 10px;
    font: 500 clamp(46px, 9vw, 126px)/1.04 var(--display);
-   letter-spacing: .035em
+   letter-spacing: .035em;
+   text-shadow: 0 4px 26px rgba(4, 7, 13, .85)
 }
 
 .detail-hero-copy>span {
    color: var(--dim);
-   font: italic clamp(23px, 2.6vw, 34px) var(--serif)
+   font: italic clamp(23px, 2.6vw, 34px) var(--serif);
+   text-shadow: 0 2px 16px rgba(4, 7, 13, .85)
 }
 
 .detail-wrap {
@@ -2353,7 +2534,7 @@ body::-webkit-scrollbar {
 }
 
 .rules {
-   background: linear-gradient(90deg, transparent, rgba(10, 23, 37, .5), transparent)
+   background: linear-gradient(90deg, transparent, rgba(22, 50, 81, .5), transparent)
 }
 
 .rules ol {
@@ -2394,7 +2575,7 @@ body::-webkit-scrollbar {
    padding: 23px;
    border-right: 1px solid var(--line);
    border-bottom: 1px solid var(--line);
-   background: rgba(8, 18, 29, .5)
+   background: rgba(20, 45, 73, .5)
 }
 
 .criteria span {
@@ -2417,7 +2598,7 @@ body::-webkit-scrollbar {
 .organizer-grid article {
    padding: 13px 13px 26px;
    border: 1px solid var(--line);
-   background: rgba(7, 17, 26, .67);
+   background: rgba(19, 46, 70, .67);
    backdrop-filter: blur(10px)
 }
 
@@ -2467,7 +2648,7 @@ body::-webkit-scrollbar {
    grid-template-columns: .85fr 1.15fr;
    gap: 70px;
    border: 1px solid var(--line);
-   background: radial-gradient(ellipse at 90% 10%, rgba(201, 162, 75, .15), transparent 40%), rgba(7, 17, 27, .8);
+   background: radial-gradient(ellipse at 90% 10%, rgba(201, 162, 75, .15), transparent 40%), rgba(19, 45, 72, .8);
    backdrop-filter: blur(13px)
 }
 
@@ -2699,8 +2880,8 @@ body::-webkit-scrollbar {
    padding: 30px;
    text-align: center;
    border: 1px solid rgba(235, 208, 143, .48);
-   background: linear-gradient(155deg, rgba(28, 52, 69, .78), rgba(5, 11, 17, .94));
-   box-shadow: inset 0 0 0 1px rgba(235, 208, 143, .07), 0 20px 48px rgba(0, 0, 0, .25)
+   background: linear-gradient(155deg, rgba(28, 52, 69, .78), rgba(18, 39, 60, .94));
+   box-shadow: inset 0 0 0 1px rgba(235, 208, 143, .07), 0 20px 48px rgba(28, 28, 28, .25)
 }
 
 .organizer-grid article:before {
@@ -2757,7 +2938,7 @@ body::-webkit-scrollbar {
 .detail-register {
    max-width: 1020px;
    grid-template-columns: 1fr;
-   background: radial-gradient(ellipse at 85% 12%, rgba(201, 162, 75, .16), transparent 38%), rgba(7, 17, 27, .88)
+   background: radial-gradient(ellipse at 85% 12%, rgba(201, 162, 75, .16), transparent 38%), rgba(19, 45, 72, .88)
 }
 
 .detail-register>div {
@@ -2792,7 +2973,7 @@ body::-webkit-scrollbar {
 }
 
 .event-registration-form select option {
-   background: #07111b;
+   background: #132d48;
    color: var(--ivory)
 }
 
@@ -2857,7 +3038,7 @@ body::-webkit-scrollbar {
    opacity: 1;
    filter: none;
    transform: translateX(calc((var(--card-index) - ((var(--card-count) - 1) / 2)) * min(11.5vw, 125px))) translateY(-14px) scale(1.32) rotate(0deg) !important;
-   box-shadow: 0 40px 85px rgba(0, 0, 0, .7), 0 0 55px rgba(235, 208, 143, .37), inset 0 1px 0 rgba(255, 248, 225, .6)
+   box-shadow: 0 40px 85px rgba(28, 28, 28, .7), 0 0 55px rgba(235, 208, 143, .37), inset 0 1px 0 rgba(255, 248, 225, .6)
 }
 
 .card-deck.is-selecting .deck-route {
@@ -2887,7 +3068,7 @@ body::-webkit-scrollbar {
    transform: translateX(calc((var(--card-index) - ((var(--card-count) - 1) / 2)) * min(11.5vw, 125px))) translateY(0) scale(6.4) rotate(0deg) !important;
    transition: transform .56s cubic-bezier(.16, 1, .3, 1), filter .32s ease, opacity .32s ease !important;
    border-radius: 0;
-   box-shadow: 0 0 0 999px rgba(4, 7, 13, .64), 0 0 70px rgba(235, 208, 143, .42) !important
+   box-shadow: 0 0 0 999px rgba(17, 30, 56, .64), 0 0 70px rgba(235, 208, 143, .42) !important
 }
 
 .card-deck.is-routing .deck-card.is-selected .deck-card-glow {
@@ -2980,7 +3161,7 @@ body::-webkit-scrollbar {
    padding: 48px 24px;
    text-align: center;
    border: 1px solid var(--line);
-   background: rgba(7, 17, 27, .72);
+   background: rgba(19, 45, 72, .72);
    backdrop-filter: blur(10px)
 }
 
@@ -3803,13 +3984,13 @@ body::-webkit-scrollbar {
 
    background:
       linear-gradient(145deg,
-         rgba(13, 24, 34, 0.99),
-         rgba(3, 7, 12, 0.99));
+         rgba(29, 53, 75, 0.99),
+         rgba(14, 33, 57, 0.99));
 
    border: 1px solid rgba(201, 162, 75, 0.42);
 
    box-shadow:
-      0 18px 45px rgba(0, 0, 0, 0.7),
+      0 18px 45px rgba(28, 28, 28, 0.7),
       0 0 25px rgba(201, 162, 75, 0.08);
 
    opacity: 0;
@@ -3866,7 +4047,7 @@ body::-webkit-scrollbar {
    width: 11px;
    height: 11px;
 
-   background: #080d12;
+   background: #192939;
 
    border-right:
       1px solid rgba(201, 162, 75, 0.42);

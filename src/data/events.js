@@ -860,7 +860,7 @@ export const events = [
     summary:
       'A creative team-based fashion event showcasing style, originality, storytelling, presentation, and teamwork through a themed runway.',
 
-    image: '/assets/MYTHS-IN-MOTION.jpg',
+    image: '/assets/MYTHS-IN-MOTION_og.jpg',
 
     info: [
       ['Format', 'Team'],

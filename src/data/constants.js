@@ -11,7 +11,13 @@ export const ROUTES = {
   HOME: '/',
   EVENTS: '/events',
   EVENT_DETAIL: '/events/:slug',
+  REGISTER: '/register',
   NOT_FOUND: '*',
+};
+
+export const REGISTRATION_LINKS = {
+  PAY_NOW: 'https://eacademia.southindianbank.bank.in/ChristFee/',
+  FORM: 'https://docs.google.com/forms/d/e/1FAIpQLSdadBANkRQNV-2cSfkh2__YnaEK4COW_yFw7fiMnq8xnDbVsA/viewform?usp=dialog',
 };
 
 export const UI_TEXT = {

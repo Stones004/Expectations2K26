@@ -11,16 +11,81 @@
   const lerp = (a, b, t) => a + (b - a) * t;
   const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 
+  /* ----------------------------------------------------------------------
+     Several decorative full-screen canvases (ocean, storm, starfield,
+     ambient dust) were each independently chasing 60fps with genuinely
+     heavy per-frame work (thousands of trig calls and dozens of gradient
+     allocations). Together they were the real cause of the page feeling
+     laggy — not just while the mouse moved, but even sitting idle. This
+     wraps a self-recursive `requestAnimationFrame(draw)` loop so `draw`
+     only actually runs `fps` times a second; the visual motion is slow
+     and ambient enough that nothing above ~30fps is perceptible, and it
+     roughly halves (or better) the combined main-thread cost. */
+  function throttledLoop(draw, fps = 30) {
+    const interval = 1000 / fps;
+    /* Every canvas used to start counting from last=0, so each one drew for
+       the first time on the very same startup frame and then stayed in
+       lockstep — periodically stacking several canvases' redraws into one
+       animation frame and spiking its total time (we measured frames up to
+       ~80ms). A frame that long is exactly what makes a JS-positioned
+       cursor visibly stutter, even when the average frame rate looks fine.
+       Randomizing each loop's phase spreads redraws across different
+       frames instead, trading a handful of synchronized heavy frames for
+       many small, even ones. */
+    let last = performance.now() - Math.random() * interval;
+    (function tick(now) {
+      if (now - last >= interval) {
+        last = now;
+        draw(now);
+      }
+      requestAnimationFrame(tick);
+    })(performance.now());
+  }
+
   /* ---------- loader ---------- */
   const loader = document.getElementById('loader');
   const loaderBar = document.getElementById('loaderBar');
+  const loaderShip = document.getElementById('loaderShip');
+  const loaderPercent = document.getElementById('loaderPercent');
   const loaderWord = document.getElementById('loaderWord');
+  const loaderStars = document.getElementById('loaderStars');
+  if (loaderStars) {
+    const frag = document.createDocumentFragment();
+    const starCount = 260;
+    for (let i = 0; i < starCount; i++) {
+      const star = document.createElement('i');
+      star.className = 'loader-star';
+      const size = (Math.random() < .15 ? 2 + Math.random() * 1.6 : 1 + Math.random() * 1.2).toFixed(2);
+      star.style.setProperty('--x', (Math.random() * 100).toFixed(2) + '%');
+      star.style.setProperty('--y', (Math.random() * 100).toFixed(2) + '%');
+      star.style.setProperty('--size', size + 'px');
+      star.style.setProperty('--glow', (parseFloat(size) * 2.4).toFixed(1) + 'px');
+      star.style.setProperty('--base', (.15 + Math.random() * .25).toFixed(2));
+      star.style.setProperty('--peak', (.55 + Math.random() * .45).toFixed(2));
+      star.style.setProperty('--dur', (1.6 + Math.random() * 3.2).toFixed(2) + 's');
+      star.style.setProperty('--delay', (Math.random() * 4).toFixed(2) + 's');
+      frag.appendChild(star);
+    }
+    loaderStars.appendChild(frag);
+  }
   loaderWord.innerHTML = loaderWord.textContent.split('').map((c, i) =>
     `<span style="animation-delay:${(i * 0.09).toFixed(2)}s">${c}</span>`).join('');
+  /* A little narrative flavour: the caption changes as the voyage "progresses". */
+  const loaderStages = [
+    [0, 'Casting off'],
+    [30, 'Charting the stars'],
+    [65, 'Riding the current'],
+    [92, 'Sighting the shore'],
+  ];
   let lp = 0;
   const lt = setInterval(() => {
     lp = Math.min(100, lp + 6 + Math.random() * 12);
     loaderBar.style.width = lp + '%';
+    if (loaderShip) loaderShip.style.left = lp + '%';
+    if (loaderPercent) {
+      const stage = loaderStages.filter(([at]) => lp >= at).pop();
+      loaderPercent.textContent = `${stage[1]} — ${Math.round(lp)}%`;
+    }
     if (lp >= 100) { clearInterval(lt); setTimeout(hideLoader, 450); }
   }, 130);
   function hideLoader() {
@@ -28,27 +93,122 @@
     document.body.dispatchEvent(new Event('odyssey:ready'));
   }
 
-  /* ---------- hero title letters ---------- */
-  const heroTitle = document.getElementById('heroTitle');
-  heroTitle.innerHTML = heroTitle.textContent.split('').map((c, i) =>
-    `<span style="animation-delay:${(2.1 + i * 0.12).toFixed(2)}s">${c}</span>`).join('');
+  /* ---------- storm countdown — the voyage departs ---------- */
+  (function () {
+    const el = document.getElementById('stormCountdown');
+    if (!el) return;
+    const days = document.getElementById('cdDays'), hours = document.getElementById('cdHours'),
+      mins = document.getElementById('cdMins'), secs = document.getElementById('cdSecs');
+    const label = el.querySelector('.storm-countdown-label');
+    const target = new Date('2026-09-28T00:00:00+05:30').getTime();
+    const pad = n => String(n).padStart(2, '0');
+    let cdTimer = null;
+    function tick() {
+      const diff = target - Date.now();
+      if (diff <= 0) {
+        label.textContent = '✦ The Voyage Has Begun ✦';
+        days.textContent = hours.textContent = mins.textContent = secs.textContent = '00';
+        if (cdTimer) clearInterval(cdTimer);
+        return;
+      }
+      const d = Math.floor(diff / 86400000);
+      const h = Math.floor(diff % 86400000 / 3600000);
+      const m = Math.floor(diff % 3600000 / 60000);
+      const s = Math.floor(diff % 60000 / 1000);
+      days.textContent = pad(d); hours.textContent = pad(h); mins.textContent = pad(m); secs.textContent = pad(s);
+    }
+    tick();
+    cdTimer = setInterval(tick, 1000);
+
+    /* Homeric flavour: ancient sailors and poets told time by the sun's
+       climb, the turning of dusk and dawn, and the wheeling of the night
+       sky's constellations — not clocks. This mirrors that, tied to the
+       fest's own time zone (IST) so it reads the same for every visitor. */
+    const flavor = document.getElementById('stormFlavor');
+    if (flavor) {
+      const moments = [
+        [0, 3, 'The Great Bear wheels slowly round the pole, and deep night holds the world.'],
+        [3, 5, 'The last stars linger low, waiting for dawn’s return.'],
+        [5, 7, 'Rosy-fingered Dawn spreads herself across the sky.'],
+        [7, 11, 'The sun climbs toward its throne — morning holds the sky.'],
+        [11, 13, 'The sun stands at highest noon, and casts no shadow.'],
+        [13, 17, 'The sun begins its slow descent into afternoon.'],
+        [17, 19, 'The plowman unyokes his oxen; dusk gathers at the world’s edge.'],
+        [19, 21, 'Twilight fades, and the first stars kindle above.'],
+        [21, 24, 'Orion strides the night, and the Pleiades keep their watch.'],
+      ];
+      function istDecimalHour(date) {
+        const parts = new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }).formatToParts(date);
+        const h = parseInt(parts.find(p => p.type === 'hour').value, 10);
+        const m = parseInt(parts.find(p => p.type === 'minute').value, 10);
+        return h + m / 60;
+      }
+      function moonPhaseFraction(date) {
+        const synodic = 29.530588853;
+        const knownNewMoon = Date.UTC(2000, 0, 6, 18, 14, 0);
+        let phase = ((date.getTime() - knownNewMoon) / 86400000 % synodic) / synodic;
+        if (phase < 0) phase += 1;
+        return phase;
+      }
+      function moonPhaseName(phase) {
+        if (phase < .03 || phase > .97) return 'New Moon';
+        if (phase < .22) return 'Waxing Crescent';
+        if (phase < .28) return 'First Quarter';
+        if (phase < .47) return 'Waxing Gibbous';
+        if (phase < .53) return 'Full Moon';
+        if (phase < .72) return 'Waning Gibbous';
+        if (phase < .78) return 'Last Quarter';
+        return 'Waning Crescent';
+      }
+      /* Sun rises/sets across the sky arc the storm canvas draws; outside
+         that span the same arc carries the moon instead — both driven by
+         the fest's local (IST) clock so the sky matches whatever moment
+         a visitor happens to load the page. */
+      const SUNRISE = 6, SUNSET = 18.25;
+      function updateCelestial(now, hourDecimal) {
+        let type, frac;
+        if (hourDecimal >= SUNRISE && hourDecimal < SUNSET) {
+          type = 'sun';
+          frac = (hourDecimal - SUNRISE) / (SUNSET - SUNRISE);
+        } else {
+          type = 'moon';
+          const nightLen = 24 - (SUNSET - SUNRISE);
+          const nh = hourDecimal >= SUNSET ? hourDecimal - SUNSET : hourDecimal + (24 - SUNSET);
+          frac = nh / nightLen;
+        }
+        window.__stormSky = {
+          type,
+          x: clamp(frac, 0, 1),
+          peak: Math.sin(clamp(frac, 0, 1) * Math.PI),
+          moonIllum: moonPhaseFraction(now),
+        };
+      }
+      function updateFlavor() {
+        const now = new Date();
+        const hourDecimal = istDecimalHour(now);
+        const h = Math.floor(hourDecimal);
+        const line = (moments.find(([start, end]) => h >= start && h < end) || moments[moments.length - 1])[2];
+        flavor.innerHTML = `${line} <span class="moon">☾ ${moonPhaseName(moonPhaseFraction(now))}</span>`;
+        updateCelestial(now, hourDecimal);
+      }
+      updateFlavor();
+      setInterval(updateFlavor, 60000);
+    }
+  })();
 
   /* ---------- custom cursor + magnetic ---------- */
   if (!isCoarse) {
     const dot = document.getElementById('cursorDot');
-    const ring = document.getElementById('cursorRing');
-    let mx = innerWidth / 2, my = innerHeight / 2, rx = mx, ry = my;
-    addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
-    (function cur() {
-      rx = lerp(rx, mx, .16); ry = lerp(ry, my, .16);
-      dot.style.transform = `translate(${mx}px,${my}px) translate(-50%,-50%)`;
-      ring.style.transform = `translate(${rx}px,${ry}px) translate(-50%,-50%)`;
-      requestAnimationFrame(cur);
-    })();
-    document.querySelectorAll('[data-hover]').forEach(el => {
-      el.addEventListener('mouseenter', () => ring.classList.add('is-hover'));
-      el.addEventListener('mouseleave', () => ring.classList.remove('is-hover'));
-    });
+    /* The ring was already fully retired (display:none, see CSS) and had no
+       .is-hover style left to trigger — so this used to run a perpetual
+       rAF loop and a lerp every frame purely to animate an invisible
+       element. Writing the dot's transform straight from the mousemove
+       event removes that whole extra loop and its one-frame-later write:
+       one fewer perpetual callback competing for a busy frame's time,
+       which is what actually made the dot's paint arrive late. */
+    addEventListener('mousemove', e => {
+      dot.style.transform = `translate(${e.clientX}px,${e.clientY}px) translate(-50%,-50%)`;
+    }, { passive: true });
     /* magnetic buttons */
     document.querySelectorAll('[data-magnetic]').forEach(btn => {
       let bx = 0, by = 0, tx = 0, ty = 0, raf = null;
@@ -83,9 +243,6 @@
 
     if (isCoarse) return;
 
-
-    const SPOTLIGHT_R = 100;
-
     let mouseX = -1000;
     let mouseY = -1000;
 
@@ -93,23 +250,22 @@
     let smoothY = -1000;
 
     let rafId = null;
+    let activeCharacter = null; // null | 'odysseus' | 'athena' — avoids re-touching classList every frame
 
+    /* Cache the hero's box instead of forcing a synchronous layout read on
+       every mousemove and every animation frame — that reflow thrashing was
+       the main source of the "laggy while moving the mouse" feel. */
+    let heroRect = hero.getBoundingClientRect();
+    const updateHeroRect = () => { heroRect = hero.getBoundingClientRect(); };
+    addEventListener('resize', updateHeroRect, { passive: true });
 
     /* ----------------------------------------------------------
        Mouse position
        ---------------------------------------------------------- */
 
     const handleMouseMove = (e) => {
-
-      const rect =
-        hero.getBoundingClientRect();
-
-      mouseX =
-        e.clientX - rect.left;
-
-      mouseY =
-        e.clientY - rect.top;
-
+      mouseX = e.clientX - heroRect.left;
+      mouseY = e.clientY - heroRect.top;
     };
 
 
@@ -118,10 +274,13 @@
       mouseX = -1000;
       mouseY = -1000;
 
-      hero.classList.remove(
-        'is-hovering-odysseus',
-        'is-hovering-athena'
-      );
+      if (activeCharacter) {
+        hero.classList.remove(
+          'is-hovering-odysseus',
+          'is-hovering-athena'
+        );
+        activeCharacter = null;
+      }
 
     };
 
@@ -156,26 +315,10 @@
 
 
       /* ----------------------------------------------------------
-         UPDATE SPOTLIGHT POSITION
-         ---------------------------------------------------------- */
-
-      hero.style.setProperty(
-        '--hero-spot-x',
-        `${smoothX}px`
-      );
-
-      hero.style.setProperty(
-        '--hero-spot-y',
-        `${smoothY}px`
-      );
-
-
-      /* ----------------------------------------------------------
          DETERMINE ACTIVE CHARACTER
          ---------------------------------------------------------- */
 
-      const heroWidth =
-        hero.getBoundingClientRect().width;
+      const heroWidth = heroRect.width;
 
       const leftBoundary =
         heroWidth * 0.38;
@@ -183,44 +326,33 @@
       const rightBoundary =
         heroWidth * 0.62;
 
+      let next = null;
 
-      hero.classList.remove(
-        'is-hovering-odysseus',
-        'is-hovering-athena'
-      );
-
-
-      /* ----------------------------------------------------------
-         ODYSSEUS
-         Left 38% of hero
-         ---------------------------------------------------------- */
-
+      /* ODYSSEUS — left 38% of hero */
       if (
         smoothX >= 0 &&
         smoothX < leftBoundary
       ) {
-
-        hero.classList.add(
-          'is-hovering-odysseus'
-        );
-
+        next = 'odysseus';
       }
 
-
-      /* ----------------------------------------------------------
-         ATHENA
-         Right 38% of hero
-         ---------------------------------------------------------- */
-
+      /* ATHENA — right 38% of hero */
       else if (
         smoothX > rightBoundary &&
         smoothX <= heroWidth
       ) {
+        next = 'athena';
+      }
 
-        hero.classList.add(
+      /* Only touch the DOM when the hovered character actually changes —
+         mutating classList every frame forced a style recalc 60×/sec. */
+      if (next !== activeCharacter) {
+        hero.classList.remove(
+          'is-hovering-odysseus',
           'is-hovering-athena'
         );
-
+        if (next) hero.classList.add(`is-hovering-${next}`);
+        activeCharacter = next;
       }
 
 
@@ -254,6 +386,11 @@
         hero.removeEventListener(
           'mouseleave',
           handleMouseLeave
+        );
+
+        removeEventListener(
+          'resize',
+          updateHeroRect
         );
 
       },
@@ -328,7 +465,16 @@
   (function () {
     const wrap = document.getElementById('eventsExpanded'); if (!wrap) return; const cards = [...wrap.querySelectorAll('[data-event-card]')];
     function activate(card) { cards.forEach(item => { const active = item === card; item.classList.toggle('is-active', active); item.setAttribute('aria-expanded', active ? 'true' : 'false') }) }
-    cards.forEach(card => { card.setAttribute('aria-expanded', card.classList.contains('is-active') ? 'true' : 'false'); card.addEventListener('click', () => activate(card)); card.addEventListener('mouseenter', () => { if (!isCoarse) activate(card) }); card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activate(card) } }) });
+    /* First interaction expands the card (preview); once expanded, the same
+       interaction follows data-category-href into that category's events. */
+    function open(card) {
+      if (card.classList.contains('is-active') && card.dataset.categoryHref) {
+        window.top.location.href = card.dataset.categoryHref;
+      } else {
+        activate(card);
+      }
+    }
+    cards.forEach(card => { card.setAttribute('aria-expanded', card.classList.contains('is-active') ? 'true' : 'false'); card.addEventListener('click', () => open(card)); card.addEventListener('mouseenter', () => { if (!isCoarse) activate(card) }); card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(card) } }) });
   })();
 
   /* ---------- event carousel — content is deliberately centralized for the forthcoming programme ---------- */
@@ -367,6 +513,22 @@
   const itinFill = document.getElementById('itinFill');
   let scrollY = window.scrollY, smoothY = scrollY;
 
+  /* Document-relative offsets, measured only on load/resize — never inside
+     the per-frame loop. Reading getBoundingClientRect() every rAF tick right
+     after writing heroContent's transform/opacity forced a synchronous
+     layout (write → read → write → read, once a frame) that was a real
+     source of the site-wide jank, cursor included since it shares the main
+     thread. Caching these lets the loop do pure arithmetic instead. */
+  let stormDocTop = 0, stormHeight = 0, itinDocTop = 0, itinHeight = 0;
+  function measureScrollSections() {
+    const sr = stormSection.getBoundingClientRect();
+    stormDocTop = sr.top + window.scrollY; stormHeight = sr.height;
+    const ir = itinWrap.getBoundingClientRect();
+    itinDocTop = ir.top + window.scrollY; itinHeight = ir.height;
+  }
+  measureScrollSections();
+  addEventListener('resize', measureScrollSections, { passive: true });
+
   addEventListener('scroll', () => { scrollY = window.scrollY; }, { passive: true });
 
   function scrollLoop() {
@@ -382,15 +544,15 @@
     heroContent.style.opacity = String(1 - hp * 1.25);
 
     /* storm parallax — fed into the canvas scene for layered depth */
-    const sr = stormSection.getBoundingClientRect();
-    if (sr.bottom > 0 && sr.top < hh) {
-      const sp = clamp((hh - sr.top) / (hh + sr.height), 0, 1);
+    const stormTop = stormDocTop - scrollY;
+    if (stormTop + stormHeight > 0 && stormTop < hh) {
+      const sp = clamp((hh - stormTop) / (hh + stormHeight), 0, 1);
       window.__stormParallax = sp - .5;
     }
 
     /* itinerary path fill */
-    const ir = itinWrap.getBoundingClientRect();
-    const ip = clamp((hh * 0.72 - ir.top) / ir.height, 0, 1);
+    const itinTop = itinDocTop - scrollY;
+    const ip = clamp((hh * 0.72 - itinTop) / itinHeight, 0, 1);
     itinFill.style.height = (ip * 100).toFixed(2) + '%';
 
     requestAnimationFrame(scrollLoop);
@@ -445,7 +607,7 @@
     }
 
     function draw() {
-      if (!visible) { requestAnimationFrame(draw); return; }
+      if (!visible) return;
       t += 0.016 * o.speed;
       const hor = H * o.horizon;
       const moonX = W * 0.5, moonY = H * 0.30;
@@ -511,15 +673,22 @@
         const amp = (2 + Math.pow(p, 1.8) * 26) * DPR * o.roughness;
         const freq = 0.012 / DPR * (1 - p * 0.72);
         const spd = t * (.5 + p * 1.05);
-        ctx.beginPath();
-        ctx.moveTo(0, H);
-        for (let x = 0; x <= W; x += 6 * DPR) {
-          const y = yBase
+        /* Wave height only needs computing once per x per layer — it used
+           to run the same three sin() calls twice (once for the fill path,
+           once for the crest stroke), doubling this loop's cost for no
+           visual gain since both paths trace the identical curve. */
+        const step = 11 * DPR;
+        const xs = [], ys = [];
+        for (let x = 0; x <= W; x += step) {
+          xs.push(x);
+          ys.push(yBase
             + Math.sin(x * freq + spd) * amp * .62
             + Math.sin(x * freq * 2.13 - spd * 1.4) * amp * .27
-            + Math.sin(x * freq * .47 + spd * .6) * amp * .34;
-          ctx.lineTo(x, y);
+            + Math.sin(x * freq * .47 + spd * .6) * amp * .34);
         }
+        ctx.beginPath();
+        ctx.moveTo(0, H);
+        for (let i = 0; i < xs.length; i++) ctx.lineTo(xs[i], ys[i]);
         ctx.lineTo(W, H);
         ctx.closePath();
         const a = .10 + p * .16;
@@ -530,13 +699,7 @@
         ctx.fill();
         /* crest light */
         ctx.beginPath();
-        for (let x = 0; x <= W; x += 6 * DPR) {
-          const y = yBase
-            + Math.sin(x * freq + spd) * amp * .62
-            + Math.sin(x * freq * 2.13 - spd * 1.4) * amp * .27
-            + Math.sin(x * freq * .47 + spd * .6) * amp * .34;
-          x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
-        }
+        for (let i = 0; i < xs.length; i++) i === 0 ? ctx.moveTo(xs[i], ys[i]) : ctx.lineTo(xs[i], ys[i]);
         ctx.strokeStyle = `rgba(${170 + p * 60 | 0},${175 + p * 45 | 0},${165 + p * 20 | 0},${.045 + p * .075})`;
         ctx.lineWidth = (0.7 + p * 1.3) * DPR;
         ctx.stroke();
@@ -568,24 +731,63 @@
       fog.addColorStop(1, 'rgba(30,52,80,0)');
       ctx.fillStyle = fog;
       ctx.fillRect(0, hor, W, (H - hor) * .4);
-
-      requestAnimationFrame(draw);
     }
-    requestAnimationFrame(draw);
+    throttledLoop(draw, 30);
   }
 
-  makeOcean(document.getElementById('oceanCanvas'), { horizon: .55, layers: 10, moon: false, ship: false, roughness: 1.38, speed: prefersReduced ? 0.001 : 1.16 });
+  makeOcean(document.getElementById('oceanCanvas'), { horizon: .55, layers: 6, moon: false, ship: false, roughness: 1.38, speed: prefersReduced ? 0.001 : 1.16 });
   makeOcean(document.getElementById('regCanvas'), { horizon: .30, layers: 6, moon: false, dim: .6, speed: prefersReduced ? 0.001 : .7 });
 
   /* ============================================================
-     STORM CROSSING — procedural storm sky, rain, heavy seas,
-     and a trireme that sails the waves edge to edge, forever
+     STORM CROSSING — procedural storm sky, heavy seas, and a
+     trireme that sails the waves edge to edge, forever
      ============================================================ */
   (function () {
     const canvas = document.getElementById('stormCanvas');
     const ctx = canvas.getContext('2d');
     let W = 0, H = 0, t = 0, visible = false;
-    let clouds = [], rain = [];
+
+    /* ---- countdown panel bounds, for the eclipse effect below ---- */
+    const countdownEl = document.getElementById('stormCountdown');
+    let countdownRect = null, wasEclipsed = false;
+    function updateCountdownRect() {
+      if (!countdownEl) return;
+      countdownRect = {
+        left: countdownEl.offsetLeft * DPR,
+        top: countdownEl.offsetTop * DPR,
+        width: countdownEl.offsetWidth * DPR,
+        height: countdownEl.offsetHeight * DPR,
+      };
+    }
+    /* Deliberately stricter than a simple circle/rect overlap: this asks
+       whether the disc's CENTER sits inside the panel (plus a small pad),
+       i.e. the sun/moon is genuinely behind it — not just close enough for
+       its wide glow halo to be nearby, which read as a false "eclipse". */
+    function pointInRect(px, py, rect, pad) {
+      if (!rect) return false;
+      return px >= rect.left - pad && px <= rect.left + rect.width + pad &&
+        py >= rect.top - pad && py <= rect.top + rect.height + pad;
+    }
+
+    /* ---- day/night sky tint, cached against the sky object reference so
+       the color-lerp math only runs when updateCelestial() actually
+       changes it (once a minute), not on every one of the 30fps frames ---- */
+    const SKY_NIGHT = [[5, 8, 15], [11, 19, 34], [26, 42, 64], [36, 55, 80]];
+    const SKY_DAY = [[152, 195, 224], [178, 212, 232], [206, 227, 238], [230, 240, 245]];
+    let cachedSkyRef = null, cachedSkyColors = null;
+    function skyGradientColors(sky) {
+      if (sky === cachedSkyRef) return cachedSkyColors;
+      const dayness = sky && sky.type === 'sun' ? clamp(sky.peak * 1.3, 0, 1) : 0;
+      cachedSkyColors = SKY_NIGHT.map((night, i) => {
+        const day = SKY_DAY[i];
+        const r = Math.round(lerp(night[0], day[0], dayness));
+        const g = Math.round(lerp(night[1], day[1], dayness));
+        const b = Math.round(lerp(night[2], day[2], dayness));
+        return `rgb(${r},${g},${b})`;
+      });
+      cachedSkyRef = sky;
+      return cachedSkyColors;
+    }
     /* random threat windows; values are shared by waves, ship pitch and the Cyclops reveal */
     let cyclopsIntensity = 0, cyclopsStart = 0, cyclopsUntil = 0, nextCyclops = 3 + Math.random() * 3.5, cyclopsX = .20;
     function setCyclopsAtmosphere(value) {
@@ -628,56 +830,15 @@
         + Math.sin(x * g.freq * .43 + s * .62) * g.amp * .36;
     }
 
-    /* ---- clouds: pre-rendered soft blobs, drifting ---- */
-    function makeCloud() {
-      const cw = (260 + Math.random() * 420) * DPR, ch = cw * (.3 + Math.random() * .18);
-      const c = document.createElement('canvas');
-      c.width = cw; c.height = ch;
-      const cc = c.getContext('2d');
-      const blobs = 7 + Math.random() * 7 | 0;
-      for (let i = 0; i < blobs; i++) {
-        const bx = cw * (.12 + .76 * Math.random());
-        const by = ch * (.3 + .45 * Math.random());
-        const br = ch * (.22 + .3 * Math.random());
-        const g = cc.createRadialGradient(bx, by, 0, bx, by, br);
-        const shade = 22 + Math.random() * 20 | 0;
-        g.addColorStop(0, `rgba(${shade + 8},${shade + 12},${shade + 20},.5)`);
-        g.addColorStop(1, 'rgba(10,14,22,0)');
-        cc.fillStyle = g;
-        cc.beginPath(); cc.arc(bx, by, br, 0, 7); cc.fill();
-      }
-      return c;
-    }
-    function buildScene() {
-      clouds = [];
-      const n = Math.max(7, Math.floor(W / (340 * DPR)) + 5);
-      for (let i = 0; i < n; i++) {
-        clouds.push({
-          img: makeCloud(),
-          x: Math.random() * 1.3 - .15,
-          y: Math.random() * 0.26 - 0.04,
-          v: (.004 + Math.random() * .011),       /* drift, fraction of W per sec */
-          sc: .7 + Math.random() * .9,
-          depth: .4 + Math.random() * .6
-        });
-      }
-      rain = [];
-      const rn = Math.floor(W / (7 * DPR));
-      for (let i = 0; i < rn; i++) {
-        rain.push({
-          x: Math.random(), y: Math.random(),
-          l: (9 + Math.random() * 16) * DPR,
-          v: .9 + Math.random() * .9,
-          a: .05 + Math.random() * .12
-        });
-      }
-    }
-
+    /* Clouds used to drift here as pre-rendered soft blobs meant for a dark
+       sky, and rain fell across the whole scene — against the newer bright
+       daytime sky both read as blocky/pixelated and sat right where the
+       sun/moon needed to be visible, so both were removed outright. */
     function resize() {
       const r = stormSection.getBoundingClientRect();
       W = Math.floor(r.width * DPR); H = Math.floor(r.height * DPR);
       canvas.width = W; canvas.height = H;
-      buildScene();
+      updateCountdownRect();
     }
     resize(); addEventListener('resize', resize);
 
@@ -782,21 +943,91 @@
       ctx.fillStyle = target; ctx.beginPath(); ctx.arc(sx, sy, 31 * DPR, 0, 7); ctx.fill(); ctx.restore();
     }
 
+    /* The sun (by day) or moon (by night) arcs across this same sky, its
+       position driven by window.__stormSky — set every minute from the
+       real IST clock, not recomputed here so render() stays cheap. */
+    function drawCelestial(hor) {
+      const sky = window.__stormSky;
+      if (!sky) return;
+      /* Kept well above the countdown panel's own vertical band so the disc
+         arcs clearly over it, but not so high that its peak hides behind the
+         fixed nav bar at the very top of the screen. */
+      const topMargin = H * 0.14;
+      const cx = W * (0.08 + sky.x * 0.84);
+      const cy = hor - sky.peak * (hor - topMargin);
+      const r = H * 0.042;
+      if (sky.type === 'sun') {
+        const halo = ctx.createRadialGradient(cx, cy, 0, cx, cy, r * 5.5);
+        halo.addColorStop(0, 'rgba(255,214,140,.32)');
+        halo.addColorStop(.4, 'rgba(235,208,143,.12)');
+        halo.addColorStop(1, 'rgba(235,208,143,0)');
+        ctx.fillStyle = halo; ctx.beginPath(); ctx.arc(cx, cy, r * 5.5, 0, 7); ctx.fill();
+        const disc = ctx.createRadialGradient(cx - r * .25, cy - r * .25, 0, cx, cy, r);
+        disc.addColorStop(0, '#fff8e4'); disc.addColorStop(.6, '#ffda8c'); disc.addColorStop(1, '#e3ab54');
+        ctx.fillStyle = disc; ctx.beginPath(); ctx.arc(cx, cy, r, 0, 7); ctx.fill();
+      } else {
+        const halo = ctx.createRadialGradient(cx, cy, 0, cx, cy, r * 4.2);
+        halo.addColorStop(0, 'rgba(226,232,255,.22)');
+        halo.addColorStop(.5, 'rgba(201,162,75,.08)');
+        halo.addColorStop(1, 'rgba(201,162,75,0)');
+        ctx.fillStyle = halo; ctx.beginPath(); ctx.arc(cx, cy, r * 4.2, 0, 7); ctx.fill();
+
+        ctx.save();
+        ctx.beginPath(); ctx.arc(cx, cy, r * .82, 0, 7); ctx.clip();
+        const disc = ctx.createRadialGradient(cx - r * .2, cy - r * .2, 0, cx, cy, r * .82);
+        disc.addColorStop(0, '#fbf6e6'); disc.addColorStop(1, '#d3c9a0');
+        ctx.fillStyle = disc; ctx.fillRect(cx - r, cy - r, r * 2, r * 2);
+        /* phase shading — a dark disc slid across the clipped moon face;
+           fully lit at full moon, fully hidden at new moon. */
+        const litAmount = (1 - Math.cos(sky.moonIllum * Math.PI * 2)) / 2;
+        const waxing = sky.moonIllum < .5;
+        const shadowOffset = r * 1.8 * litAmount * (waxing ? 1 : -1);
+        ctx.fillStyle = '#0d1524';
+        ctx.beginPath(); ctx.arc(cx + shadowOffset, cy, r * .82, 0, 7); ctx.fill();
+        ctx.restore();
+      }
+
+      /* Eclipse: when the disc passes behind the timer panel, flare a
+         bright corona around it — the panel's own opaque background does
+         the rest, hiding the disc's center and leaving just the rim glow
+         peeking out at the panel's edges. */
+      const eclipsed = pointInRect(cx, cy, countdownRect, r * .4);
+      if (eclipsed) {
+        ctx.save();
+        ctx.globalCompositeOperation = 'screen';
+        const corona = ctx.createRadialGradient(cx, cy, r * .85, cx, cy, r * 2.8);
+        corona.addColorStop(0, 'rgba(255,247,220,.9)');
+        corona.addColorStop(.4, 'rgba(255,225,160,.4)');
+        corona.addColorStop(1, 'rgba(255,225,160,0)');
+        ctx.fillStyle = corona;
+        ctx.beginPath(); ctx.arc(cx, cy, r * 2.8, 0, 7); ctx.fill();
+        ctx.strokeStyle = 'rgba(255,250,232,.95)';
+        ctx.lineWidth = Math.max(1, r * .1);
+        ctx.beginPath(); ctx.arc(cx, cy, r * 1.06, 0, 7); ctx.stroke();
+        ctx.restore();
+      }
+      if (eclipsed !== wasEclipsed) {
+        wasEclipsed = eclipsed;
+        if (countdownEl) countdownEl.classList.toggle('is-eclipsed', eclipsed);
+      }
+    }
+
     /* ---- main render ---- */
     function render() {
-      if (!visible) { requestAnimationFrame(render); return; }
+      if (!visible) return;
       t += 0.016;
       updateCyclopsThreat();
       const hor = H * 0.46;
-      const par = (window.__stormParallax || 0);
 
-      /* sky */
-      const sky = ctx.createLinearGradient(0, 0, 0, hor * 1.25);
-      sky.addColorStop(0, '#05080F');
-      sky.addColorStop(.45, '#0B1322');
-      sky.addColorStop(.85, '#1A2A40');
-      sky.addColorStop(1, '#243750');
-      ctx.fillStyle = sky;
+      /* sky — lighter by day (sun overhead), the usual dark palette by night */
+      const stormSky = window.__stormSky;
+      const skyColors = skyGradientColors(stormSky);
+      const skyGrad = ctx.createLinearGradient(0, 0, 0, hor * 1.25);
+      skyGrad.addColorStop(0, skyColors[0]);
+      skyGrad.addColorStop(.45, skyColors[1]);
+      skyGrad.addColorStop(.85, skyColors[2]);
+      skyGrad.addColorStop(1, skyColors[3]);
+      ctx.fillStyle = skyGrad;
       ctx.fillRect(0, 0, W, hor + 2);
 
       /* buried storm-light behind the clouds */
@@ -807,16 +1038,8 @@
       ctx.fillStyle = glow;
       ctx.fillRect(0, 0, W, hor + 2);
 
-      /* clouds (drift + scroll parallax) */
-      for (const cl of clouds) {
-        cl.x += cl.v * 0.016 * (prefersReduced ? 0 : 1);
-        if (cl.x > 1.25) cl.x = -0.35;
-        const cw = cl.img.width * cl.sc, ch = cl.img.height * cl.sc;
-        const cy = cl.y * H + par * -50 * DPR * cl.depth;
-        ctx.globalAlpha = .9;
-        ctx.drawImage(cl.img, cl.x * W - cw / 2, cy, cw, ch);
-      }
-      ctx.globalAlpha = 1;
+      drawCelestial(hor);
+
       drawCyclops(t, cyclopsIntensity);
 
       /* sea base */
@@ -834,17 +1057,20 @@
 
       /* wave layers, far → near; ship sails between mid layers */
       const LAYERS = 9;
+      const WAVE_STEP = 8 * DPR;
       let shipDrawn = false;
       for (let L = 0; L < LAYERS; L++) {
         const p = L / (LAYERS - 1);
         if (!shipDrawn && p >= SHIP_LAYER_P) { drawShip(t); shipDrawn = true; }
         const g = layerGeom(p);
-        const s = t * g.spd;
+        /* waveY() only needs computing once per x per layer — the fill path
+           and the crest stroke used to each call it separately, doubling
+           the sin() cost of this loop for two paths tracing the same curve. */
+        const xs = [], ys = [];
+        for (let x = 0; x <= W; x += WAVE_STEP) { xs.push(x); ys.push(waveY(x, p, t)); }
         ctx.beginPath();
         ctx.moveTo(0, H);
-        for (let x = 0; x <= W; x += 6 * DPR) {
-          ctx.lineTo(x, waveY(x, p, t));
-        }
+        for (let i = 0; i < xs.length; i++) ctx.lineTo(xs[i], ys[i]);
         ctx.lineTo(W, H);
         ctx.closePath();
         const a = .12 + p * .17;
@@ -855,40 +1081,24 @@
         ctx.fill();
         /* foam crest */
         ctx.beginPath();
-        for (let x = 0; x <= W; x += 6 * DPR) {
-          const y = waveY(x, p, t);
-          x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
-        }
+        for (let i = 0; i < xs.length; i++) i === 0 ? ctx.moveTo(xs[i], ys[i]) : ctx.lineTo(xs[i], ys[i]);
         ctx.strokeStyle = `rgba(${188 + p * 50 | 0},${196 + p * 42 | 0},${200 + p * 30 | 0},${.05 + p * .10})`;
         ctx.lineWidth = (0.8 + p * 1.6) * DPR;
         ctx.stroke();
-        /* whitecap flecks on stormy crests */
+        /* whitecap flecks on stormy crests — batched into one path/fill per
+           layer instead of a separate fillRect() draw call per fleck. */
         if (p > .3) {
           ctx.fillStyle = `rgba(225,232,238,${(.04 + p * .08).toFixed(3)})`;
+          const fw = (14 + p * 26) * DPR, fh = 1.3 * DPR;
+          ctx.beginPath();
           for (let x = ((t * 60) % 180) * DPR; x < W; x += 180 * DPR) {
             const y = waveY(x, p, t);
             const ph = Math.sin(x * g.freq + t * g.spd);
-            if (ph > .55) ctx.fillRect(x, y - 1 * DPR, (14 + p * 26) * DPR, 1.3 * DPR);
+            if (ph > .55) ctx.rect(x, y - 1 * DPR, fw, fh);
           }
+          ctx.fill();
         }
       }
-
-      /* slanted rain */
-      ctx.strokeStyle = 'rgba(190,205,225,1)';
-      ctx.lineWidth = 1 * DPR;
-      const slant = .32 + Math.sin(t * .4) * .1;       /* gusting angle */
-      for (const d of rain) {
-        d.y += d.v * 0.026 * (prefersReduced ? 0 : 1);
-        d.x -= d.v * 0.026 * slant * .55;
-        if (d.y > 1.04) { d.y = -0.05; d.x = Math.random() * 1.25; }
-        ctx.globalAlpha = d.a * (1 + cyclopsIntensity * .85);
-        const rx = d.x * W, ry = d.y * H;
-        ctx.beginPath();
-        ctx.moveTo(rx, ry);
-        ctx.lineTo(rx - d.l * slant, ry + d.l);
-        ctx.stroke();
-      }
-      ctx.globalAlpha = 1;
 
       /* sea mist above the waterline */
       const mist = ctx.createLinearGradient(0, hor, 0, hor + (H - hor) * .36);
@@ -906,10 +1116,8 @@
         /* redraw without advancing: vessel and lantern survive as the only human light */
         drawShip(t, false);
       }
-
-      requestAnimationFrame(render);
     }
-    requestAnimationFrame(render);
+    throttledLoop(render, 30);
   })();
 
   /* ============================================================
@@ -980,7 +1188,8 @@
       ctx.stroke();
     }
 
-    (function render() {
+    throttledLoop(function render() {
+      if (!visible) return;
       ctx.clearRect(0, 0, W, H);
       bolts = bolts.filter(b => b.life > 0);
       for (const b of bolts) {
@@ -995,28 +1204,25 @@
         b.life -= .045;
       }
       ctx.globalAlpha = 1; ctx.shadowBlur = 0;
-      requestAnimationFrame(render);
-    })();
+    }, 30);
   })();
 
   /* ---------- interactive celestial field — proximity constellations inspired by the supplied dots interaction ---------- */
   (function () {
     const c = document.getElementById('siteStars'); if (!c) return; const ctx = c.getContext('2d'); let W = 0, H = 0, visible = true, scroll = 0;
-    const mouse = { x: -9999, y: -9999, tx: -9999, ty: -9999 }; const stars = Array.from({ length: 96 }, (_, i) => ({ x: Math.random(), y: Math.random(), r: .5 + Math.random() * 1.42, phase: Math.random() * Math.PI * 2, twinkle: i % 8 === 0 }));
+    const mouse = { x: -9999, y: -9999, tx: -9999, ty: -9999 }; const stars = Array.from({ length: 64 }, (_, i) => ({ x: Math.random(), y: Math.random(), r: .5 + Math.random() * 1.42, phase: Math.random() * Math.PI * 2, twinkle: i % 8 === 0 }));
     function resize() { W = c.width = Math.floor(innerWidth * DPR); H = c.height = Math.floor(innerHeight * DPR) } resize(); addEventListener('resize', resize);
     addEventListener('mousemove', e => { mouse.tx = e.clientX * DPR; mouse.ty = e.clientY * DPR }, { passive: true }); addEventListener('mouseleave', () => { mouse.tx = -9999; mouse.ty = -9999 }); addEventListener('scroll', () => scroll = window.scrollY, { passive: true }); document.addEventListener('visibilitychange', () => visible = !document.hidden); let t = 0;
-    (function render() {
-      if (visible) {
-        t += prefersReduced ? 0 : .016; mouse.x = lerp(mouse.x, mouse.tx, .09); mouse.y = lerp(mouse.y, mouse.ty, .09); ctx.clearRect(0, 0, W, H); const field = []; const radius = Math.min(205 * DPR, W * .2);
-        for (const star of stars) {
-          const pulse = star.twinkle ? (.48 + .52 * Math.max(0, Math.sin(t * 1.9 + star.phase))) : .68; const x = star.x * W + Math.sin(scroll * .0015 + star.phase) * 7 * DPR, y = ((star.y * H - scroll * .018 * DPR + H) % H); const distance = Math.hypot(mouse.x - x, mouse.y - y), near = Math.max(0, 1 - distance / radius), size = star.r * (1 + near * 1.55) * DPR, alpha = .13 + pulse * .26 + near * .46; field.push({ x, y, near }); ctx.fillStyle = `rgba(235,225,196,${Math.min(alpha, .96).toFixed(3)})`; ctx.beginPath(); ctx.arc(x, y, size, 0, 7); ctx.fill();
-          if ((star.twinkle && pulse > .88) || near > .78) { ctx.strokeStyle = `rgba(255,243,205,${Math.min(.22 + pulse * .32 + near * .32, .9).toFixed(3)})`; ctx.lineWidth = .45 * DPR; const ray = (3 + near * 5) * DPR; ctx.beginPath(); ctx.moveTo(x - ray, y); ctx.lineTo(x + ray, y); ctx.moveTo(x, y - ray); ctx.lineTo(x, y + ray); ctx.stroke() }
-        }
-        /* Only nearby stars connect: it reads as a responsive constellation, not a permanent grid. */
-        for (let i = 0; i < field.length; i++) { const a = field[i]; if (a.near < .14) continue; for (let j = i + 1; j < field.length; j++) { const b = field[j]; if (b.near < .14) continue; const d = Math.hypot(a.x - b.x, a.y - b.y); if (d < 92 * DPR) { ctx.strokeStyle = `rgba(201,162,75,${(.18 * Math.min(a.near, b.near) * (1 - d / (92 * DPR))).toFixed(3)})`; ctx.lineWidth = .5 * DPR; ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke() } } }
+    throttledLoop(function render() {
+      if (!visible) return;
+      t += prefersReduced ? 0 : .016; mouse.x = lerp(mouse.x, mouse.tx, .09); mouse.y = lerp(mouse.y, mouse.ty, .09); ctx.clearRect(0, 0, W, H); const field = []; const radius = Math.min(205 * DPR, W * .2);
+      for (const star of stars) {
+        const pulse = star.twinkle ? (.48 + .52 * Math.max(0, Math.sin(t * 1.9 + star.phase))) : .68; const x = star.x * W + Math.sin(scroll * .0015 + star.phase) * 7 * DPR, y = ((star.y * H - scroll * .018 * DPR + H) % H); const distance = Math.hypot(mouse.x - x, mouse.y - y), near = Math.max(0, 1 - distance / radius), size = star.r * (1 + near * 1.55) * DPR, alpha = .13 + pulse * .26 + near * .46; field.push({ x, y, near }); ctx.fillStyle = `rgba(235,225,196,${Math.min(alpha, .96).toFixed(3)})`; ctx.beginPath(); ctx.arc(x, y, size, 0, 7); ctx.fill();
+        if ((star.twinkle && pulse > .88) || near > .78) { ctx.strokeStyle = `rgba(255,243,205,${Math.min(.22 + pulse * .32 + near * .32, .9).toFixed(3)})`; ctx.lineWidth = .45 * DPR; const ray = (3 + near * 5) * DPR; ctx.beginPath(); ctx.moveTo(x - ray, y); ctx.lineTo(x + ray, y); ctx.moveTo(x, y - ray); ctx.lineTo(x, y + ray); ctx.stroke() }
       }
-      requestAnimationFrame(render)
-    })();
+      /* Only nearby stars connect: it reads as a responsive constellation, not a permanent grid. */
+      for (let i = 0; i < field.length; i++) { const a = field[i]; if (a.near < .14) continue; for (let j = i + 1; j < field.length; j++) { const b = field[j]; if (b.near < .14) continue; const d = Math.hypot(a.x - b.x, a.y - b.y); if (d < 92 * DPR) { ctx.strokeStyle = `rgba(201,162,75,${(.18 * Math.min(a.near, b.near) * (1 - d / (92 * DPR))).toFixed(3)})`; ctx.lineWidth = .5 * DPR; ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke() } } }
+    }, 30);
   })();
 
   /* ---------- hero data constellations: a sparse analytical navigation field ---------- */
@@ -1024,7 +1230,7 @@
     const c = document.getElementById('heroDataCanvas'); if (!c) return; const ctx = c.getContext('2d'); let W = 0, H = 0, visible = true;
     const nodes = Array.from({ length: 18 }, () => ({ x: .12 + Math.random() * .76, y: .10 + Math.random() * .43, ph: Math.random() * 6.28 }));
     function resize() { W = c.width = Math.floor(innerWidth * DPR); H = c.height = Math.floor(innerHeight * DPR) } resize(); addEventListener('resize', resize); new IntersectionObserver(e => visible = e[0].isIntersecting, { threshold: 0 }).observe(c); let t = 0;
-    (function frame() { if (visible) { t += prefersReduced ? 0 : .016; ctx.clearRect(0, 0, W, H); ctx.strokeStyle = 'rgba(201,162,75,.075)'; ctx.lineWidth = DPR; ctx.beginPath(); ctx.ellipse(W * .5, H * .40, W * .34, H * .14, 0, Math.PI * .12, Math.PI * .88); ctx.stroke(); for (let i = 0; i < nodes.length; i++) { const a = nodes[i], ax = (a.x + Math.sin(t * .35 + a.ph) * .008) * W, ay = (a.y + Math.cos(t * .29 + a.ph) * .006) * H; for (let j = i + 1; j < nodes.length; j++) { const b = nodes[j], bx = (b.x + Math.sin(t * .35 + b.ph) * .008) * W, by = (b.y + Math.cos(t * .29 + b.ph) * .006) * H, d = Math.hypot(ax - bx, ay - by); if (d < W * .16) { ctx.strokeStyle = `rgba(201,162,75,${(.1 * (1 - d / (W * .16))).toFixed(3)})`; ctx.lineWidth = .55 * DPR; ctx.beginPath(); ctx.moveTo(ax, ay); ctx.lineTo(bx, by); ctx.stroke() } } const g = ctx.createRadialGradient(ax, ay, 0, ax, ay, 7 * DPR); g.addColorStop(0, 'rgba(235,208,143,.76)'); g.addColorStop(1, 'rgba(201,162,75,0)'); ctx.fillStyle = g; ctx.beginPath(); ctx.arc(ax, ay, 7 * DPR, 0, 7); ctx.fill() } } requestAnimationFrame(frame) })();
+    throttledLoop(function frame() { if (!visible) return; t += prefersReduced ? 0 : .016; ctx.clearRect(0, 0, W, H); ctx.strokeStyle = 'rgba(201,162,75,.075)'; ctx.lineWidth = DPR; ctx.beginPath(); ctx.ellipse(W * .5, H * .40, W * .34, H * .14, 0, Math.PI * .12, Math.PI * .88); ctx.stroke(); for (let i = 0; i < nodes.length; i++) { const a = nodes[i], ax = (a.x + Math.sin(t * .35 + a.ph) * .008) * W, ay = (a.y + Math.cos(t * .29 + a.ph) * .006) * H; for (let j = i + 1; j < nodes.length; j++) { const b = nodes[j], bx = (b.x + Math.sin(t * .35 + b.ph) * .008) * W, by = (b.y + Math.cos(t * .29 + b.ph) * .006) * H, d = Math.hypot(ax - bx, ay - by); if (d < W * .16) { ctx.strokeStyle = `rgba(201,162,75,${(.1 * (1 - d / (W * .16))).toFixed(3)})`; ctx.lineWidth = .55 * DPR; ctx.beginPath(); ctx.moveTo(ax, ay); ctx.lineTo(bx, by); ctx.stroke() } } const g = ctx.createRadialGradient(ax, ay, 0, ax, ay, 7 * DPR); g.addColorStop(0, 'rgba(235,208,143,.76)'); g.addColorStop(1, 'rgba(201,162,75,0)'); ctx.fillStyle = g; ctx.beginPath(); ctx.arc(ax, ay, 7 * DPR, 0, 7); ctx.fill() } }, 30);
   })();
 
   /* ---------- ambient floating particles (foreground dust) ---------- */
@@ -1048,7 +1254,7 @@
       a: .06 + Math.random() * .2, ph: Math.random() * 7
     });
     let t = 0;
-    (function loop() {
+    throttledLoop(function loop() {
       t += 0.016;
       ctx.clearRect(0, 0, W, H);
       for (const p of ps) {
@@ -1062,8 +1268,7 @@
         ctx.arc(p.x * W, p.y * H, p.r, 0, 7);
         ctx.fill();
       }
-      requestAnimationFrame(loop);
-    })();
+    }, 30);
   })();
 
 })();
@@ -1097,15 +1302,16 @@ const coordinatorGroups = [
         phone: '+91 97900 90512'
       },
       {
-        name: 'Dr. UmmeSalma M',
-        role: 'Fest Coordinator',
-        phone: '+91 94963 46742'
-      },
-      {
         name: 'Dr. Monisha Singh',
         role: 'Fest Coordinator',
         phone: '+91 97390 62897'
+      },
+      {
+        name: 'Dr. UmmeSalma M',
+        role: 'Fest Coordinator',
+        phone: '+91 94963 46742'
       }
+
     ]
   },
 

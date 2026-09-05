@@ -26,11 +26,24 @@
 
   <!-- loader -->
   <div class="loader" id="loader" aria-hidden="true">
+    <div class="loader-stars" id="loaderStars" aria-hidden="true"></div>
+    <div class="loader-compass">✦</div>
     <div class="loader-word loader-expectations" id="loaderWord">EXPECTATIONS 2K26</div>
     <div class="loader-sub">Department of Statistics and Data Science</div>
-    <div class="loader-track">
-      <div class="loader-bar" id="loaderBar"></div>
+    <div class="loader-track-wrap">
+      <div class="loader-track">
+        <div class="loader-bar" id="loaderBar"></div>
+      </div>
+      <div class="loader-ship" id="loaderShip">
+        <svg viewBox="0 0 40 34" width="26" height="22" aria-hidden="true" focusable="false">
+          <path d="M20 3 L20 21" stroke="#f2d896" stroke-width="1.4" stroke-linecap="round" />
+          <path d="M20 5 L31 20 L20 20 Z" fill="#f2d896" />
+          <path d="M4 23 Q20 33 36 23 L32 25.5 Q20 29.5 8 25.5 Z" fill="#161b22" stroke="#c9a24b" stroke-width="1"
+            stroke-linejoin="round" />
+        </svg>
+      </div>
     </div>
+    <div class="loader-percent" id="loaderPercent">Casting off — 0%</div>
   </div>
 
   <!-- navigation -->
@@ -43,6 +56,8 @@
       <li><a href="#itinerary" data-hover>Itinerary</a></li>
       <li><a href="#accommodation" data-hover>Accommodation</a></li>
       <li><a href="#patrons" data-hover>Patrons</a></li>
+      <li><a href="#contact" data-hover>Contact</a></li>
+      <li><a href="/register" target="_top" data-hover>Registrations</a></li>
     </ul>
     <div class="nav-christ-logo" aria-label="CHRIST (Deemed to be University)">
       <a href="https://christuniversity.in" target="_blank" rel="noopener noreferrer"><img src="/assets/christ-logo.png"
@@ -54,9 +69,10 @@
     <a href="#storm" data-hover>The Voyage</a>
     <a href="#events" data-hover>Events</a>
     <a href="#itinerary" data-hover>Itinerary</a>
-    <a href="#accomodation" data-hover>Accommodation</a>
+    <a href="#accommodation" data-hover>Accommodation</a>
     <a href="#patrons" data-hover>Patrons</a>
-    <a href="#register" data-hover style="color:var(--gold)">Register</a>
+    <a href="#contact" data-hover>Contact</a>
+    <a href="/register" target="_top" data-hover style="color:var(--gold)">Registrations</a>
   </div>
 
   <!-- ============ HERO ============ -->
@@ -104,11 +120,6 @@
       </div>
 
 
-      <h1 class="hero-title" id="heroTitle" aria-label="Odyssey">
-        ODYSSEY
-      </h1>
-
-
       <p class="hero-sub">
         Navigating the Seas Of Data
       </p>
@@ -121,8 +132,7 @@
 
       <div class="hero-cta-row">
 
-        <button class="btn-gold" data-hover data-magnetic
-          onclick="document.getElementById('register').scrollIntoView({behavior:'smooth'})">
+        <button class="btn-gold" data-hover data-magnetic onclick="window.top.location.href='/register'">
           Register
         </button>
 
@@ -147,6 +157,33 @@
   <section class="storm" id="storm" aria-label="The storm crossing">
     <canvas id="stormCanvas" aria-hidden="true"></canvas>
     <div class="storm-tint" aria-hidden="true"></div>
+
+    <div class="storm-countdown rv" id="stormCountdown" aria-label="Countdown to Expectations 2K26">
+      <p class="storm-countdown-label"><span>✦</span> The Voyage Departs In <span>✦</span></p>
+      <div class="storm-countdown-units">
+        <div class="countdown-unit">
+          <span class="countdown-num" id="cdDays">00</span>
+          <small>Days</small>
+        </div>
+        <span class="countdown-sep">✦</span>
+        <div class="countdown-unit">
+          <span class="countdown-num" id="cdHours">00</span>
+          <small>Hours</small>
+        </div>
+        <span class="countdown-sep">✦</span>
+        <div class="countdown-unit">
+          <span class="countdown-num" id="cdMins">00</span>
+          <small>Minutes</small>
+        </div>
+        <span class="countdown-sep">✦</span>
+        <div class="countdown-unit">
+          <span class="countdown-num" id="cdSecs">00</span>
+          <small>Seconds</small>
+        </div>
+      </div>
+      <p class="storm-countdown-flavor" id="stormFlavor" aria-live="off"></p>
+    </div>
+
     <div class="storm-content">
       <blockquote class="storm-quote rv">
         “The sea does not reward those who wait at the shore.
@@ -211,8 +248,7 @@
       </div>
       <div class="events-expanded rv-scale" id="eventsExpanded" role="list" aria-label="Event categories">
         <article class="event-expand-card is-active" role="listitem" tabindex="0" data-event-card
-          data-category-href="/events/technical"
-          style="--glow-x:25%;--event-image:url(https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1400&q=85)">
+          data-category-href="/events/technical" style="--glow-x:25%;--event-image:url(/assets/tech_img.jpeg)">
           <div class="event-card-inner"><span class="event-card-num">I / TECHNICAL</span>
             <h3 class="event-card-title">Technical Events</h3>
             <div class="event-card-detail">
@@ -222,8 +258,7 @@
           </div>
         </article>
         <article class="event-expand-card" role="listitem" tabindex="0" data-event-card
-          data-category-href="/events/non-technical"
-          style="--glow-x:50%;--event-image:url(https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1400&q=85)">
+          data-category-href="/events/non-technical" style="--glow-x:50%;--event-image:url(assets/non-tech_img.jpeg)">
           <div class="event-card-inner"><span class="event-card-num">II / NON-TECH</span>
             <h3 class="event-card-title">Non Technical Events</h3>
             <div class="event-card-detail">
@@ -234,7 +269,7 @@
         </article>
         <article class="event-expand-card" role="listitem" tabindex="0" data-event-card
           data-category-href="/events/pre-expectations"
-          style="--glow-x:75%;--event-image:url(https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=1400&q=85)">
+          style="--glow-x:75%;--event-image:url(/assets/pre-expectations.jpg)">
           <div class="event-card-inner"><span class="event-card-num">III / PRE-FEST</span>
             <h3 class="event-card-title">Pre Expectations Events</h3>
             <div class="event-card-detail">
@@ -450,7 +485,7 @@
   </section>
 
   <!-- ============ CONTACT / FINAL HARBOUR ============ -->
-  <section class="section register contact-section" id="register">
+  <section class="section register contact-section" id="contact">
 
     <!-- KEEP: existing Odyssey animated background -->
     <canvas id="regCanvas" aria-hidden="true"></canvas>

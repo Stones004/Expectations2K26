@@ -2,6 +2,11 @@ import { useRef } from 'react';
 
 export default function HomePage() {
   const frame = useRef(null);
+  /* Section anchors like "/#storm" land here as a real page load with the
+     hash already in the URL — but that hash lives on the OUTER document, not
+     the iframe's, so it has to be forwarded into the iframe's src or the
+     browser has nothing to scroll to. */
+  const initialSrc = `/odyssey-enhanced.html${window.location.hash}`;
 
   const connectEventsHub = () => {
     const doc = frame.current?.contentDocument;
@@ -42,7 +47,7 @@ export default function HomePage() {
       onLoad={connectEventsHub}
       className="legacy-home"
       title="Expectations 2K26 — Odyssey"
-      src="/odyssey-enhanced.html"
+      src={initialSrc}
     />
   );
 }

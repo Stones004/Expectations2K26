@@ -3,16 +3,16 @@
    Palette: deep black · warm gold · ivory · bronze
    ============================================================ */
 :root {
-  --black: #04070D;
-  --black-2: #070C16;
-  --black-3: #0B1220;
+  --black: #111e38;
+  --black-2: #152341;
+  --black-3: #19294a;
   --gold: #C9A24B;
   --gold-light: #EBD08F;
   --gold-deep: #8F6B2A;
   --bronze: #A8825A;
   --ivory: #F4EFE4;
-  --ivory-dim: rgba(244, 239, 228, .62);
-  --ivory-faint: rgba(244, 239, 228, .38);
+  --ivory-dim: rgba(244, 239, 228, .82);
+  --ivory-faint: rgba(244, 239, 228, .58);
   --line: rgba(201, 162, 75, .22);
   --line-soft: rgba(244, 239, 228, .08);
   --storm-blue: #16283F;
@@ -147,7 +147,7 @@ textarea {
   inset: 0;
   pointer-events: none;
   z-index: 8990;
-  background: radial-gradient(ellipse at center, transparent 58%, rgba(0, 0, 0, .42) 100%);
+  background: radial-gradient(ellipse at center, transparent 58%, rgba(28, 28, 28, .42) 100%);
 }
 
 /* ============================================================
@@ -209,6 +209,40 @@ textarea {
   transition: opacity 1.1s var(--ease-soft), visibility 1.1s;
 }
 
+.loader-stars {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.loader-star {
+  position: absolute;
+  top: var(--y);
+  left: var(--x);
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+  background: #fff8e8;
+  box-shadow: 0 0 var(--glow) rgba(255, 241, 195, .85);
+  opacity: var(--base);
+  animation: loaderStarTwinkle var(--dur) ease-in-out var(--delay) infinite;
+}
+
+@keyframes loaderStarTwinkle {
+
+  0%,
+  100% {
+    opacity: var(--base);
+    transform: scale(.7);
+  }
+
+  50% {
+    opacity: var(--peak);
+    transform: scale(1);
+  }
+}
+
 .loader.is-done {
   opacity: 0;
   visibility: hidden
@@ -220,12 +254,14 @@ textarea {
   font-size: clamp(2rem, 6vw, 4.2rem);
   letter-spacing: .42em;
   text-indent: .42em;
-  color: var(--ivory);
+  color: var(--gold-light);
+  text-shadow: 0 0 20px rgba(255, 241, 195, .55), 0 0 52px rgba(201, 162, 75, .45);
   display: flex;
 }
 
 .loader-word span {
   opacity: 0;
+  white-space: pre;
   transform: translateY(26px);
   filter: blur(8px);
   animation: loaderLetter 1.1s var(--ease-out) forwards;
@@ -244,15 +280,35 @@ textarea {
   font-family: var(--font-serif);
   font-style: italic;
   font-size: 1.05rem;
-  color: var(--ivory-faint);
+  color: rgba(235, 208, 143, .65);
   letter-spacing: .18em;
   opacity: 0;
   animation: fadeIn 1.4s 1s var(--ease-soft) forwards;
 }
 
-.loader-track {
+.loader-compass {
+  margin-bottom: 1.3rem;
+  font-size: 1.35rem;
+  color: var(--gold);
+  text-shadow: 0 0 18px rgba(201, 162, 75, .55);
+  opacity: 0;
+  animation: fadeIn .9s .15s var(--ease-soft) forwards, compassSpin 4s .15s linear infinite;
+}
+
+@keyframes compassSpin {
+  to {
+    transform: rotate(360deg)
+  }
+}
+
+.loader-track-wrap {
+  position: relative;
   margin-top: 2.6rem;
   width: min(280px, 60vw);
+}
+
+.loader-track {
+  width: 100%;
   height: 1px;
   background: rgba(244, 239, 228, .1);
   overflow: hidden;
@@ -263,6 +319,44 @@ textarea {
   width: 0%;
   background: linear-gradient(90deg, var(--gold-deep), var(--gold-light));
   transition: width .35s var(--ease-soft);
+}
+
+.loader-ship {
+  position: absolute;
+  top: 50%;
+  left: 0%;
+  line-height: 0;
+  transform: translate(-50%, -60%);
+  transition: left .35s var(--ease-soft);
+  animation: shipBob 1.6s ease-in-out infinite;
+}
+
+.loader-ship svg {
+  display: block;
+  filter: drop-shadow(0 0 6px rgba(235, 208, 143, .7));
+}
+
+@keyframes shipBob {
+
+  0%,
+  100% {
+    transform: translate(-50%, -60%)
+  }
+
+  50% {
+    transform: translate(-50%, -85%)
+  }
+}
+
+.loader-percent {
+  margin-top: .9rem;
+  font-family: var(--font-sans);
+  font-size: .62rem;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: rgba(235, 208, 143, .55);
+  opacity: 0;
+  animation: fadeIn 1.4s 1s var(--ease-soft) forwards;
 }
 
 @keyframes fadeIn {
@@ -288,7 +382,7 @@ textarea {
 
 .nav.is-scrolled {
   padding: .95rem clamp(1.4rem, 4.5vw, 4rem);
-  background: rgba(4, 7, 13, .78);
+  background: rgba(17, 30, 56, .78);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border-bottom-color: var(--line-soft);
@@ -329,6 +423,34 @@ textarea {
   color: var(--ivory-dim);
   transition: color var(--dur-1);
   padding: .3rem 0;
+  white-space: nowrap;
+}
+
+/* Six nav items no longer fit the wide gap/font comfortably above the
+   burger-menu breakpoint (820px) — this range used to wrap "The Voyage"
+   onto two lines and collide with the logo. */
+@media (max-width: 1180px) {
+  .nav-links {
+    gap: 1.3rem;
+  }
+
+  .nav-links a {
+    font-size: .64rem;
+    letter-spacing: .16em;
+  }
+}
+
+/* A little more breathing room right before the burger menu takes over
+   at 820px — seven items were landing edge-to-edge against the logos. */
+@media (max-width: 900px) {
+  .nav-links {
+    gap: .85rem;
+  }
+
+  .nav-links a {
+    font-size: .58rem;
+    letter-spacing: .1em;
+  }
 }
 
 .nav-links a::after {
@@ -404,7 +526,7 @@ textarea {
   position: fixed;
   inset: 0;
   z-index: 990;
-  background: rgba(4, 7, 13, .97);
+  background: rgba(17, 30, 56, .97);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -491,6 +613,18 @@ textarea {
   line-height: 1.2;
   color: var(--gold-light);
   text-shadow: 0 0 20px rgba(235, 208, 143, .18);
+  overflow-wrap: anywhere;
+}
+
+/* "E[X]PECTATIONS'26" has no spaces to wrap on, and the clamp() floor above
+   doesn't shrink past 2.35rem — on narrow phones that was wide enough to
+   run off the right edge of the screen. */
+@media (max-width: 480px) {
+  .overview-title {
+    font-size: 1.9rem;
+    letter-spacing: .08em;
+    text-indent: .08em;
+  }
 }
 
 .section-lede {
@@ -605,7 +739,7 @@ textarea {
   pointer-events: none;
   background:
     radial-gradient(58% 42% at 50% 36%, rgba(201, 162, 75, .10), transparent 70%),
-    linear-gradient(to bottom, rgba(4, 7, 13, .42), transparent 32%, transparent 62%, rgba(4, 7, 13, .82));
+    linear-gradient(to bottom, rgba(17, 30, 56, .42), transparent 32%, transparent 62%, rgba(17, 30, 56, .82));
 }
 
 .hero-content {
@@ -635,12 +769,11 @@ textarea {
   line-height: 1.04;
   display: flex;
   justify-content: center;
-  background: linear-gradient(180deg, #FBF3DC 12%, var(--gold-light) 42%, var(--gold) 68%, var(--gold-deep) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
-  filter: drop-shadow(0 0 38px rgba(201, 162, 75, .28));
+  /* Solid fill + glow instead of a background-clip:text gradient: the per-letter
+     reveal wraps each character in its own <span>, and background-clip:text does
+     not reliably paint through nested inline boxes, which left the title invisible. */
+  color: var(--gold-light);
+  text-shadow: 0 0 20px rgba(255, 241, 195, .4), 0 0 46px rgba(201, 162, 75, .38);
 }
 
 .hero-title span {
@@ -779,6 +912,16 @@ textarea {
   animation: fadeIn 1.4s 4.4s forwards;
 }
 
+/* On short viewports (tablets, small laptop windows) the hero stack — title,
+   tagline, date, Register button — can run right up against this bottom-anchored
+   hint. It's decorative, so simplest and most robust is to hide it rather than
+   chase exact pixel math across every possible height. */
+@media (max-height: 820px) {
+  .hero-scroll {
+    display: none;
+  }
+}
+
 .hero-scroll small {
   font-size: .62rem;
   letter-spacing: .4em;
@@ -840,9 +983,12 @@ textarea {
   inset: 0;
   z-index: 1;
   pointer-events: none;
+  /* The top stop fades out more gradually than it used to — with the sky
+     now able to turn bright by day, a quick fade made the hero-to-storm
+     boundary read as a hard seam instead of a smooth reveal. */
   background:
-    linear-gradient(to bottom, var(--black) 0%, rgba(4, 7, 13, .06) 18%, transparent 45%, rgba(4, 7, 13, .35) 84%, var(--black) 100%),
-    radial-gradient(80% 60% at 50% 46%, transparent 55%, rgba(4, 7, 13, .36) 100%);
+    linear-gradient(to bottom, var(--black) 0%, rgba(17, 30, 56, .55) 12%, rgba(17, 30, 56, .1) 30%, transparent 48%, rgba(17, 30, 56, .35) 84%, var(--black) 100%),
+    radial-gradient(80% 60% at 50% 46%, transparent 55%, rgba(17, 30, 56, .36) 100%);
 }
 
 #lightningCanvas {
@@ -875,6 +1021,150 @@ textarea {
   text-align: center;
 }
 
+/* Sits up in the sky/cloud band of the storm scene (clouds drift roughly in
+   the top ~25% of the canvas) rather than stacked with the quote at the
+   bottom — its own backdrop keeps it legible over the drifting clouds. */
+/* Centered via left/right auto-margins rather than a translateX transform:
+   this element also carries the .rv reveal-on-scroll class, whose .in state
+   sets `transform: none` at higher specificity once revealed, which would
+   silently cancel a transform-based centering trick. */
+/* The panel wraps the label, digits and flavour line as one solid block —
+   important now the sky behind it can turn light/day-coloured, since the
+   label and flavour text alone (no background of their own) would lose
+   contrast against a bright sky without it. */
+.storm-countdown {
+  position: absolute;
+  z-index: 4;
+  left: 0;
+  right: 0;
+  /* The storm section runs 120vh tall with its horizon at ~46% of that (≈55vh
+     of the viewport) — sitting the panel around a third of the way down
+     brings it noticeably closer to the sea while leaving the sun/moon's arc,
+     which peaks near the very top, clear room to sweep over it. */
+  top: clamp(220px, 34vh, 400px);
+  margin: 0 auto;
+  width: min(88vw, 520px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .75rem;
+  text-align: center;
+  padding: 1.05rem clamp(1rem, 3.4vw, 1.7rem) 1.2rem;
+  border: 1px solid rgba(201, 162, 75, .35);
+  background: linear-gradient(180deg, rgba(8, 14, 24, .6), rgba(4, 8, 15, .8));
+  backdrop-filter: blur(6px);
+  box-shadow: 0 0 46px rgba(201, 162, 75, .1), inset 0 0 26px rgba(201, 162, 75, .05);
+  transition: border-color .7s ease, box-shadow .7s ease;
+}
+
+/* Eclipse: the sun/moon has drifted behind the panel — its corona glows on
+   the canvas underneath, and the panel itself catches a warm rim-light. */
+.storm-countdown.is-eclipsed {
+  border-color: rgba(255, 238, 200, .85);
+  box-shadow: 0 0 85px rgba(255, 226, 150, .35), inset 0 0 40px rgba(255, 226, 150, .12);
+}
+
+.storm-countdown-label {
+  display: flex;
+  align-items: center;
+  gap: .7em;
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: .68rem;
+  letter-spacing: .34em;
+  text-transform: uppercase;
+  color: rgba(235, 208, 143, .8);
+}
+
+.storm-countdown-label span {
+  color: var(--gold);
+  font-size: .8em;
+}
+
+.storm-countdown-units {
+  display: flex;
+  align-items: center;
+  gap: clamp(.5rem, 2.4vw, 1.3rem);
+}
+
+.countdown-unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 3rem;
+}
+
+.countdown-num {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.4rem, 3.4vw, 2.15rem);
+  line-height: 1;
+  color: var(--gold-light);
+  text-shadow: 0 0 16px rgba(235, 208, 143, .55);
+  font-variant-numeric: tabular-nums;
+}
+
+.countdown-unit small {
+  margin-top: .4rem;
+  font-family: var(--font-sans);
+  font-size: .62rem;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: rgba(244, 239, 228, .55);
+}
+
+.countdown-sep {
+  color: rgba(201, 162, 75, .5);
+  font-size: 1.05rem;
+  transform: translateY(-.6rem);
+}
+
+.storm-countdown-flavor {
+  margin: 0;
+  max-width: 32em;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(.78rem, 1.5vw, .92rem);
+  line-height: 1.5;
+  color: rgba(244, 239, 228, .72);
+  text-shadow: 0 2px 14px rgba(0, 0, 0, .7);
+}
+
+.storm-countdown-flavor .moon {
+  font-style: normal;
+  letter-spacing: .03em;
+  color: var(--gold-light);
+}
+
+@media (max-width: 600px) {
+  .storm-countdown {
+    top: clamp(160px, 26vh, 260px);
+    padding: .9rem .85rem 1.05rem;
+    gap: .55rem;
+  }
+
+  .storm-countdown-label {
+    font-size: .56rem;
+    letter-spacing: .24em;
+  }
+
+  .storm-countdown-units {
+    gap: .35rem;
+  }
+
+  .countdown-unit {
+    min-width: 2.15rem;
+  }
+
+  .countdown-sep {
+    font-size: .72rem;
+  }
+
+  .storm-countdown-flavor {
+    font-size: .7rem;
+  }
+}
+
 .storm-quote {
   max-width: 780px;
   font-family: var(--font-serif);
@@ -883,7 +1173,7 @@ textarea {
   font-size: clamp(1.5rem, 3.4vw, 2.5rem);
   line-height: 1.45;
   color: var(--ivory);
-  text-shadow: 0 2px 30px rgba(0, 0, 0, .85);
+  text-shadow: 0 2px 30px rgba(28, 28, 28, .85);
 }
 
 .storm-quote .gold {
@@ -895,7 +1185,7 @@ textarea {
   font-size: .72rem;
   letter-spacing: .42em;
   text-transform: uppercase;
-  color: rgba(244, 239, 228, .55);
+  color: rgba(244, 239, 228, .78);
 }
 
 .storm-cite::before {
@@ -1048,7 +1338,7 @@ textarea {
   inset: 0;
   z-index: 2;
   pointer-events: none;
-  background: linear-gradient(to top, rgba(4, 7, 13, .92) 4%, rgba(4, 7, 13, .25) 40%, transparent 65%);
+  background: linear-gradient(to top, rgba(17, 30, 56, .92) 4%, rgba(17, 30, 56, .25) 40%, transparent 65%);
 }
 
 .char-light {
@@ -1320,7 +1610,7 @@ textarea {
 .tracks-panel {
   position: relative;
   border: 1px solid var(--line-soft);
-  background: rgba(11, 18, 32, .5);
+  background: rgba(25, 41, 74, .5);
   padding: clamp(2.2rem, 4vw, 3.6rem);
   overflow: hidden;
   min-height: 420px;
@@ -1464,7 +1754,7 @@ textarea {
   font-size: .56rem;
   letter-spacing: .3em;
   text-transform: uppercase;
-  color: rgba(244, 239, 228, .22);
+  color: rgba(244, 239, 228, .55);
 }
 
 .patron-marquee {
@@ -1536,7 +1826,7 @@ textarea {
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  background: linear-gradient(to bottom, var(--black) 0%, rgba(4, 7, 13, .3) 30%, rgba(4, 7, 13, .55) 75%, var(--black) 100%);
+  background: linear-gradient(to bottom, var(--black) 0%, rgba(17, 30, 56, .3) 30%, rgba(17, 30, 56, .55) 75%, var(--black) 100%);
 }
 
 .reg-form {
@@ -1711,7 +2001,7 @@ textarea {
   font-size: .68rem;
   letter-spacing: .2em;
   text-transform: uppercase;
-  color: rgba(244, 239, 228, .3);
+  color: rgba(244, 239, 228, .62);
 }
 
 /* ============================================================
@@ -1823,7 +2113,7 @@ textarea {
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  background: linear-gradient(90deg, rgba(3, 7, 13, .42), transparent 28%, transparent 72%, rgba(3, 7, 13, .42)), radial-gradient(70% 42% at 50% 52%, transparent 26%, rgba(2, 5, 10, .34) 100%)
+  background: linear-gradient(90deg, rgba(14, 32, 59, .42), transparent 28%, transparent 72%, rgba(14, 32, 59, .42)), radial-gradient(70% 42% at 50% 52%, transparent 26%, rgba(11, 28, 57, .34) 100%)
 }
 
 #heroDataCanvas {
@@ -1839,7 +2129,7 @@ textarea {
 
 .hero-haze {
   z-index: 2;
-  background: radial-gradient(50% 30% at 50% 42%, rgba(235, 208, 143, .10), transparent 72%), linear-gradient(to bottom, rgba(1, 5, 11, .58), transparent 30%, transparent 57%, rgba(2, 5, 10, .9) 100%)
+  background: radial-gradient(50% 30% at 50% 42%, rgba(235, 208, 143, .10), transparent 72%), linear-gradient(to bottom, rgba(6, 28, 62, .58), transparent 30%, transparent 57%, rgba(11, 28, 57, .9) 100%)
 }
 
 .hero-content {
@@ -1898,7 +2188,7 @@ textarea {
 .hero-sub {
   margin-top: 1.35rem;
   color: rgba(244, 239, 228, .76);
-  text-shadow: 0 2px 20px rgba(0, 0, 0, .65)
+  text-shadow: 0 2px 20px rgba(28, 28, 28, .65)
 }
 
 .hero-meta {
@@ -2012,7 +2302,7 @@ textarea {
 }
 
 .events {
-  background: linear-gradient(180deg, var(--black) 0%, #07101c 50%, var(--black) 100%)
+  background: linear-gradient(180deg, var(--black) 0%, #122a49 50%, var(--black) 100%)
 }
 
 .events-carousel {
@@ -2021,9 +2311,9 @@ textarea {
   margin: auto;
   min-height: 440px;
   border: 1px solid var(--line);
-  background: linear-gradient(118deg, rgba(8, 18, 32, .94), rgba(5, 9, 16, .72));
+  background: linear-gradient(118deg, rgba(19, 43, 77, .94), rgba(18, 33, 59, .72));
   overflow: hidden;
-  box-shadow: inset 0 0 80px rgba(201, 162, 75, .035), 0 24px 80px rgba(0, 0, 0, .25)
+  box-shadow: inset 0 0 80px rgba(201, 162, 75, .035), 0 24px 80px rgba(28, 28, 28, .25)
 }
 
 .events-carousel::before {
@@ -2122,7 +2412,7 @@ textarea {
   width: 42px;
   height: 42px;
   border: 1px solid var(--line);
-  background: rgba(4, 7, 13, .55);
+  background: rgba(17, 30, 56, .55);
   color: var(--gold-light);
   cursor: pointer;
   transition: background .35s, border-color .35s, transform .35s
@@ -2269,10 +2559,6 @@ textarea {
   letter-spacing: .32em;
   text-indent: .32em;
   opacity: .82
-}
-
-.hero-title span {
-  animation-delay: inherit !important
 }
 
 .hero-sub {
@@ -2422,15 +2708,15 @@ textarea {
 }
 
 .tracks {
-  background: linear-gradient(180deg, rgba(4, 7, 13, .88), rgba(7, 12, 22, .82) 60%, rgba(4, 7, 13, .9) 100%)
+  background: linear-gradient(180deg, rgba(17, 30, 56, .88), rgba(21, 35, 65, .82) 60%, rgba(17, 30, 56, .9) 100%)
 }
 
 .register {
-  background: rgba(7, 12, 22, .86)
+  background: rgba(21, 35, 65, .86)
 }
 
 .footer {
-  background: rgba(4, 7, 13, .92)
+  background: rgba(17, 30, 56, .92)
 }
 
 .events-expanded {
@@ -2449,7 +2735,7 @@ textarea {
   min-width: 0;
   overflow: hidden;
   border: 1px solid rgba(201, 162, 75, .19);
-  background: linear-gradient(155deg, #12233a, #07111e 55%, #03070d);
+  background: linear-gradient(155deg, #12233a, #122b4b 55%, #0e203b);
   cursor: pointer;
   transition: flex .95s cubic-bezier(.16, 1, .3, 1), border-color .65s, filter .65s;
   outline: none
@@ -2460,7 +2746,7 @@ textarea {
   position: absolute;
   inset: 0;
   z-index: -1;
-  background-image: radial-gradient(90% 75% at var(--glow-x, 60%) 14%, rgba(201, 162, 75, .22), transparent 58%), linear-gradient(145deg, rgba(3, 8, 14, .18) 28%, rgba(3, 8, 14, .76) 100%), var(--event-image, none), linear-gradient(145deg, transparent 48%, rgba(114, 155, 178, .12));
+  background-image: radial-gradient(90% 75% at var(--glow-x, 60%) 14%, rgba(201, 162, 75, .22), transparent 58%), linear-gradient(145deg, rgba(13, 34, 60, .18) 28%, rgba(13, 34, 60, .76) 100%), var(--event-image, none), linear-gradient(145deg, transparent 48%, rgba(114, 155, 178, .12));
   background-size: cover;
   background-position: center;
   transition: opacity .7s;
@@ -2485,7 +2771,7 @@ textarea {
   flex: 4.1;
   border-color: rgba(235, 208, 143, .68);
   filter: brightness(1.12);
-  box-shadow: 0 20px 55px rgba(0, 0, 0, .34), inset 0 0 0 1px rgba(235, 208, 143, .08)
+  box-shadow: 0 20px 55px rgba(28, 28, 28, .34), inset 0 0 0 1px rgba(235, 208, 143, .08)
 }
 
 .event-expand-card.is-active::after {
@@ -2647,7 +2933,7 @@ textarea {
   display: block !important;
   visibility: visible !important;
   opacity: 1 !important;
-  background: rgba(4, 7, 13, .94) !important
+  background: rgba(17, 30, 56, .94) !important
 }
 
 .event-card-title,
@@ -2775,7 +3061,7 @@ textarea {
     flex: 4.1;
     border-color: rgba(235, 208, 143, .68);
     filter: brightness(1.12);
-    box-shadow: 0 20px 55px rgba(0, 0, 0, .34), inset 0 0 0 1px rgba(235, 208, 143, .08)
+    box-shadow: 0 20px 55px rgba(28, 28, 28, .34), inset 0 0 0 1px rgba(235, 208, 143, .08)
   }
 
   .events-expanded .event-expand-card:hover::after {
@@ -2833,7 +3119,7 @@ textarea {
   position: absolute;
   z-index: -1;
   inset: 0;
-  background: linear-gradient(180deg, rgba(4, 7, 13, .34), transparent);
+  background: linear-gradient(180deg, rgba(17, 30, 56, .34), transparent);
   opacity: .8;
   pointer-events: none
 }
@@ -2850,7 +3136,7 @@ textarea {
 }
 
 .nav.is-scrolled {
-  box-shadow: 0 12px 34px rgba(0, 0, 0, .22)
+  box-shadow: 0 12px 34px rgba(28, 28, 28, .22)
 }
 
 .nav-logo {
@@ -2901,7 +3187,7 @@ textarea {
 
 .footer {
   overflow: hidden;
-  background: linear-gradient(165deg, rgba(8, 16, 28, .97), rgba(4, 7, 13, .98) 62%) !important
+  background: linear-gradient(165deg, rgba(20, 41, 72, .97), rgba(17, 30, 56, .98) 62%) !important
 }
 
 .footer::before {
@@ -3010,7 +3296,7 @@ body::after {
   inset: 0;
   z-index: 8995;
   pointer-events: none;
-  background: radial-gradient(ellipse at var(--cyclops-x, 20%) 42%, rgba(0, 0, 0, .08), rgba(0, 0, 0, .62) 25%, rgba(0, 0, 0, .93) 100%);
+  background: radial-gradient(ellipse at var(--cyclops-x, 20%) 42%, rgba(28, 28, 28, .08), rgba(28, 28, 28, .62) 25%, rgba(28, 28, 28, .93) 100%);
   opacity: var(--cyclops-dim, 0);
   transition: opacity .28s ease;
   mix-blend-mode: multiply
@@ -3118,7 +3404,7 @@ body.cyclops-looming .storm {
     radial-gradient(ellipse at 50% 0%,
       rgba(201, 162, 75, 0.075),
       transparent 42%),
-    #03060B;
+    #0f1e37;
 
   border-top: 1px solid rgba(201, 162, 75, 0.18);
 
@@ -3638,13 +3924,13 @@ body.cyclops-looming .storm {
 
   background:
     linear-gradient(145deg,
-      rgba(13, 24, 34, 0.99),
-      rgba(3, 7, 12, 0.99));
+      rgba(29, 53, 75, 0.99),
+      rgba(14, 33, 57, 0.99));
 
   border: 1px solid rgba(201, 162, 75, 0.42);
 
   box-shadow:
-    0 18px 45px rgba(0, 0, 0, 0.7),
+    0 18px 45px rgba(28, 28, 28, 0.7),
     0 0 25px rgba(201, 162, 75, 0.08);
 
   opacity: 0;
@@ -4309,10 +4595,10 @@ body.cyclops-looming .storm {
     1px solid rgba(201, 162, 75, 0.2);
 
   background:
-    rgba(4, 9, 15, 0.72);
+    rgba(16, 36, 59, 0.72);
 
   box-shadow:
-    0 20px 60px rgba(0, 0, 0, 0.25);
+    0 20px 60px rgba(28, 28, 28, 0.25);
 
   box-sizing: border-box;
 }
@@ -4426,10 +4712,10 @@ body.cyclops-looming .storm {
 
   background:
     linear-gradient(to bottom,
-      rgba(3, 7, 12, 0.12),
+      rgba(14, 33, 57, 0.12),
       transparent 25%,
       transparent 75%,
-      rgba(3, 7, 12, 0.28));
+      rgba(14, 33, 57, 0.28));
 
   z-index: 2;
 }
@@ -4467,7 +4753,7 @@ body.cyclops-looming .storm {
     var(--ivory);
 
   background:
-    rgba(3, 7, 12, 0.9);
+    rgba(14, 33, 57, 0.9);
 
   border:
     1px solid rgba(201, 162, 75, 0.35);
@@ -4558,10 +4844,10 @@ body.cyclops-looming .storm {
       rgba(201, 162, 75, 0.07),
       transparent 45%),
 
-    rgba(4, 9, 15, 0.62);
+    rgba(16, 36, 59, 0.62);
 
   box-shadow:
-    0 15px 45px rgba(0, 0, 0, 0.18);
+    0 15px 45px rgba(28, 28, 28, 0.18);
 
   transition:
     border-color .3s ease,
@@ -4579,7 +4865,7 @@ body.cyclops-looming .storm {
       rgba(201, 162, 75, 0.09),
       transparent 45%),
 
-    rgba(4, 9, 15, 0.72);
+    rgba(16, 36, 59, 0.72);
 }
 
 
@@ -4732,7 +5018,7 @@ body.cyclops-looming .storm {
       rgba(255, 255, 255, .02));
 
   box-shadow:
-    0 8px 25px rgba(0, 0, 0, .18);
+    0 8px 25px rgba(28, 28, 28, .18);
 }
 
 
@@ -5146,7 +5432,7 @@ body.cyclops-looming .storm {
 }
 
 #heroTitle {
-  position: relative;
+  position: absolute;
   z-index: 41;
 }
 
@@ -5182,7 +5468,7 @@ body.cyclops-looming .storm {
   user-select: none;
 
   background:
-    rgba(5, 9, 15, .90);
+    rgba(19, 34, 57, .90);
 
   border-radius:
     50% 50% 0 0;
@@ -5219,9 +5505,9 @@ body.cyclops-looming .storm {
 
   background:
     linear-gradient(to bottom,
-      rgba(7, 12, 22, .10),
-      rgba(7, 12, 22, .28) 45%,
-      rgba(4, 7, 13, .62));
+      rgba(21, 35, 65, .10),
+      rgba(21, 35, 65, .28) 45%,
+      rgba(17, 30, 56, .62));
 }
 
 /* ============================================================
@@ -5357,8 +5643,8 @@ body.cyclops-looming .storm {
 
   z-index: 15;
 
-  /* Push the character toward the left edge */
-  transform: translateX(-10vw);
+  /* Push the character toward the left edge, clear of the centered title */
+  transform: translateX(-15vw);
 }
 
 
@@ -5374,8 +5660,8 @@ body.cyclops-looming .storm {
 
   z-index: 16;
 
-  /* Push the character toward the right edge */
-  transform: translateX(10vw);
+  /* Push the character toward the right edge, clear of the centered title */
+  transform: translateX(15vw);
 }
 
 
@@ -5385,11 +5671,11 @@ body.cyclops-looming .storm {
 
   background-repeat: no-repeat;
   background-position: right bottom;
-  background-size: auto 88%;
+  background-size: auto 80%;
 
   opacity: 1;
 
-  // TEMPORARILY DISABLE SPOTLIGHT 
+  /* Spotlight cursor-reveal mask disabled: characters are fully visible without hover. */
   -webkit-mask-image: none !important;
   mask-image: none !important;
 }
@@ -5400,11 +5686,11 @@ body.cyclops-looming .storm {
 
   background-repeat: no-repeat;
   background-position: left bottom;
-  background-size: auto 88%;
+  background-size: auto 80%;
 
   opacity: 1;
 
-  // TEMPORARILY DISABLE SPOTLIGHT 
+  /* Spotlight cursor-reveal mask disabled: characters are fully visible without hover. */
   -webkit-mask-image: none !important;
   mask-image: none !important;
 }
@@ -5606,7 +5892,7 @@ body.cyclops-looming .storm {
 .hero-sub {
   position: absolute;
 
-  top: calc(50% + 125px);
+  top: calc(50% + 55px);
 
   left: 0;
   right: 0;
@@ -5628,7 +5914,7 @@ body.cyclops-looming .storm {
     rgba(244, 239, 228, .72);
 
   text-shadow:
-    0 2px 20px rgba(0, 0, 0, .65);
+    0 2px 20px rgba(28, 28, 28, .65);
 
   text-align: center;
 }
@@ -5641,7 +5927,7 @@ body.cyclops-looming .storm {
 .hero-meta {
   position: absolute;
 
-  top: calc(46% + 205px);
+  top: calc(50% + 110px);
 
   left: 0;
   right: 0;
@@ -5673,7 +5959,7 @@ body.cyclops-looming .storm {
 .hero-cta-row {
   position: absolute;
 
-  top: calc(50% + 255px);
+  top: calc(50% + 165px);
 
   left: 0;
   right: 0;
@@ -5721,19 +6007,22 @@ body.cyclops-looming .storm {
   pointer-events: none;
 
   background:
-    rgba(7, 12, 22, .90);
+    rgba(21, 35, 65, .90);
 
   border-radius:
     50% 50% 0 0;
 
+  /* Softened from a crisp solid line into a hazier glow — at full opacity
+     this read as a hard "divider" between the hero and the section below
+     rather than part of the scenery. */
   border-top:
-    2px solid rgba(235, 208, 143, .78);
+    1px solid rgba(235, 208, 143, .4);
 
   box-shadow:
-    0 -2px 5px rgba(235, 208, 143, .35),
-    0 -7px 16px rgba(201, 162, 75, .18),
-    0 -15px 32px rgba(201, 162, 75, .10),
-    0 -28px 55px rgba(201, 162, 75, .045);
+    0 -3px 14px rgba(235, 208, 143, .16),
+    0 -10px 28px rgba(201, 162, 75, .1),
+    0 -22px 48px rgba(201, 162, 75, .06),
+    0 -40px 80px rgba(201, 162, 75, .03);
 }
 
 
@@ -5749,9 +6038,9 @@ body.cyclops-looming .storm {
 
   background:
     linear-gradient(to bottom,
-      rgba(7, 12, 22, .02),
-      rgba(7, 12, 22, .18) 48%,
-      rgba(4, 7, 13, .55));
+      rgba(21, 35, 65, .02),
+      rgba(21, 35, 65, .18) 48%,
+      rgba(17, 30, 56, .55));
 }
 
 
@@ -5859,17 +6148,9 @@ body.cyclops-looming .storm {
   }
 
 
-  .hero-title {
-    top:
-      calc(50% + 45px);
-
-    font-size: 1.15rem;
-  }
-
-
   .hero-sub {
     top:
-      calc(50% + 95px);
+      calc(50% + 50px);
 
     font-size: 1rem;
   }
@@ -5877,7 +6158,7 @@ body.cyclops-looming .storm {
 
   .hero-meta {
     top:
-      calc(50% + 155px);
+      calc(50% + 105px);
 
     font-size: .58rem;
   }
@@ -5885,7 +6166,7 @@ body.cyclops-looming .storm {
 
   .hero-cta-row {
     top:
-      calc(55% + 200px);
+      calc(55% + 150px);
   }
 
 
@@ -5894,6 +6175,12 @@ body.cyclops-looming .storm {
 
     padding:
       .95rem 2rem;
+  }
+
+  /* At this width the corner characters push in close enough that the
+     scroll hint reads over Athena's armor rather than clear sky. */
+  .hero-scroll {
+    display: none;
   }
 
 

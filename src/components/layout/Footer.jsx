@@ -109,7 +109,9 @@ export default function Footer() {
       <div className="footer-socials">
 
         <a
-          href="#"
+          href="https://www.instagram.com/expectations.26_cu?igsh=MTh5M3gyaDQ2eDRkbQ=="
+          target="_blank"
+          rel="noopener noreferrer"
           aria-label="Instagram"
           className="footer-social"
         >
@@ -117,7 +119,9 @@ export default function Footer() {
         </a>
 
         <a
-          href="#"
+          href="https://www.linkedin.com/in/statistics-datascience-christuniversity?utm_source=share_via&utm_content=profile&utm_medium=member_ios"
+          target="_blank"
+          rel="noopener noreferrer"
           aria-label="LinkedIn"
           className="footer-social"
         >
@@ -125,7 +129,7 @@ export default function Footer() {
         </a>
 
         <a
-          href="mailto:odyssey@expectations.edu"
+          href="mailto:expectations@fest.christuniversity.in"
           aria-label="Email"
           className="footer-social"
         >
