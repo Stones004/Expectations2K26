@@ -62,9 +62,9 @@ export const eventCategories = [
     title: 'Pre Expectations Events',
     tagline: 'The voyage begins early.',
     summary:
-      'Warm-up events and pre-fest experiences leading up to Expectations 2K26 — details announcing soon.',
+      'Five warm-up events running from 21st to 25th September — a Minecraft build battle, reel making, E-Football, potpourri and a general quiz.',
     image: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=1400&q=85',
-    count: 0
+    count: 5
   }
 ];
 
@@ -1062,6 +1062,350 @@ export const events = [
         phone: '+91 70122 44801',
         linkedin: ''
       }
+    ]
+  }),
+
+  makeEvent({
+    slug: 'forge-of-hephaestus',
+    number: '11',
+    group: 'pre-expectations',
+    category: 'Technical',
+    title: 'Forge of Hephaestus: Minecraft Build Battle',
+    tagline: 'Forge your legacy, one block at a time.',
+
+    summary:
+      'A technical team-based Minecraft Build Battle where participants recreate or interpret a theme announced at the start of the competition, building entirely within Minecraft Java Edition on a centrally hosted server.',
+
+    image: '/assets/Forge-of-Hephaestus.jpg',
+
+    info: [
+      ['Format', 'Team'],
+      ['Team size', '2–3 members'],
+      ['Mode', 'Offline'],
+      ['Duration', 'Approximately 3 hours'],
+      ['Rounds', '1'],
+      ['Track', 'Technical'],
+      ['Date', '21 September, Monday']
+    ],
+
+    about:
+      'Forge of Hephaestus is a technical team-based Minecraft Build Battle where participants recreate or interpret a theme announced only after all teams join the server. Teams build entirely within Minecraft Java Edition using Creative Mode on a centrally hosted PaperMC server. The event evaluates creativity, teamwork, design, technical building skills, and interpretation of the given theme.',
+
+    rounds: [
+      [
+        'Build Battle',
+        'The theme is announced only after all teams join the server. Each team is assigned a protected build plot and has exactly 2 hours to complete a build created entirely during the event using Creative Mode. At the end of the timer, building stops and judges evaluate each plot.'
+      ]
+    ],
+
+    details: [
+      {
+        title: 'Schedule & Venue',
+        items: [
+          ['Venue', 'Christ University Computer Lab (Ethernet-connected desktop systems)'],
+          ['Reporting & System Allocation', '15 minutes'],
+          ['Rules & Briefing', '10 minutes'],
+          ['Build Phase', '2 hours'],
+          ['Judging', '30 minutes']
+        ]
+      },
+      {
+        title: 'Server & Technical Setup',
+        items: [
+          ['Game Version', 'Minecraft Java Edition — same version on every system'],
+          ['Server', 'PaperMC server hosted on the organizer laptop over the lab Ethernet network'],
+          ['Mode & World', 'Creative Mode on a superflat world with pre-generated chunks'],
+          ['Plot Protection', 'Protected build plots using WorldGuard, with CoreProtect enabled for block logging']
+        ]
+      }
+    ],
+
+    rules: [
+      'Teams must consist of 2–3 participants.',
+      'Participants must report 15 minutes before the event.',
+      'Only the laboratory desktop systems may be used.',
+      'All builds must be created during the competition.',
+      'Pre-built worlds, downloaded schematics, templates, or copied builds are prohibited.',
+      'Client-side modifications that provide unfair advantages (e.g., Litematica, Schematica, Baritone, Freecam, automation tools) are prohibited.',
+      'Default vanilla Minecraft textures must be used; resource packs or shaders are not permitted.',
+      'Teams may only build within their assigned plot.',
+      "Tampering with another team's build results in immediate disqualification.",
+      "Judges' decisions are final."
+    ],
+
+    evaluation: [
+      ['Creativity & Originality', '30%'],
+      ['Theme Interpretation', '25%'],
+      ['Technical Build Quality', '20%'],
+      ['Detail & Scale', '15%'],
+      ['Teamwork & Time Management', '10%']
+    ]
+  }),
+
+  makeEvent({
+    slug: 'chronicles-of-the-voyage',
+    number: '12',
+    group: 'pre-expectations',
+    category: 'Reel Making',
+    title: 'Chronicles of the Voyage: Reel Making',
+    tagline: 'Frame the story. Cut the chaos. Ship the voyage.',
+
+    summary:
+      'A creative reel-making competition that challenges teams to transform a given theme into a compelling visual story, conceptualizing, filming, and editing an original short reel entirely on campus within a limited timeframe.',
+
+    image: '/assets/Chronicles-of-the-Voyage.jpg',
+
+    info: [
+      ['Format', 'Team'],
+      ['Team size', '2–4 members'],
+      ['Mode', 'Offline'],
+      ['Rounds', '1'],
+      ['Reel Length', '60–90 seconds'],
+      ['Track', 'Reel Making'],
+      ['Date', '22 September, Tuesday']
+    ],
+
+    about:
+      'Chronicles of the Voyage is a creative reel-making competition that challenges participants to transform a given theme into a compelling visual story within a limited timeframe. Working in teams, participants conceptualize, film, and edit an original short reel entirely on campus, showcasing creativity and technical skill under pressure. Entries are evaluated on creativity, theme relevance, editing quality, and overall presentation.',
+
+    rounds: [
+      [
+        'The Reel Challenge',
+        'The competition begins with the announcement of the theme, after which teams conceptualize, shoot, and edit their reel entirely on campus before submitting the completed video within the specified deadline.'
+      ]
+    ],
+
+    details: [
+      {
+        title: 'Content Guidelines',
+        items: [
+          ['Duration', '60–90 seconds'],
+          ['Filming Location', 'Entirely on campus'],
+          ['AI Content', 'AI-generated video clips, animations, or scenes are strictly prohibited'],
+          ['Music', 'Background music, audio, and sound effects are permitted; copyrighted songs are not allowed']
+        ]
+      }
+    ],
+
+    rules: [
+      'Participation is open to teams of 2–4 members.',
+      'The reel must be within 60–90 seconds in duration.',
+      'The content should be informative, engaging, and meaningful.',
+      'Reels must be original and relevant to the theme.',
+      "Plagiarism, copying, or unauthorized use of others' content will lead to disqualification.",
+      'AI-generated video clips, animations, or scenes are strictly prohibited.',
+      'Background music, audio, and sound effects are permitted provided they do not violate the code of conduct; songs are not allowed.',
+      'The organizing committee reserves the right to reject any entry that does not comply with the rules and regulations.',
+      'The decision of the judges and the organizing committee shall be final and binding.'
+    ],
+
+    evaluation: [
+      ['Creativity & Concept', '25%'],
+      ['Editing & Technical Quality', '25%'],
+      ['Theme Relevance', '25%'],
+      ['Overall Presentation', '25%']
+    ]
+  }),
+
+  makeEvent({
+    slug: 'argonauts-cup',
+    number: '13',
+    group: 'pre-expectations',
+    category: 'Esports',
+    title: "The Argonaut's Cup: E-Football Showdown",
+    tagline: 'One match. One winner. Total glory.',
+
+    summary:
+      'A competitive E-Football (PES) tournament where players showcase gaming skill, tactical decision-making, and football strategy through a series of head-to-head knockout matches.',
+
+    image: '/assets/The-Argonauts-Cup.jpg',
+
+    info: [
+      ['Format', 'Individual'],
+      ['Mode', 'Offline — played on mobile'],
+      ['Duration', '6 minutes per match'],
+      ['Rounds', 'Single knockout'],
+      ['Venue', 'Classroom'],
+      ['Track', 'Esports'],
+      ['Date', '23 September, Wednesday']
+    ],
+
+    about:
+      "The Argonaut's Cup is a competitive E-Football (PES) tournament where players showcase their gaming skills, tactical decision-making, consistency, football strategy, precision, and gameplay through a series of exciting head-to-head matches. Participants compete across multiple knockout rounds, with the top performer emerging as the tournament champion.",
+
+    rounds: [
+      [
+        'Preliminary Matches',
+        'Participants compete in one-on-one E-Football (PES) matches. Winners advance to subsequent rounds based on the tournament bracket.'
+      ],
+      [
+        'Subsequent Rounds',
+        'Qualified participants continue in knockout matches until the finalists are determined.'
+      ],
+      [
+        'Final Round',
+        "The top participants compete in the championship match, with the winner crowned The Argonaut's Cup Champion."
+      ]
+    ],
+
+    details: [
+      {
+        title: 'Match Format',
+        items: [
+          ['Match Duration', '6 minutes, condition: Random'],
+          ['Max Substitutions', '5'],
+          ['Max Intervals', '3'],
+          ['Draw Rule', 'A match level after full time proceeds directly to a penalty shootout'],
+          ['Card Limit', 'A maximum of 5 Epic, Big Time, Show Time, or Booster cards combined is permitted']
+        ]
+      }
+    ],
+
+    rules: [
+      'Individual participation only; tournament format is 1 vs 1.',
+      'Participants must report 15 minutes before their scheduled match.',
+      'Standard game settings specified by the organizers will be followed.',
+      'Match duration is 6 minutes with a random match condition.',
+      'Maximum substitutions allowed: 5. Maximum intervals allowed: 3.',
+      'If a match ends in a draw after full time, it will proceed directly to a penalty shootout.',
+      'A maximum of 5 Epic, Big Time, Show Time, or Booster cards combined is permitted.',
+      'Any unfair practices, exploits, or cheating will result in immediate disqualification.',
+      'Players must maintain proper conduct and sportsmanship throughout the tournament.',
+      'Participants should ensure their phones are sufficiently charged.',
+      "The organizers' decision shall be final and binding."
+    ],
+
+    evaluation: [['Match Performance', '100%']]
+  }),
+
+  makeEvent({
+    slug: 'tricksters-bazaar',
+    number: '14',
+    group: 'pre-expectations',
+    category: 'Potpourri',
+    title: "The Trickster's Bazaar: Potpourri Trials",
+    tagline: 'Draw it, act it, outsmart it.',
+
+    summary:
+      'A fun and lively team event where participants put their creativity, acting skills, and quick thinking to the test across three exciting rounds — Pictionary, Dumb Charades, and Jeopardy.',
+
+    image: '/assets/The-Tricksters-Bazaar.jpg',
+
+    info: [
+      ['Format', 'Team'],
+      ['Team size', '2 members'],
+      ['Mode', 'Offline'],
+      ['Duration', '3 hours'],
+      ['Rounds', '3'],
+      ['Venue', 'Classroom (110 & 111)'],
+      ['Track', 'Potpourri'],
+      ['Date', '24 September, Thursday']
+    ],
+
+    about:
+      "The Trickster's Bazaar is a fun and lively team event where participants put their creativity, acting skills, and quick thinking to the test. Teams of two compete across three exciting rounds, with winners of each round moving forward.",
+
+    rounds: [
+      [
+        'Pictionary',
+        'One member draws a given word while the other guesses. 10 words are given with 6–7 minutes to draw them and 3 minutes to guess. The team with the most correct guesses wins the round.'
+      ],
+      [
+        'Dumb Charades',
+        'One member acts while the other guesses. Each team gets 1 minute to guess as many words as possible. The team with the highest number of correct guesses wins the round.'
+      ],
+      [
+        'Jeopardy',
+        'Teams compete in a fun, fast-paced challenge testing quick thinking and teamwork. Winners are decided on points from correctly answered questions, with negative marking for wrong answers.'
+      ]
+    ],
+
+    rules: [
+      'Each team must have 2 members.',
+      'No phones, internet, or outside help is allowed.',
+      'All participants should bring their own stationery.',
+      'All answers must be given within the specified time.',
+      'No speaking or verbal clues are allowed in Pictionary and Dumb Charades.',
+      'No clues or assistance from other teams or the audience is allowed.',
+      'Any unfair practice may lead to disqualification.',
+      "The organizers' decision will be final and binding."
+    ],
+
+    evaluation: [
+      ['Round 1 — Pictionary', 'Most correct guesses advances'],
+      ['Round 2 — Dumb Charades', 'Most correct guesses advances'],
+      ['Round 3 — Jeopardy', 'Highest cumulative points wins']
+    ]
+  }),
+
+  makeEvent({
+    slug: 'hermes-gauntlet',
+    number: '15',
+    group: 'pre-expectations',
+    category: 'Quiz',
+    title: "Hermes' Gauntlet: The Herald's Trial",
+    tagline: "Quick minds win the herald's trial.",
+
+    summary:
+      "A general quiz designed to test students' general knowledge, awareness, logical thinking, quick decision-making, and presence of mind through three engaging rounds — Rapid Fire, Buzzer, and Theme-Based questions.",
+
+    image: '/assets/Hermes-Gauntlet.jpg',
+
+    info: [
+      ['Format', 'Team'],
+      ['Team size', '2–3 members'],
+      ['Mode', 'Offline'],
+      ['Rounds', '3'],
+      ['Track', 'Quiz'],
+      ['Date', '25 September, Friday']
+    ],
+
+    about:
+      "Hermes' Gauntlet: The Herald's Trial is a general quiz designed to test students' general knowledge, awareness, logical thinking, quick decision-making, and presence of mind through three engaging rounds. The rounds include Rapid Fire, Buzzer, and Theme-Based questions, assessing knowledge, speed, accuracy, and the ability to perform under pressure.",
+
+    rounds: [
+      [
+        'The First Quest',
+        'A preliminary round of 20 MCQ questions from General Knowledge and Current Affairs, conducted via Kahoot or pen-and-paper. The top 10 teams qualify for Round 2.'
+      ],
+      [
+        'Clash of Titans',
+        'Teams pick a themed chit at random and face off against another team on the same theme in a 3-question buzzer round, scoring 10 points per correct answer. The top 6 teams from this round advance to the final.'
+      ],
+      [
+        'Race to Ithaca',
+        'A rapid-fire finale where each team gets 60 seconds to answer as many questions correctly as possible, earning 5 points per correct answer. Winners are decided on cumulative scores from Rounds 2 and 3.'
+      ]
+    ],
+
+    details: [
+      {
+        title: 'Buzzer Round Rules',
+        items: [
+          ['First to Buzz', 'The team that presses the buzzer first gets the opportunity to answer'],
+          ['E-Buzz System', 'The quizmaster is notified of the team number that buzzed first; only that team may answer'],
+          ['Answer Lock', 'Once an answer is given, it cannot be changed'],
+          ['Skip Limit', 'In Race to Ithaca, a team may skip a maximum of 2 questions consecutively by saying "SKIP"']
+        ]
+      }
+    ],
+
+    rules: [
+      'Each team must consist of 2–3 participants.',
+      'Participants must report to the venue 15 minutes before the scheduled start time.',
+      'Teams should carry their own notepads and pens.',
+      "The quizmaster's decision will be final and binding in all matters.",
+      'Use of mobile phones, smartwatches, laptops, or any external source of information is strictly prohibited unless permitted by the quizmaster.',
+      'In buzzer rounds, the team that presses the buzzer first gets the opportunity to answer.',
+      'Once an answer is given, it cannot be changed.',
+      'Any form of misconduct, cheating, or unfair assistance will lead to disqualification.',
+      'The final scores declared by the quizmaster will be considered official.'
+    ],
+
+    evaluation: [
+      ['Round 1 → Round 2', 'Top 10 teams qualify'],
+      ['Round 2 → Round 3', 'Top 6 teams qualify'],
+      ['Final Ranking', 'Cumulative score of Rounds 2 & 3']
     ]
   }),
 ];

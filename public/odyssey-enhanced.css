@@ -74,14 +74,6 @@ body {
   color: var(--ivory);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
-  cursor: none;
-}
-
-@media (hover:none),
-(pointer:coarse) {
-  body {
-    cursor: auto
-  }
 }
 
 ::selection {
@@ -148,52 +140,6 @@ textarea {
   pointer-events: none;
   z-index: 8990;
   background: radial-gradient(ellipse at center, transparent 58%, rgba(28, 28, 28, .42) 100%);
-}
-
-/* ============================================================
-   MINIMAL GOLD CURSOR
-   ============================================================ */
-
-.cursor-dot {
-  position: fixed;
-
-  top: 0;
-  left: 0;
-
-  width: 7px;
-  height: 7px;
-
-  border-radius: 50%;
-
-  pointer-events: none;
-
-  z-index: 9990;
-
-  transform: translate(-50%, -50%);
-
-  background: #EBD08F;
-
-  box-shadow:
-    0 0 6px rgba(235, 208, 143, .75),
-    0 0 14px rgba(201, 162, 75, .35);
-
-  will-change: transform;
-}
-
-
-/* Completely remove the old cursor ring */
-
-.cursor-ring {
-  display: none !important;
-}
-
-@media (hover:none),
-(pointer:coarse) {
-
-  .cursor-dot,
-  .cursor-ring {
-    display: none
-  }
 }
 
 /* ---------- loader ---------- */
@@ -483,7 +429,7 @@ textarea {
   border: 1px solid var(--line);
   color: var(--gold-light);
   background: transparent;
-  cursor: none;
+  cursor: pointer;
   transition: background var(--dur-1), border-color var(--dur-1), color var(--dur-1);
 }
 
@@ -498,7 +444,7 @@ textarea {
   gap: 6px;
   background: none;
   border: none;
-  cursor: none;
+  cursor: pointer;
   padding: .4rem
 }
 
@@ -854,7 +800,7 @@ textarea {
   background: linear-gradient(120deg, var(--gold-light), var(--gold) 55%, var(--bronze));
   padding: 1.15rem 3.2rem;
   border: none;
-  cursor: none;
+  cursor: pointer;
   transition: box-shadow .5s var(--ease-soft), transform .5s var(--ease-soft);
   will-change: transform;
 }
@@ -888,7 +834,7 @@ textarea {
   background: transparent;
   padding: 1.12rem 3rem;
   border: 1px solid var(--line);
-  cursor: none;
+  cursor: pointer;
   transition: border-color .5s, background .5s, transform .5s var(--ease-soft);
   will-change: transform;
 }
@@ -1547,7 +1493,7 @@ textarea {
   text-align: left;
   background: none;
   border: none;
-  cursor: none;
+  cursor: pointer;
   padding: 1.7rem .5rem 1.7rem 2.2rem;
   border-bottom: 1px solid var(--line-soft);
   transition: padding-left .55s var(--ease-out);
@@ -1856,7 +1802,6 @@ textarea {
   font-size: .95rem;
   letter-spacing: .04em;
   outline: none;
-  cursor: none;
   transition: border-color .5s;
   border-radius: 0;
 }
@@ -5671,7 +5616,11 @@ body.cyclops-looming .storm {
 
   background-repeat: no-repeat;
   background-position: right bottom;
-  background-size: auto 80%;
+  /* athena_new.png is a wider/shorter crop (1024×835) than the original
+     portrait art (839×938) — sized by height, so the same 80% figure now
+     spans a much wider footprint. Scaled down to land at roughly the same
+     on-screen width as before, clear of the centered title. */
+  background-size: auto 72%;
 
   opacity: 1;
 
@@ -5686,7 +5635,10 @@ body.cyclops-looming .storm {
 
   background-repeat: no-repeat;
   background-position: left bottom;
-  background-size: auto 80%;
+  /* Same fix as Athena — odysseus_new.png (1024×706) is wider/shorter still
+     than the original portrait crop, so it needs an even bigger reduction
+     to match the old figure's on-screen width. */
+  background-size: auto 62%;
 
   opacity: 1;
 
@@ -5697,6 +5649,35 @@ body.cyclops-looming .storm {
 
 
 
+
+/* ============================================================
+   ODYSSEUS / ATHENA — ENTRANCE
+   Each figure fades and glides in from its own side once the hero
+   is on screen (JS adds .in via IntersectionObserver). The higher
+   specificity here (three class selectors) beats the plain
+   opacity:1 rule above without needing !important, and once .in
+   lands this simply stops matching, so the reveal inherits the
+   existing filter/transform/opacity transition already declared
+   on .hero-character__image instead of needing its own.
+   ============================================================ */
+.hero-character--odysseus:not(.in) .hero-character__image {
+  opacity: 0;
+  transform: translateX(-60px) scale(1.04);
+}
+
+.hero-character--athena:not(.in) .hero-character__image {
+  opacity: 0;
+  transform: translateX(60px) scale(1.04);
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  .hero-character--odysseus:not(.in) .hero-character__image,
+  .hero-character--athena:not(.in) .hero-character__image {
+    opacity: 1;
+    transform: none;
+  }
+}
 
 /* ============================================================
    CURSOR REVEAL — CHARACTER IMAGES
@@ -6058,9 +6039,12 @@ body.cyclops-looming .storm {
     transform: translateX(16vw);
   }
 
-  .hero-character--odysseus .hero-character__image,
+  .hero-character--odysseus .hero-character__image {
+    background-size: auto 52%;
+  }
+
   .hero-character--athena .hero-character__image {
-    background-size: auto 72%;
+    background-size: auto 62%;
   }
 
   .hero-event-name {
@@ -6092,7 +6076,7 @@ body.cyclops-looming .storm {
 
   .hero-character--odysseus .hero-character__image {
     background-position: left bottom !important;
-    background-size: auto 40% !important;
+    background-size: auto 30% !important;
 
     transform:
       translateX(-25vw) !important;
@@ -6112,7 +6096,7 @@ body.cyclops-looming .storm {
 
   .hero-character--athena .hero-character__image {
     background-position: right bottom !important;
-    background-size: auto 40% !important;
+    background-size: auto 34% !important;
 
     transform:
       translateX(25vw) !important;
@@ -6195,16 +6179,4 @@ body.cyclops-looming .storm {
     border-top-width: 2px;
   }
 
-}
-
-
-
-/* ============================================================
-   FORCE CUSTOM GOLD CURSOR EVERYWHERE
-   ============================================================ */
-
-html,
-body,
-body * {
-  cursor: none !important;
 }

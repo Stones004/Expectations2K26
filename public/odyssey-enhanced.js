@@ -196,37 +196,51 @@
     }
   })();
 
-  /* ---------- custom cursor + magnetic ---------- */
+  /* ---------- magnetic buttons ---------- */
   if (!isCoarse) {
-    const dot = document.getElementById('cursorDot');
-    /* The ring was already fully retired (display:none, see CSS) and had no
-       .is-hover style left to trigger — so this used to run a perpetual
-       rAF loop and a lerp every frame purely to animate an invisible
-       element. Writing the dot's transform straight from the mousemove
-       event removes that whole extra loop and its one-frame-later write:
-       one fewer perpetual callback competing for a busy frame's time,
-       which is what actually made the dot's paint arrive late. */
-    addEventListener('mousemove', e => {
-      dot.style.transform = `translate(${e.clientX}px,${e.clientY}px) translate(-50%,-50%)`;
-    }, { passive: true });
-    /* magnetic buttons */
     document.querySelectorAll('[data-magnetic]').forEach(btn => {
       let bx = 0, by = 0, tx = 0, ty = 0, raf = null;
+      /* Measured on enter/resize only, never inside mousemove — reading
+         getBoundingClientRect() on every move forced a synchronous layout
+         each event, the same reflow-thrashing pattern already fixed for the
+         scroll engine and hero spotlight elsewhere in this file, and it's
+         what made the cursor itself stutter while passing over this button
+         since the reflow blocks the same main thread the cursor shares. */
+      let rect = btn.getBoundingClientRect();
+      const measure = () => { rect = btn.getBoundingClientRect(); };
       const loop = () => {
         bx = lerp(bx, tx, .18); by = lerp(by, ty, .18);
         btn.style.transform = `translate(${bx}px,${by}px)`;
         if (Math.abs(bx - tx) > .2 || Math.abs(by - ty) > .2) raf = requestAnimationFrame(loop); else raf = null;
       };
+      btn.addEventListener('mouseenter', measure);
+      addEventListener('resize', measure, { passive: true });
       btn.addEventListener('mousemove', e => {
-        const r = btn.getBoundingClientRect();
-        tx = (e.clientX - r.left - r.width / 2) * .28;
-        ty = (e.clientY - r.top - r.height / 2) * .34;
+        tx = (e.clientX - rect.left - rect.width / 2) * .28;
+        ty = (e.clientY - rect.top - rect.height / 2) * .34;
         if (!raf) raf = requestAnimationFrame(loop);
       });
       btn.addEventListener('mouseleave', () => { tx = 0; ty = 0; if (!raf) raf = requestAnimationFrame(loop); });
     });
   }
 
+
+  /* ---------- Odysseus / Athena entrance ---------- */
+  (function () {
+    const odysseus = document.querySelector('.hero-character--odysseus');
+    const athena = document.querySelector('.hero-character--athena');
+    if (!odysseus && !athena) return;
+    /* Timed off the loader's own completion event rather than an
+       IntersectionObserver — the hero is already in the viewport the
+       instant this script runs, long before the loader itself finishes
+       covering the screen, so triggering on load would let the whole
+       transition finish behind the loader and never actually be seen. */
+    document.body.addEventListener('odyssey:ready', () => {
+      if (odysseus) odysseus.classList.add('in');
+      /* A brief stagger so Athena arrives just after Odysseus rather than both snapping in at once. */
+      if (athena) setTimeout(() => athena.classList.add('in'), 160);
+    }, { once: true });
+  })();
 
   /* ============================================================
    ODYSSEY CHARACTER SPOTLIGHT
@@ -529,7 +543,25 @@
   measureScrollSections();
   addEventListener('resize', measureScrollSections, { passive: true });
 
-  addEventListener('scroll', () => { scrollY = window.scrollY; }, { passive: true });
+  /* The storm canvas below (heavy seas + sky) is by far the most expensive
+     thing on the page — 9 wave layers resampled across the full width plus
+     a dozen-odd gradient allocations, every single frame. Repainting all of
+     that while the browser is also busy compositing a scroll gesture is
+     exactly what turns into visible stutter, right where it's most obvious:
+     scrolling through the hero into the storm/timer section. Flagging an
+     active scroll and letting the storm loop skip its redraw for that brief
+     window (the canvas just keeps showing its last frame) frees the main
+     thread for the scroll itself; the ambient animation is slow enough that
+     a short pause during a scroll gesture isn't perceptible once it resumes. */
+  let scrollActive = false, scrollIdleTimer = null;
+  window.__scrollActive = () => scrollActive;
+
+  addEventListener('scroll', () => {
+    scrollY = window.scrollY;
+    scrollActive = true;
+    clearTimeout(scrollIdleTimer);
+    scrollIdleTimer = setTimeout(() => { scrollActive = false; }, 120);
+  }, { passive: true });
 
   function scrollLoop() {
     smoothY = lerp(smoothY, scrollY, prefersReduced ? 1 : .085);
@@ -732,7 +764,14 @@
       ctx.fillStyle = fog;
       ctx.fillRect(0, hor, W, (H - hor) * .4);
     }
-    throttledLoop(draw, 30);
+    /* With prefersReduced forcing o.speed near zero, this scene is visually
+       frozen frame to frame — yet it was still being fully rebuilt (waves,
+       gradients, glints, ship) 30 times a second the whole time the hero
+       was even partially on screen, which is exactly the busiest stretch of
+       scrolling. Redrawing far less often costs nothing visible and frees
+       up the main thread the scroll loop and cursor share during that
+       scroll. */
+    throttledLoop(draw, prefersReduced ? 4 : 30);
   }
 
   makeOcean(document.getElementById('oceanCanvas'), { horizon: .55, layers: 6, moon: false, ship: false, roughness: 1.38, speed: prefersReduced ? 0.001 : 1.16 });
@@ -810,8 +849,7 @@
       window.__cyclopsThreat = cyclopsIntensity;
     }
 
-    /* ---- storm wave model (shared by sea + ship) ---- */
-    const SHIP_LAYER_P = 0.42;          /* depth fraction of the ship's wave layer */
+    /* ---- storm wave model ---- */
     function layerGeom(p) {
       const hor = H * 0.46;
       return {
@@ -845,67 +883,6 @@
     new IntersectionObserver(en => { visible = en[0].isIntersecting; if (!visible) setCyclopsAtmosphere(0); }, { threshold: 0 })
       .observe(stormSection);
 
-    /* ---- the trireme ---- */
-    const ship = { x: -0.18, y: 0, rot: 0, vx: 0.00026 };  /* x in [−.2, 1.2] */
-
-    function drawShip(time, advance = true) {
-      const px = ship.x * W;
-      /* Scale it down slightly; lift its reference point so the hull rides on — not inside — the wave. */
-      const S = clamp(W / (305 * DPR), 1.15, 4.35), u = DPR * S;
-      const targetY = waveY(px, SHIP_LAYER_P, time) - 7.8 * u;
-      const ahead = waveY(px + 42 * DPR, SHIP_LAYER_P, time), behind = waveY(px - 42 * DPR, SHIP_LAYER_P, time);
-      const targetR = Math.atan2(ahead - behind, 84 * DPR) * .76;
-      ship.y = ship.y ? lerp(ship.y, targetY, .075) : targetY;
-      ship.rot = lerp(ship.rot, targetR, .075);
-      /* A broader longship silhouette: long black hull, lifted ends and a square crimson sail. */
-      ctx.save(); ctx.translate(px, ship.y); ctx.rotate(ship.rot); ctx.scale(u, u);
-
-      /* broken foam wake behind the stern */
-      ctx.save(); ctx.scale(1 / u, 1 / u); const wake = ctx.createLinearGradient(-210 * DPR * S, 0, -45 * DPR * S, 0);
-      wake.addColorStop(0, 'rgba(230,238,237,0)'); wake.addColorStop(.75, 'rgba(215,229,230,.10)'); wake.addColorStop(1, 'rgba(232,240,235,.28)'); ctx.fillStyle = wake;
-      ctx.beginPath(); ctx.moveTo(-43 * DPR * S, 7 * DPR * S); ctx.quadraticCurveTo(-112 * DPR * S, 10 * DPR * S, -204 * DPR * S, 28 * DPR * S); ctx.lineTo(-205 * DPR * S, 42 * DPR * S); ctx.quadraticCurveTo(-112 * DPR * S, 24 * DPR * S, -43 * DPR * S, 16 * DPR * S); ctx.closePath(); ctx.fill(); ctx.restore();
-
-      /* long oars below the gunwale */
-      ctx.strokeStyle = 'rgba(10,15,20,.92)'; ctx.lineWidth = 1.05;
-      for (let i = 0; i < 11; i++) { const ox = -27 + i * 5.5, sweep = Math.sin(time * 2.25 + i * .57) * .17; ctx.beginPath(); ctx.moveTo(ox, 3); ctx.lineTo(ox - 7 + sweep * 9, 16 + Math.cos(sweep) * 2); ctx.stroke() }
-
-      /* curved longship hull and lifted dragon-like ends */
-      const hull = ctx.createLinearGradient(0, -11, 0, 12); hull.addColorStop(0, '#28313a'); hull.addColorStop(.24, '#101821'); hull.addColorStop(1, '#02060b'); ctx.fillStyle = hull;
-      ctx.beginPath(); ctx.moveTo(-42, -3); ctx.quadraticCurveTo(-48, -20, -39, -27); ctx.quadraticCurveTo(-42, -14, -35, -4); ctx.lineTo(40, -4); ctx.quadraticCurveTo(49, -10, 54, -22); ctx.quadraticCurveTo(56, -7, 48, 1); ctx.lineTo(55, 4); ctx.lineTo(46, 6); ctx.quadraticCurveTo(8, 15, -29, 10); ctx.quadraticCurveTo(-39, 8, -42, -3); ctx.closePath(); ctx.fill();
-      ctx.strokeStyle = 'rgba(205,177,111,.72)'; ctx.lineWidth = .78; ctx.stroke();
-      ctx.beginPath(); ctx.moveTo(-37, -1); ctx.quadraticCurveTo(4, 3, 49, 0); ctx.strokeStyle = 'rgba(201,162,75,.62)'; ctx.lineWidth = .85; ctx.stroke();
-      /* shields / crew rhythm along hull */
-      for (let i = 0; i < 12; i++) { const cx = -28 + i * 5.4; ctx.fillStyle = i % 2 ? 'rgba(81,28,23,.84)' : 'rgba(116,79,42,.82)'; ctx.beginPath(); ctx.arc(cx, -2.8, 1.62, 0, 7); ctx.fill(); }
-      ctx.fillStyle = 'rgba(9,13,18,.94)'; for (let i = 0; i < 9; i++) { ctx.beginPath(); ctx.arc(-21 + i * 5.2, -7.3, 1.12, 0, 7); ctx.fill() }
-    /* prow eye */ctx.fillStyle = 'rgba(235,208,143,.96)'; ctx.beginPath(); ctx.arc(45.5, -10.4, 1.15, 0, 7); ctx.fill();
-
-      /* mast, yard and taut rigging */
-      ctx.strokeStyle = '#0b1119'; ctx.lineWidth = 1.55; ctx.beginPath(); ctx.moveTo(2, -3); ctx.lineTo(2, -57); ctx.stroke();
-      ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(-34, -50); ctx.lineTo(38, -50); ctx.stroke();
-      ctx.strokeStyle = 'rgba(38,35,30,.86)'; ctx.lineWidth = .42; ctx.beginPath(); ctx.moveTo(-34, -50); ctx.lineTo(-37, -3); ctx.stroke(); ctx.beginPath(); ctx.moveTo(38, -50); ctx.lineTo(45, -3); ctx.stroke();
-
-      /* Square red sail, fuller and stitched like a real ancient vessel */
-      const billow = 7 + Math.sin(time * 1.7) * 1.5 + cyclopsIntensity * (6 + Math.sin(time * 4) * 2);
-      const sail = ctx.createLinearGradient(-34, -50, 38, -9); sail.addColorStop(0, 'rgba(143,35,30,.98)'); sail.addColorStop(.38, 'rgba(114,25,24,.96)'); sail.addColorStop(.74, 'rgba(82,18,20,.94)'); sail.addColorStop(1, 'rgba(48,12,16,.92)');
-      ctx.fillStyle = sail; ctx.beginPath(); ctx.moveTo(-33, -49); ctx.lineTo(37, -49); ctx.quadraticCurveTo(39 + billow * .45, -28, 34, -10); ctx.quadraticCurveTo(3, -5 + billow * .16, -30, -10); ctx.quadraticCurveTo(-37 - billow * .35, -28, -33, -49); ctx.closePath(); ctx.fill();
-      ctx.strokeStyle = 'rgba(228,163,130,.25)'; ctx.lineWidth = .55; ctx.stroke();
-      /* seam lines, intentionally uneven under wind */
-      ctx.strokeStyle = 'rgba(49,10,15,.55)'; ctx.lineWidth = .5; for (let i = 1; i < 5; i++) { const sy = -49 + i * 8; ctx.beginPath(); ctx.moveTo(-32, sy); ctx.quadraticCurveTo(2, sy + billow * .12, 36, sy); ctx.stroke() }
-      ctx.strokeStyle = 'rgba(213,144,112,.15)'; ctx.lineWidth = .6; ctx.beginPath(); ctx.moveTo(1, -48); ctx.quadraticCurveTo(5 + billow * .3, -29, 2, -10); ctx.stroke();
-
-      /* pennant */
-      const flap = Math.sin(time * 5) * 1.7; ctx.fillStyle = 'rgba(201,162,75,.94)'; ctx.beginPath(); ctx.moveTo(2, -58); ctx.quadraticCurveTo(8, -60 + flap * .4, 13, -56 + flap); ctx.lineTo(7, -55 + flap * .5); ctx.quadraticCurveTo(4, -56, 2, -55); ctx.closePath(); ctx.fill();
-
-      /* Human counter-light: lantern gets brighter during the Cyclops blackout. */
-      const lanternPower = .30 + cyclopsIntensity * 1.35; const lantern = ctx.createRadialGradient(-10, -5, 0, -10, -5, 13 + cyclopsIntensity * 9);
-      lantern.addColorStop(0, `rgba(255,244,194,${Math.min(1, lanternPower + .35).toFixed(2)})`); lantern.addColorStop(.18, `rgba(255,211,114,${Math.min(1, lanternPower).toFixed(2)})`); lantern.addColorStop(1, 'rgba(201,162,75,0)'); ctx.fillStyle = lantern; ctx.beginPath(); ctx.arc(-10, -5, 13 + cyclopsIntensity * 9, 0, 7); ctx.fill(); ctx.fillStyle = `rgba(255,241,185,${Math.min(1, lanternPower + .35).toFixed(2)})`; ctx.beginPath(); ctx.arc(-10, -5, 1.18, 0, 7); ctx.fill();
-      ctx.restore();
-
-      /* stronger bow spray when a glare-induced squall hits */
-      if (ship.rot < -.022 || cyclopsIntensity > .25) { ctx.fillStyle = `rgba(228,239,240,${(.15 + cyclopsIntensity * .2).toFixed(3)})`; for (let i = 0; i < 6; i++) { const sx = px + (42 + Math.random() * 19) * u, sy = ship.y + (Math.random() * 7 - 10) * u; ctx.beginPath(); ctx.arc(sx, sy, (.9 + Math.random() * 2.4) * DPR, 0, 7); ctx.fill() } }
-      if (advance) { ship.x += ship.vx * (prefersReduced ? 0 : 1); if (ship.x > 1.2) { ship.x = -.2; ship.y = 0 } }
-    }
-
     /* The Cyclops arrives only in brief storm windows: a distant threat rather than a permanent character. */
     function drawCyclops(time, intensity) {
       if (intensity < .015) return;
@@ -928,10 +905,10 @@
       ctx.restore();
     }
 
-    /* The eye narrows into a broken searchlight aimed at the ship: threat, not a literal laser. */
+    /* The eye narrows into a broken searchlight raking the sea below it: threat, not a literal laser. */
     function drawThreatGlare(intensity) {
       if (intensity < .03) return;
-      const ex = W * cyclopsX, ey = H * .46 - 76 * DPR, sx = ship.x * W, sy = ship.y - 18 * DPR;
+      const ex = W * cyclopsX, ey = H * .46 - 76 * DPR, sx = W * .4, sy = H * .74;
       ctx.save(); ctx.globalCompositeOperation = 'screen';
       const beam = ctx.createLinearGradient(ex, ey, sx, sy);
       beam.addColorStop(0, `rgba(255,226,137,${(.16 * intensity).toFixed(3)})`);
@@ -957,25 +934,25 @@
       const cy = hor - sky.peak * (hor - topMargin);
       const r = H * 0.042;
       if (sky.type === 'sun') {
-        const halo = ctx.createRadialGradient(cx, cy, 0, cx, cy, r * 5.5);
-        halo.addColorStop(0, 'rgba(255,214,140,.32)');
-        halo.addColorStop(.4, 'rgba(235,208,143,.12)');
+        const halo = ctx.createRadialGradient(cx, cy, 0, cx, cy, r * 7.5);
+        halo.addColorStop(0, 'rgba(255,236,190,.68)');
+        halo.addColorStop(.4, 'rgba(255,222,163,.34)');
         halo.addColorStop(1, 'rgba(235,208,143,0)');
-        ctx.fillStyle = halo; ctx.beginPath(); ctx.arc(cx, cy, r * 5.5, 0, 7); ctx.fill();
+        ctx.fillStyle = halo; ctx.beginPath(); ctx.arc(cx, cy, r * 7.5, 0, 7); ctx.fill();
         const disc = ctx.createRadialGradient(cx - r * .25, cy - r * .25, 0, cx, cy, r);
-        disc.addColorStop(0, '#fff8e4'); disc.addColorStop(.6, '#ffda8c'); disc.addColorStop(1, '#e3ab54');
+        disc.addColorStop(0, '#ffffff'); disc.addColorStop(.6, '#fff0c4'); disc.addColorStop(1, '#f9cd7c');
         ctx.fillStyle = disc; ctx.beginPath(); ctx.arc(cx, cy, r, 0, 7); ctx.fill();
       } else {
-        const halo = ctx.createRadialGradient(cx, cy, 0, cx, cy, r * 4.2);
-        halo.addColorStop(0, 'rgba(226,232,255,.22)');
-        halo.addColorStop(.5, 'rgba(201,162,75,.08)');
+        const halo = ctx.createRadialGradient(cx, cy, 0, cx, cy, r * 6);
+        halo.addColorStop(0, 'rgba(240,244,255,.56)');
+        halo.addColorStop(.5, 'rgba(220,202,158,.24)');
         halo.addColorStop(1, 'rgba(201,162,75,0)');
-        ctx.fillStyle = halo; ctx.beginPath(); ctx.arc(cx, cy, r * 4.2, 0, 7); ctx.fill();
+        ctx.fillStyle = halo; ctx.beginPath(); ctx.arc(cx, cy, r * 6, 0, 7); ctx.fill();
 
         ctx.save();
         ctx.beginPath(); ctx.arc(cx, cy, r * .82, 0, 7); ctx.clip();
         const disc = ctx.createRadialGradient(cx - r * .2, cy - r * .2, 0, cx, cy, r * .82);
-        disc.addColorStop(0, '#fbf6e6'); disc.addColorStop(1, '#d3c9a0');
+        disc.addColorStop(0, '#fffdf5'); disc.addColorStop(1, '#e9dfbe');
         ctx.fillStyle = disc; ctx.fillRect(cx - r, cy - r, r * 2, r * 2);
         /* phase shading — a dark disc slid across the clipped moon face;
            fully lit at full moon, fully hidden at new moon. */
@@ -1015,6 +992,10 @@
     /* ---- main render ---- */
     function render() {
       if (!visible) return;
+      /* Skip this frame's (expensive) redraw while the page is actively
+         scrolling — see the note by scrollActive's definition above. The
+         canvas simply holds its last painted frame for these few frames. */
+      if (window.__scrollActive && window.__scrollActive()) return;
       t += 0.016;
       updateCyclopsThreat();
       const hor = H * 0.46;
@@ -1055,13 +1036,10 @@
       ctx.fillStyle = 'rgba(190,200,215,.14)';
       ctx.fillRect(0, hor - 1, W, 1.4 * DPR);
 
-      /* wave layers, far → near; ship sails between mid layers */
+      /* wave layers, far → near */
       const LAYERS = 9;
       const WAVE_STEP = 8 * DPR;
-      let shipDrawn = false;
-      for (let L = 0; L < LAYERS; L++) {
-        const p = L / (LAYERS - 1);
-        if (!shipDrawn && p >= SHIP_LAYER_P) { drawShip(t); shipDrawn = true; }
+      function drawWaveLayer(p) {
         const g = layerGeom(p);
         /* waveY() only needs computing once per x per layer — the fill path
            and the crest stroke used to each call it separately, doubling
@@ -1099,6 +1077,7 @@
           ctx.fill();
         }
       }
+      for (let L = 0; L < LAYERS; L++) drawWaveLayer(L / (LAYERS - 1));
 
       /* sea mist above the waterline */
       const mist = ctx.createLinearGradient(0, hor, 0, hor + (H - hor) * .36);
@@ -1113,8 +1092,6 @@
         ctx.fillRect(0, 0, W, H);
         drawThreatGlare(cyclopsIntensity);
         drawCyclops(t, Math.min(1, cyclopsIntensity * 1.22));
-        /* redraw without advancing: vessel and lantern survive as the only human light */
-        drawShip(t, false);
       }
     }
     throttledLoop(render, 30);
@@ -1230,7 +1207,12 @@
     const c = document.getElementById('heroDataCanvas'); if (!c) return; const ctx = c.getContext('2d'); let W = 0, H = 0, visible = true;
     const nodes = Array.from({ length: 18 }, () => ({ x: .12 + Math.random() * .76, y: .10 + Math.random() * .43, ph: Math.random() * 6.28 }));
     function resize() { W = c.width = Math.floor(innerWidth * DPR); H = c.height = Math.floor(innerHeight * DPR) } resize(); addEventListener('resize', resize); new IntersectionObserver(e => visible = e[0].isIntersecting, { threshold: 0 }).observe(c); let t = 0;
-    throttledLoop(function frame() { if (!visible) return; t += prefersReduced ? 0 : .016; ctx.clearRect(0, 0, W, H); ctx.strokeStyle = 'rgba(201,162,75,.075)'; ctx.lineWidth = DPR; ctx.beginPath(); ctx.ellipse(W * .5, H * .40, W * .34, H * .14, 0, Math.PI * .12, Math.PI * .88); ctx.stroke(); for (let i = 0; i < nodes.length; i++) { const a = nodes[i], ax = (a.x + Math.sin(t * .35 + a.ph) * .008) * W, ay = (a.y + Math.cos(t * .29 + a.ph) * .006) * H; for (let j = i + 1; j < nodes.length; j++) { const b = nodes[j], bx = (b.x + Math.sin(t * .35 + b.ph) * .008) * W, by = (b.y + Math.cos(t * .29 + b.ph) * .006) * H, d = Math.hypot(ax - bx, ay - by); if (d < W * .16) { ctx.strokeStyle = `rgba(201,162,75,${(.1 * (1 - d / (W * .16))).toFixed(3)})`; ctx.lineWidth = .55 * DPR; ctx.beginPath(); ctx.moveTo(ax, ay); ctx.lineTo(bx, by); ctx.stroke() } } const g = ctx.createRadialGradient(ax, ay, 0, ax, ay, 7 * DPR); g.addColorStop(0, 'rgba(235,208,143,.76)'); g.addColorStop(1, 'rgba(201,162,75,0)'); ctx.fillStyle = g; ctx.beginPath(); ctx.arc(ax, ay, 7 * DPR, 0, 7); ctx.fill() } }, 30);
+    /* Same story as the hero ocean: with prefersReduced freezing t, every
+       node's position collapses to a constant, so this was redrawing an
+       identical frame — 18 radial gradients plus an O(n²) connection-line
+       sweep — 30 times a second for nothing, right through the busiest part
+       of the hero-to-storm scroll. */
+    throttledLoop(function frame() { if (!visible) return; t += prefersReduced ? 0 : .016; ctx.clearRect(0, 0, W, H); ctx.strokeStyle = 'rgba(201,162,75,.075)'; ctx.lineWidth = DPR; ctx.beginPath(); ctx.ellipse(W * .5, H * .40, W * .34, H * .14, 0, Math.PI * .12, Math.PI * .88); ctx.stroke(); for (let i = 0; i < nodes.length; i++) { const a = nodes[i], ax = (a.x + Math.sin(t * .35 + a.ph) * .008) * W, ay = (a.y + Math.cos(t * .29 + a.ph) * .006) * H; for (let j = i + 1; j < nodes.length; j++) { const b = nodes[j], bx = (b.x + Math.sin(t * .35 + b.ph) * .008) * W, by = (b.y + Math.cos(t * .29 + b.ph) * .006) * H, d = Math.hypot(ax - bx, ay - by); if (d < W * .16) { ctx.strokeStyle = `rgba(201,162,75,${(.1 * (1 - d / (W * .16))).toFixed(3)})`; ctx.lineWidth = .55 * DPR; ctx.beginPath(); ctx.moveTo(ax, ay); ctx.lineTo(bx, by); ctx.stroke() } } const g = ctx.createRadialGradient(ax, ay, 0, ax, ay, 7 * DPR); g.addColorStop(0, 'rgba(235,208,143,.76)'); g.addColorStop(1, 'rgba(201,162,75,0)'); ctx.fillStyle = g; ctx.beginPath(); ctx.arc(ax, ay, 7 * DPR, 0, 7); ctx.fill() } }, prefersReduced ? 4 : 30);
   })();
 
   /* ---------- ambient floating particles (foreground dust) ---------- */

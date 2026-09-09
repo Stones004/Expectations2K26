@@ -38,3 +38,8 @@ dist-ssr
 # Project specific
 venv
 EVENTS_PAGE_VERIFICATION.md
+
+# Brochure PDF is 127MB — over GitHub's 100MB per-file push limit.
+# Remove this line once a compressed/hosted version replaces it.
+Main Brochure E\[X\] 26.pdf
+PRE EXPECTATIONS EVENTS.pdf
