@@ -17,7 +17,8 @@ export const ROUTES = {
 
 export const REGISTRATION_LINKS = {
   PAY_NOW: 'https://eacademia.southindianbank.bank.in/ChristFee/',
-  FORM: 'https://docs.google.com/forms/d/e/1FAIpQLSdadBANkRQNV-2cSfkh2__YnaEK4COW_yFw7fiMnq8xnDbVsA/viewform?usp=dialog',
+  FORM_MAIN: 'https://docs.google.com/forms/d/e/1FAIpQLSdadBANkRQNV-2cSfkh2__YnaEK4COW_yFw7fiMnq8xnDbVsA/viewform?usp=dialog',
+  FORM_PRE_EXPECTATIONS: 'https://forms.gle/yp13cQvyuyyCfVKJA',
 };
 
 export const UI_TEXT = {

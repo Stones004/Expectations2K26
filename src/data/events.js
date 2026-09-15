@@ -62,9 +62,9 @@ export const eventCategories = [
     title: 'Pre Expectations Events',
     tagline: 'The voyage begins early.',
     summary:
-      'Five warm-up events running from 21st to 25th September — a Minecraft build battle, reel making, E-Football, potpourri and a general quiz.',
+      'Six warm-up events running from 21st to 25th September — a Minecraft build battle, reel making, E-Football, potpourri, a general quiz and a hackathon.',
     image: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=1400&q=85',
-    count: 5
+    count: 6
   }
 ];
 
@@ -124,7 +124,7 @@ export const events = [
       {
         name: 'Athira',
         role: 'Event Organizer',
-        image: '',
+        image: '/assets/Athira.jpeg',
         email: '',
         phone: '+91 79770 20787',
         linkedin: ''
@@ -132,7 +132,7 @@ export const events = [
       {
         name: 'Akansha Singh',
         role: 'Event Organizer',
-        image: '',
+        image: '/assets/akansha.jpeg',
         email: '',
         phone: '+91 72507 27006',
         linkedin: ''
@@ -194,7 +194,7 @@ export const events = [
       {
         name: 'Mohamed Namis A',
         role: 'Event Organizer',
-        image: '',
+        image: '/assets/Namis.png',
         email: '',
         phone: '+91 73970 26812',
         linkedin: ''
@@ -202,7 +202,7 @@ export const events = [
       {
         name: 'Chiranshie Vyas',
         role: 'Event Organizer',
-        image: '',
+        image: '/assets/Chiranshie.PNG',
         email: '',
         phone: '+91 88265 78459',
         linkedin: ''
@@ -263,7 +263,7 @@ export const events = [
       {
         name: 'Adlyn Glenita D Cunha',
         role: 'Event Organizer',
-        image: '',
+        image: '/assets/Adlyn Glenita.jpeg',
         email: '',
         phone: '+91 63622 87045',
         linkedin: ''
@@ -271,7 +271,7 @@ export const events = [
       {
         name: 'Christal Deepthi Serrao',
         role: 'Event Organizer',
-        image: '',
+        image: '/assets/deepthi.jpeg',
         email: '',
         phone: '+91 96116 46059',
         linkedin: ''
@@ -381,7 +381,7 @@ export const events = [
       {
         name: 'Darren Dsouza',
         role: 'Event Organizer',
-        image: '',
+        image: '/assets/Darren.jpg',
         email: '',
         phone: '+91 99024 75502',
         linkedin: ''
@@ -389,7 +389,7 @@ export const events = [
       {
         name: 'Jasmine',
         role: 'Event Organizer',
-        image: '',
+        image: '/assets/jasmine.jpeg',
         email: '',
         phone: '+91 76390 11108',
         linkedin: ''
@@ -447,7 +447,7 @@ export const events = [
       {
         name: 'Sristi Banerjee',
         role: 'Event Organizer',
-        image: '',
+        image: '/assets/sristi.jpeg',
         email: '',
         phone: '+91 81000 14022',
         linkedin: ''
@@ -513,7 +513,7 @@ export const events = [
       {
         name: 'Sibin',
         role: 'Event Organizer',
-        image: '',
+        image: '/assets/sibin.jpeg',
         email: '',
         phone: '+91 80787 71574',
         linkedin: ''
@@ -521,7 +521,7 @@ export const events = [
       {
         name: 'Adhi',
         role: 'Event Organizer',
-        image: '',
+        image: '/assets/adi.jpeg',
         email: '',
         phone: '+91 81110 13164',
         linkedin: ''
@@ -579,7 +579,7 @@ export const events = [
       {
         name: 'Simran Rajput',
         role: 'Event Organizer',
-        image: '',
+        image: '/assets/simran.jpeg',
         email: '',
         phone: '+91 78921 82139',
         linkedin: ''
@@ -587,7 +587,7 @@ export const events = [
       {
         name: 'Pratap Mangalam',
         role: 'Event Organizer',
-        image: '',
+        image: '/assets/pratap.jpeg',
         email: '',
         phone: '+91 73385 71742',
         linkedin: ''
@@ -647,7 +647,7 @@ export const events = [
       {
         name: 'Ann Maria Anil',
         role: 'Event Organizer',
-        image: '',
+        image: '/assets/Ann.jpeg',
         email: '',
         phone: '+91 63610 26699',
         linkedin: ''
@@ -655,7 +655,7 @@ export const events = [
       {
         name: 'Sai Sanjana D',
         role: 'Event Organizer',
-        image: '',
+        image: '/assets/Sai Sanjana D.png',
         email: '',
         phone: '+91 97315 19874',
         linkedin: ''
@@ -833,7 +833,7 @@ export const events = [
       {
         name: 'Adduri Srivallika',
         role: 'Event Organizer',
-        image: '',
+        image: '/assets/srivallika.jpeg',
         email: '',
         phone: '+91 74167 03262',
         linkedin: ''
@@ -841,7 +841,7 @@ export const events = [
       {
         name: 'Aliza Elizabeth',
         role: 'Event Organizer',
-        image: '',
+        image: '/assets/aliza.jpeg',
         email: '',
         phone: '+91 70122 44801',
         linkedin: ''
@@ -1049,7 +1049,7 @@ export const events = [
       {
         name: 'Adduri Srivallika',
         role: 'Event Organizer',
-        image: '',
+        image: '/assets/srivallika.jpeg',
         email: '',
         phone: '+91 74167 03262',
         linkedin: ''
@@ -1057,7 +1057,7 @@ export const events = [
       {
         name: 'Aliza Elizabeth',
         role: 'Event Organizer',
-        image: '',
+        image: '/assets/aliza.jpeg',
         email: '',
         phone: '+91 70122 44801',
         linkedin: ''
@@ -1139,6 +1139,25 @@ export const events = [
       ['Technical Build Quality', '20%'],
       ['Detail & Scale', '15%'],
       ['Teamwork & Time Management', '10%']
+    ],
+
+    organizers: [
+      {
+        name: 'Surya',
+        role: 'Event Organizer',
+        image: '/assets/surya.jpeg',
+        email: '',
+        phone: '+91 6361026699',
+        linkedin: ''
+      },
+      {
+        name: 'Alvin',
+        role: 'Event Organizer',
+        image: '/assets/alvin.jpeg',
+        email: '',
+        phone: '+91 97460 70011',
+        linkedin: ''
+      }
     ]
   }),
 
@@ -1204,6 +1223,25 @@ export const events = [
       ['Editing & Technical Quality', '25%'],
       ['Theme Relevance', '25%'],
       ['Overall Presentation', '25%']
+    ],
+
+    organizers: [
+      {
+        name: 'Stebin Limson',
+        role: 'Event Organizer',
+        image: '/assets/stebin.jpeg',
+        email: '',
+        phone: '+91 95670 35091',
+        linkedin: ''
+      },
+      {
+        name: 'Joshua M J',
+        role: 'Event Organizer',
+        image: '/assets/joshua.jpeg',
+        email: '',
+        phone: '+91 99462 00362',
+        linkedin: ''
+      }
     ]
   }),
 
@@ -1275,7 +1313,26 @@ export const events = [
       "The organizers' decision shall be final and binding."
     ],
 
-    evaluation: [['Match Performance', '100%']]
+    evaluation: [['Match Performance', '100%']],
+
+    organizers: [
+      {
+        name: 'Ashutosh Kulkarni',
+        role: 'Event Organizer',
+        image: '/assets/ashutosh.png',
+        email: '',
+        phone: '+91 63665 85461',
+        linkedin: ''
+      },
+      {
+        name: 'Sharon Dany',
+        role: 'Event Organizer',
+        image: '/assets/sharon.jpeg',
+        email: '',
+        phone: '+91 80759 41014',
+        linkedin: ''
+      }
+    ]
   }),
 
   makeEvent({
@@ -1335,6 +1392,24 @@ export const events = [
       ['Round 1 — Pictionary', 'Most correct guesses advances'],
       ['Round 2 — Dumb Charades', 'Most correct guesses advances'],
       ['Round 3 — Jeopardy', 'Highest cumulative points wins']
+    ],
+    organizers: [
+      {
+        name: 'Kamalikha S',
+        role: 'Event Organizer',
+        image: '/assets/Kamalikha.jpeg',
+        email: '',
+        phone: '+91 81110 33738',
+        linkedin: ''
+      },
+      {
+        name: 'Devi M',
+        role: 'Event Organizer',
+        image: '/assets/Devi.jpeg',
+        email: '',
+        phone: '+91 77364 42226',
+        linkedin: ''
+      }
     ]
   }),
 
@@ -1406,7 +1481,71 @@ export const events = [
       ['Round 1 → Round 2', 'Top 10 teams qualify'],
       ['Round 2 → Round 3', 'Top 6 teams qualify'],
       ['Final Ranking', 'Cumulative score of Rounds 2 & 3']
+    ],
+
+    organizers: [
+      {
+        name: 'Kavitha',
+        role: 'Event Organizer',
+        image: '/assets/Kavitha.jpeg',
+        email: '',
+        phone: '+91 95267 40389',
+        linkedin: ''
+      },
+      {
+        name: 'Niveesh',
+        role: 'Event Organizer',
+        image: '/assets/Niveesh.jpeg',
+        email: '',
+        phone: '+91 73561 04791',
+        linkedin: ''
+      }
     ]
+
+  }),
+
+  // Placeholder — full format, timings and problem statements are still being
+  // finalized and will replace these details once confirmed.
+  makeEvent({
+    slug: 'forge-of-prometheus',
+    number: '16',
+    group: 'pre-expectations',
+    category: 'Hackathon',
+    title: 'Forge of Prometheus: Hackathon',
+    tagline: 'Steal the fire. Forge the future.',
+
+    summary:
+      'A new hackathon joining the Pre-Expectations lineup. Full details are being finalized and will be announced soon.',
+
+    image: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=1400&q=85',
+
+    info: [
+      ['Format', 'To be announced'],
+      ['Mode', 'To be announced'],
+      ['Track', 'Hackathon'],
+      ['Date', 'To be announced (21–25 September window)']
+    ],
+
+    about:
+      "Forge of Prometheus is a hackathon joining this year's Pre-Expectations lineup. Format, team size, timings and problem statements are still being finalized — full details will be announced here and shared through the coordinators' updates within the next couple of days.",
+
+    rounds: null,
+
+    rules: [
+      "Full rules and format for this hackathon are still being finalized and will be announced soon — check back here or watch the coordinators' updates."
+    ],
+
+    organizers: [
+      {
+        name: 'To be announced',
+        role: 'Event Organizer',
+        image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=600&q=80',
+        email: '',
+        phone: '',
+        linkedin: ''
+      }
+    ]
+
   }),
 ];
 

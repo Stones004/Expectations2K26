@@ -1,47 +1,92 @@
+import { useState } from 'react';
 import SiteStars from '../components/SiteStars';
 import { Header, Footer } from '../components/layout';
 import { REGISTRATION_LINKS } from '../data/constants';
 
-const STEPS = [
-  {
-    label: 'Step 01',
-    glyph: '✎',
-    title: 'Read the form first',
-    body: (
-      <>
-        Before paying, open the registration form below and read through it fully so
-        you know which package covers the events you want — then come back and pay
-        for the matching package.
-      </>
-    ),
-    cta: { label: 'Open Form ↗', href: REGISTRATION_LINKS.FORM },
+const TRACKS = {
+  main: {
+    key: 'main',
+    glyph: '⚓',
+    label: 'Main Expectations',
+    dates: '28–29 September',
+    blurb: 'The main fest deck — technical, non-technical and flagship events.',
+    route: [
+      { glyph: '✎', label: 'Read' },
+      { glyph: '₹', label: 'Pay' },
+      { glyph: '✓', label: 'Submit' },
+    ],
+    steps: [
+      {
+        label: 'Step 01',
+        glyph: '✎',
+        title: 'Read the form first',
+        body: (
+          <>
+            Before paying, open the registration form below and read through it fully so
+            you know which package covers the events you want — then come back and pay
+            for the matching package.
+          </>
+        ),
+        cta: { label: 'Open Form ↗', href: REGISTRATION_LINKS.FORM_MAIN },
+      },
+      {
+        label: 'Step 02',
+        glyph: '₹',
+        title: 'Pay the registration fee',
+        body: (
+          <>
+            Click <b>Pay Now</b> below, then on the payment site go to{' '}
+            <b>Events → Fest → Choose your package</b> and complete the payment for the
+            package that matches what you're registering for.
+          </>
+        ),
+        cta: { label: 'Pay Now ↗', href: REGISTRATION_LINKS.PAY_NOW },
+      },
+      {
+        label: 'Step 03',
+        glyph: '✓',
+        title: 'Submit with your receipt',
+        body: (
+          <>
+            Attach a screenshot or PDF of your payment receipt to the form before you
+            submit it. Registrations without a valid payment receipt will not be confirmed.
+          </>
+        ),
+        cta: null,
+      },
+    ],
   },
-  {
-    label: 'Step 02',
-    glyph: '₹',
-    title: 'Pay the registration fee',
-    body: (
-      <>
-        Click <b>Pay Now</b> below, then on the payment site go to{' '}
-        <b>Events → Fest → Choose your package</b> and complete the payment for the
-        package that matches what you're registering for.
-      </>
-    ),
-    cta: { label: 'Pay Now ↗', href: REGISTRATION_LINKS.PAY_NOW },
+  pre: {
+    key: 'pre',
+    glyph: '🌊',
+    label: 'Pre-Expectations',
+    dates: '21–25 September',
+    blurb: 'Six warm-up events setting sail early, before the main fest.',
+    route: [
+      { glyph: '✎', label: 'Read' },
+      { glyph: '✓', label: 'Submit' },
+    ],
+    events: [
+      'Forge of Hephaestus',
+      'Chronicles of the Voyage',
+      "The Argonaut's Cup",
+      "The Trickster's Bazaar",
+      "Hermes' Gauntlet",
+      'Forge of Prometheus (details TBA)',
+    ],
+    checklist: [
+      {
+        glyph: '✎',
+        text: "Open the form and read through the event(s) you're entering.",
+      },
+      {
+        glyph: '✓',
+        text: "Fill in your (or your team's) details and submit — no payment step needed.",
+      },
+    ],
+    formHref: REGISTRATION_LINKS.FORM_PRE_EXPECTATIONS,
   },
-  {
-    label: 'Step 03',
-    glyph: '✓',
-    title: 'Submit with your receipt',
-    body: (
-      <>
-        Attach a screenshot or PDF of your payment receipt to the form before you
-        submit it. Registrations without a valid payment receipt will not be confirmed.
-      </>
-    ),
-    cta: null,
-  },
-];
+};
 
 const READY_LIST = [
   {
@@ -63,6 +108,10 @@ const READY_LIST = [
 
 const FAQS = [
   {
+    q: "What's the difference between the two registration forms?",
+    a: "Main Expectations covers the main fest on 28th–29th September and needs a payment receipt attached to the form. Pre-Expectations covers six warm-up events running 21st–25th September, uses its own form, and doesn't need a payment step.",
+  },
+  {
     q: 'Can I register for more than one event?',
     a: 'Yes. Register individually first, even for group or team events — you can team up with your teammates for the same event afterwards.',
   },
@@ -81,7 +130,13 @@ const FAQS = [
 ];
 
 export default function RegisterPage() {
-  const linksPending = REGISTRATION_LINKS.PAY_NOW === '#' || REGISTRATION_LINKS.FORM === '#';
+  const [trackKey, setTrackKey] = useState('main');
+  const track = TRACKS[trackKey];
+
+  const linksPending =
+    REGISTRATION_LINKS.PAY_NOW === '#' ||
+    REGISTRATION_LINKS.FORM_MAIN === '#' ||
+    REGISTRATION_LINKS.FORM_PRE_EXPECTATIONS === '#';
 
   return (
     <>
@@ -95,13 +150,13 @@ export default function RegisterPage() {
             Registrations
           </h1>
           <p>
-            Three quick steps to secure your place in the voyage — read the form, pay,
-            then submit your receipt.
+            Two voyages, two forms — pick your track below, then follow the steps to
+            secure your place.
           </p>
           <ol className="register-hero-route" aria-label="Registration steps at a glance">
-            <li><span>✎</span> Read</li>
-            <li><span>₹</span> Pay</li>
-            <li><span>✓</span> Submit</li>
+            {track.route.map((step) => (
+              <li key={step.label}><span>{step.glyph}</span> {step.label}</li>
+            ))}
           </ol>
         </header>
 
@@ -116,29 +171,92 @@ export default function RegisterPage() {
         )}
 
         <section className="section">
-          <div className="event-highlights-wrap">
-            <div className="event-highlights register-steps">
-              {STEPS.map((step) => (
-                <article key={step.label}>
-                  <small>{step.label}</small>
-                  <span>{step.glyph}</span>
-                  <h3>{step.title}</h3>
-                  <p>{step.body}</p>
-                  {step.cta && (
-                    <a
-                      className="gold-button"
-                      href={step.cta.href}
-                      target={step.cta.href === '#' ? undefined : '_blank'}
-                      rel={step.cta.href === '#' ? undefined : 'noopener noreferrer'}
-                      style={{ marginTop: 22, display: 'inline-block' }}
-                    >
-                      {step.cta.label}
-                    </a>
-                  )}
-                </article>
-              ))}
-            </div>
+          <div className="section-head">
+            <span>Choose Your Track</span>
+            <h2>
+              Two Voyages, <b>One Form Each</b>
+            </h2>
+            <p>Pick which registration you need — the steps below update to match.</p>
           </div>
+
+          <div className="register-track-switcher" role="tablist" aria-label="Registration track">
+            {Object.values(TRACKS).map((t) => (
+              <button
+                key={t.key}
+                type="button"
+                role="tab"
+                aria-selected={t.key === trackKey}
+                className={`register-track-pill${t.key === trackKey ? ' is-active' : ''}`}
+                onClick={() => setTrackKey(t.key)}
+              >
+                <span className="register-track-pill-glyph" aria-hidden="true">{t.glyph}</span>
+                <span className="register-track-pill-text">
+                  <strong>{t.label}</strong>
+                  <small>{t.dates}</small>
+                </span>
+              </button>
+            ))}
+          </div>
+          <p className="register-track-blurb">{track.blurb}</p>
+
+          {trackKey === 'main' ? (
+            <div className="event-highlights-wrap">
+              <div className="event-highlights register-steps">
+                {track.steps.map((step) => (
+                  <article key={step.label}>
+                    <small>{step.label}</small>
+                    <span>{step.glyph}</span>
+                    <h3>{step.title}</h3>
+                    <p>{step.body}</p>
+                    {step.cta && (
+                      <a
+                        className="gold-button"
+                        href={step.cta.href}
+                        target={step.cta.href === '#' ? undefined : '_blank'}
+                        rel={step.cta.href === '#' ? undefined : 'noopener noreferrer'}
+                        style={{ marginTop: 22, display: 'inline-block' }}
+                      >
+                        {step.cta.label}
+                      </a>
+                    )}
+                  </article>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <div className="event-highlights-wrap">
+              <div className="register-ticket">
+                <div className="register-ticket-main">
+                  <small>One Form, Six Events</small>
+                  <h3>{track.events.join(' · ')}</h3>
+                  <p>
+                    No packages, no payment page — one short form covers every
+                    pre-expectations event you sign up for.
+                  </p>
+                  <ul className="register-ticket-checklist">
+                    {track.checklist.map((item) => (
+                      <li key={item.text}>
+                        <span aria-hidden="true">{item.glyph}</span>
+                        {item.text}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="register-ticket-stub">
+                  <span className="register-ticket-stub-glyph" aria-hidden="true">🌊</span>
+                  <strong>Early Boarding · No Payment Step</strong>
+                  <a
+                    className="gold-button"
+                    href={track.formHref}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Open Form ↗
+                  </a>
+                </div>
+              </div>
+            </div>
+          )}
         </section>
 
         <section className="section">
@@ -169,7 +287,8 @@ export default function RegisterPage() {
             </h2>
             <ol>
               <li>Register individually first, even for group/team events — you can team up with the same event afterwards.</li>
-              <li>Keep your payment receipt handy; you'll need to attach it to the registration form.</li>
+              <li>Main Expectations events (28th–29th September) need a payment receipt attached to that form.</li>
+              <li>Pre-Expectations events (21st–25th September) use a separate form and don't need a payment receipt — just fill in your details and submit.</li>
               <li>On-spot registration is also available on 28th &amp; 29th September, subject to availability.</li>
               <li>
                 For any registration issues, reach out to the coordinators listed on the{' '}

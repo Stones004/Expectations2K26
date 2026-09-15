@@ -9,7 +9,7 @@ import { ROUTES } from '../../data/constants';
 
 const NAV_LINKS = [
   { href: '/#storm', label: 'The Voyage' },
-  { to: ROUTES.EVENTS, label: 'Events' },
+  { href: '/#events', label: 'Events' },
   { href: '/#itinerary', label: 'Itinerary' },
   { href: '/#accommodation', label: 'Accommodation' },
   { href: '/#patrons', label: 'Patrons' },
@@ -82,6 +82,11 @@ export default function Header() {
 
         @media(max-width: 750px) {
           .header-burger { display: flex; }
+          /* .header-mobile-menu (z-index:20) is a sibling of .nav, not a child of it, so
+             raising .header-burger's own z-index can't lift it above the menu overlay —
+             .nav (z-index:10) needs to outrank the menu itself, or the burger becomes
+             unclickable once the menu is open and there's no way to close it. */
+          .nav { z-index: 25; }
         }
       `}</style>
 

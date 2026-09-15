@@ -1,6 +1,7 @@
 venv
 node_modules
 EVENTS_PAGE_VERIFICATION.md
+images/
 
 # Logs
 logs
@@ -43,3 +44,4 @@ EVENTS_PAGE_VERIFICATION.md
 # Remove this line once a compressed/hosted version replaces it.
 Main Brochure E\[X\] 26.pdf
 PRE EXPECTATIONS EVENTS.pdf
+Event_Heads-1 (1).docx
