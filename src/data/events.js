@@ -62,7 +62,7 @@ export const eventCategories = [
     title: 'Pre Expectations Events',
     tagline: 'The voyage begins early.',
     summary:
-      'Six warm-up events running from 21st to 25th September — a Minecraft build battle, reel making, E-Football, potpourri, a general quiz and a hackathon.',
+      'Six warm-up events running from 21st to 26th September — a Minecraft build battle, reel making, E-Football, potpourri, a general quiz and a hackathon.',
     image: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=1400&q=85',
     count: 6
   }
@@ -1081,7 +1081,8 @@ export const events = [
     info: [
       ['Format', 'Team'],
       ['Team size', '2–3 members'],
-      ['Mode', 'Offline'],
+      ['Mode', 'Online'],
+      ['Capacity', 'Maximum 20–25 teams'],
       ['Duration', 'Approximately 3 hours'],
       ['Rounds', '1'],
       ['Track', 'Technical'],
@@ -1113,7 +1114,6 @@ export const events = [
         title: 'Server & Technical Setup',
         items: [
           ['Game Version', 'Minecraft Java Edition — same version on every system'],
-          ['Server', 'PaperMC server hosted on the organizer laptop over the lab Ethernet network'],
           ['Mode & World', 'Creative Mode on a superflat world with pre-generated chunks'],
           ['Plot Protection', 'Protected build plots using WorldGuard, with CoreProtect enabled for block logging']
         ]
@@ -1177,7 +1177,7 @@ export const events = [
     info: [
       ['Format', 'Team'],
       ['Team size', '2–4 members'],
-      ['Mode', 'Offline'],
+      ['Mode', 'Online'],
       ['Rounds', '1'],
       ['Reel Length', '60–90 seconds'],
       ['Track', 'Reel Making'],
@@ -1260,10 +1260,10 @@ export const events = [
 
     info: [
       ['Format', 'Individual'],
-      ['Mode', 'Offline — played on mobile'],
+      ['Mode', 'Online — played on mobile'],
       ['Duration', '6 minutes per match'],
       ['Rounds', 'Single knockout'],
-      ['Venue', 'Classroom'],
+      ['Venue', 'Skyview'],
       ['Track', 'Esports'],
       ['Date', '23 September, Wednesday']
     ],
@@ -1310,6 +1310,7 @@ export const events = [
       'Any unfair practices, exploits, or cheating will result in immediate disqualification.',
       'Players must maintain proper conduct and sportsmanship throughout the tournament.',
       'Participants should ensure their phones are sufficiently charged.',
+      'A stable internet connection is required and will be provided by the organizers if necessary.',
       "The organizers' decision shall be final and binding."
     ],
 
@@ -1354,7 +1355,7 @@ export const events = [
       ['Mode', 'Offline'],
       ['Duration', '3 hours'],
       ['Rounds', '3'],
-      ['Venue', 'Classroom (110 & 111)'],
+      ['Venue', 'Panel room'],
       ['Track', 'Potpourri'],
       ['Date', '24 September, Thursday']
     ],
@@ -1431,6 +1432,7 @@ export const events = [
       ['Team size', '2–3 members'],
       ['Mode', 'Offline'],
       ['Rounds', '3'],
+      ['Venue', 'Panel room'],
       ['Track', 'Quiz'],
       ['Date', '25 September, Friday']
     ],
@@ -1457,10 +1459,10 @@ export const events = [
       {
         title: 'Buzzer Round Rules',
         items: [
-          ['First to Buzz', 'The team that presses the buzzer first gets the opportunity to answer'],
+          ['First to Buzz', 'The team that presses the buzzer first gets the opportunity to answer; answering without buzzing first results in a point deduction'],
           ['E-Buzz System', 'The quizmaster is notified of the team number that buzzed first; only that team may answer'],
           ['Answer Lock', 'Once an answer is given, it cannot be changed'],
-          ['Skip Limit', 'In Race to Ithaca, a team may skip a maximum of 2 questions consecutively by saying "SKIP"']
+          ['Skip Limit', 'In Race to Ithaca, a team may skip a maximum of 2 questions consecutively by saying "SKIP", and no question is read more than once']
         ]
       }
     ],
@@ -1474,6 +1476,7 @@ export const events = [
       'In buzzer rounds, the team that presses the buzzer first gets the opportunity to answer.',
       'Once an answer is given, it cannot be changed.',
       'Any form of misconduct, cheating, or unfair assistance will lead to disqualification.',
+      'Participants are expected to maintain discipline and sportsmanship throughout the event.',
       'The final scores declared by the quizmaster will be considered official.'
     ],
 
@@ -1523,7 +1526,7 @@ export const events = [
       ['Format', 'To be announced'],
       ['Mode', 'To be announced'],
       ['Track', 'Hackathon'],
-      ['Date', 'To be announced (21–25 September window)']
+      ['Date', 'To be announced (21–26 September window)']
     ],
 
     about:

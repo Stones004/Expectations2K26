@@ -489,6 +489,30 @@
       }
     }
     cards.forEach(card => { card.setAttribute('aria-expanded', card.classList.contains('is-active') ? 'true' : 'false'); card.addEventListener('click', () => open(card)); card.addEventListener('mouseenter', () => { if (!isCoarse) activate(card) }); card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(card) } }) });
+
+    /* Auto-advance through the cards on a fixed timer so the expand
+       transition is visible even without a hover or a tap (mainly for
+       mobile, where nothing else ever triggers it). Pauses while the
+       visitor is actually interacting with the deck and picks back up
+       once they step away. */
+    if (cards.length > 1) {
+      const AUTO_DELAY = 4200;
+      let autoTimer = null;
+      const scheduleNext = () => {
+        clearTimeout(autoTimer);
+        autoTimer = setTimeout(() => {
+          const activeIndex = cards.findIndex(c => c.classList.contains('is-active'));
+          activate(cards[(activeIndex + 1) % cards.length]);
+          scheduleNext();
+        }, AUTO_DELAY);
+      };
+      const pause = () => clearTimeout(autoTimer);
+      wrap.addEventListener('pointerenter', pause);
+      wrap.addEventListener('pointerleave', scheduleNext);
+      wrap.addEventListener('focusin', pause);
+      wrap.addEventListener('focusout', scheduleNext);
+      scheduleNext();
+    }
   })();
 
   /* ---------- event carousel — content is deliberately centralized for the forthcoming programme ---------- */

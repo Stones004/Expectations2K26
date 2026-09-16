@@ -22,6 +22,12 @@ export default function HomePage() {
       card.addEventListener(
         'click',
         (event) => {
+          // On touch devices there's no hover to expand the card first, so
+          // let the first tap fall through to odyssey-enhanced.js's own
+          // click handler, which expands it (matching what :hover already
+          // does on desktop). Only hijack the click into a navigation once
+          // the card is already expanded, i.e. a second tap.
+          if (!card.classList.contains('is-active')) return;
           event.preventDefault();
           event.stopImmediatePropagation();
           openCategory();
@@ -31,10 +37,11 @@ export default function HomePage() {
       card.addEventListener(
         'keydown',
         (event) => {
-          if (event.key === 'Enter' || event.key === ' ') {
-            event.preventDefault();
-            openCategory();
-          }
+          if (event.key !== 'Enter' && event.key !== ' ') return;
+          if (!card.classList.contains('is-active')) return;
+          event.preventDefault();
+          event.stopImmediatePropagation();
+          openCategory();
         },
         { capture: true }
       );

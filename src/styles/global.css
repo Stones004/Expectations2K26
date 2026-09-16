@@ -2085,23 +2085,58 @@ code {
       font-size: 38px
    }
 
+   /* The desktop fan overlaps cards by design — on a narrow viewport that
+      leaves most cards clipped off-stage and unreachable. Swap it for a
+      swipeable row instead so every card stays visible and legible on
+      mobile. `proximity` (not `mandatory`) gives native momentum a gentle
+      assist toward the nearest card without forcefully re-snapping every
+      programmatic position change — EventGrid.jsx's own JS is still the
+      final authority (on scroll-rest, via scrollIntoView), but letting the
+      browser softly shorten the coast distance keeps a fast flick from
+      sailing past where the visitor actually meant to stop. */
    .card-deck-stage {
-      height: 405px
+      height: auto;
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      overflow-x: auto;
+      padding: 40px 20px 14px;
+      scroll-snap-type: x proximity;
+      scroll-padding-inline: 20px;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      perspective: 1000px
+   }
+
+   .card-deck-stage::-webkit-scrollbar {
+      display: none
    }
 
    .deck-card {
       --card-width: 190px;
+      position: relative;
+      flex: 0 0 auto;
       height: 300px;
-      top: 40px
+      top: auto;
+      left: auto;
+      scroll-snap-align: center;
+      transition: none;
+      will-change: transform, opacity, filter
    }
 
-   .card-deck.is-ready .deck-card {
-      transform: translateX(calc((var(--card-index) - ((var(--card-count) - 1) / 2)) * 49px)) rotate(calc((var(--card-index) - ((var(--card-count) - 1) / 2)) * 4deg))
-   }
-
+   .card-deck.is-ready .deck-card,
    .deck-card:hover,
    .deck-card:focus-visible {
-      transform: translateX(calc((var(--card-index) - ((var(--card-count) - 1) / 2)) * 49px)) translateY(-15px) scale(1.02) rotate(0) !important
+      transform: none !important
+   }
+
+   .card-deck:hover .deck-card:not(:hover) {
+      filter: none
+   }
+
+   .card-deck.is-selecting .card-deck-stage,
+   .card-deck.is-routing .card-deck-stage {
+      overflow: visible
    }
 
    .deck-symbol {
@@ -2458,7 +2493,7 @@ body::-webkit-scrollbar {
 
 @media(max-width:760px) {
    .card-deck-stage {
-      height: 405px
+      height: auto
    }
 
    .deck-card {
@@ -2467,13 +2502,10 @@ body::-webkit-scrollbar {
       border-radius: 18px
    }
 
-   .card-deck.is-ready .deck-card {
-      transform: translateX(calc((var(--card-index) - ((var(--card-count) - 1) / 2)) * 39px)) rotate(calc((var(--card-index) - ((var(--card-count) - 1) / 2)) * 3.2deg))
-   }
-
+   .card-deck.is-ready .deck-card,
    .deck-card:hover,
    .deck-card:focus-visible {
-      transform: translateX(calc((var(--card-index) - ((var(--card-count) - 1) / 2)) * 39px)) translateY(-16px) scale(1.025) rotate(0) !important
+      transform: none !important
    }
 
    .event-canvas {
@@ -3232,7 +3264,7 @@ body::-webkit-scrollbar {
 
 @media(max-width:760px) {
    .card-deck.is-selecting .deck-card.is-selected {
-      transform: translateX(calc((var(--card-index) - ((var(--card-count) - 1) / 2)) * 39px)) translateY(-7px) scale(1.15) rotate(0) !important
+      transform: translateY(-7px) scale(1.15) rotate(0) !important
    }
 }
 
@@ -3277,7 +3309,7 @@ body::-webkit-scrollbar {
 
 @media(max-width:760px) {
    .card-deck.is-routing .deck-card.is-selected {
-      transform: translateX(calc((var(--card-index) - ((var(--card-count) - 1) / 2)) * 39px)) scale(4.6) rotate(0) !important
+      transform: scale(4.6) rotate(0) !important
    }
 }
 
@@ -4623,37 +4655,24 @@ body::-webkit-scrollbar {
 
 /* ==========================================================
    PHONE-WIDTH DECK FIX
-   The fanned card deck above was tuned for tablet/desktop widths;
-   at phone widths the (still oversized) cards spread so far past
-   the stage that the outermost 3-4 of 15 cards were clipped almost
-   entirely off-screen and effectively untappable. Shrinking the
-   card and tightening the fan keeps every card at least mostly
-   reachable. !important is needed because several earlier, looser
-   rules above already target this exact selector at this exact
-   specificity — without it the cascade's last write wins by luck.
+   The fanned card deck is tuned for tablet/desktop widths; on phones
+   (see the max-width:760px scroll-carousel rules above) it becomes a
+   swipeable row instead of a fan, so every card stays fully visible
+   and tappable. Below this just shrinks the cards a bit further so
+   more of the row is visible at once on the narrowest phones.
    ========================================================== */
 @media (max-width: 480px) {
    .card-deck-stage {
-      height: 260px;
+      gap: 12px;
+      padding: 34px 16px 12px;
    }
 
    .deck-card {
-      --card-width: 132px !important;
-      width: 132px !important;
-      height: 220px !important;
-      left: calc(50% - 66px) !important;
-      top: 14px !important;
-   }
-
-   .card-deck.is-ready .deck-card {
-      transform:
-         translateX(calc((var(--card-index) - ((var(--card-count) - 1) / 2)) * 14px)) rotate(calc((var(--card-index) - ((var(--card-count) - 1) / 2)) * 2.3deg)) !important;
-   }
-
-   .deck-card:hover,
-   .deck-card:focus-visible {
-      transform:
-         translateX(calc((var(--card-index) - ((var(--card-count) - 1) / 2)) * 14px)) translateY(-10px) scale(1.04) rotate(0deg) !important;
+      --card-width: 150px !important;
+      width: 150px !important;
+      height: 230px !important;
+      left: auto !important;
+      top: auto !important;
    }
 
    .deck-card-image .deck-title {

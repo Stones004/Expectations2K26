@@ -60,7 +60,7 @@ const TRACKS = {
     key: 'pre',
     glyph: '🌊',
     label: 'Pre-Expectations',
-    dates: '21–25 September',
+    dates: '21–26 September',
     blurb: 'Six warm-up events setting sail early, before the main fest.',
     route: [
       { glyph: '✎', label: 'Read' },
@@ -109,7 +109,7 @@ const READY_LIST = [
 const FAQS = [
   {
     q: "What's the difference between the two registration forms?",
-    a: "Main Expectations covers the main fest on 28th–29th September and needs a payment receipt attached to the form. Pre-Expectations covers six warm-up events running 21st–25th September, uses its own form, and doesn't need a payment step.",
+    a: "Main Expectations covers the main fest on 28th–29th September and needs a payment receipt attached to the form. Pre-Expectations covers six warm-up events running 21st–26th September, uses its own form, and doesn't need a payment step.",
   },
   {
     q: 'Can I register for more than one event?',
@@ -288,7 +288,7 @@ export default function RegisterPage() {
             <ol>
               <li>Register individually first, even for group/team events — you can team up with the same event afterwards.</li>
               <li>Main Expectations events (28th–29th September) need a payment receipt attached to that form.</li>
-              <li>Pre-Expectations events (21st–25th September) use a separate form and don't need a payment receipt — just fill in your details and submit.</li>
+              <li>Pre-Expectations events (21st–26th September) use a separate form and don't need a payment receipt — just fill in your details and submit.</li>
               <li>On-spot registration is also available on 28th &amp; 29th September, subject to availability.</li>
               <li>
                 For any registration issues, reach out to the coordinators listed on the{' '}
