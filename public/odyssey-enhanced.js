@@ -606,10 +606,16 @@
       window.__stormParallax = sp - .5;
     }
 
-    /* itinerary path fill */
+    /* itinerary path fill — a scaleY transform instead of animating height:
+       height is a layout property, so writing it every rAF tick forced a
+       synchronous reflow each frame, right in the middle of a scroll
+       gesture. That, combined with the CSS transition below fighting the
+       per-frame JS value, was what made scrolling stall/stutter through
+       this section. transform is compositor-only and needs no transition
+       of its own since smoothY above already supplies the easing. */
     const itinTop = itinDocTop - scrollY;
     const ip = clamp((hh * 0.72 - itinTop) / itinHeight, 0, 1);
-    itinFill.style.height = (ip * 100).toFixed(2) + '%';
+    itinFill.style.transform = `scaleY(${ip.toFixed(4)})`;
 
     requestAnimationFrame(scrollLoop);
   }

@@ -1101,10 +1101,10 @@ export const events = [
 
     details: [
       {
-        title: 'Schedule & Venue',
+        title: 'Schedule and Venue',
         items: [
-          ['Venue', 'Christ University Computer Lab (Ethernet-connected desktop systems)'],
-          ['Reporting & System Allocation', '15 minutes'],
+          ['Venue', 'Online'],
+          ['Reporting', '15 minutes'],
           ['Rules & Briefing', '10 minutes'],
           ['Build Phase', '2 hours'],
           ['Judging', '30 minutes']
@@ -1122,8 +1122,8 @@ export const events = [
 
     rules: [
       'Teams must consist of 2–3 participants.',
+      'Participants must use their own laptops.',
       'Participants must report 15 minutes before the event.',
-      'Only the laboratory desktop systems may be used.',
       'All builds must be created during the competition.',
       'Pre-built worlds, downloaded schematics, templates, or copied builds are prohibited.',
       'Client-side modifications that provide unfair advantages (e.g., Litematica, Schematica, Baritone, Freecam, automation tools) are prohibited.',
@@ -1147,7 +1147,7 @@ export const events = [
         role: 'Event Organizer',
         image: '/assets/surya.jpeg',
         email: '',
-        phone: '+91 6361026699',
+        phone: '+91 6361052749',
         linkedin: ''
       },
       {
@@ -1370,7 +1370,7 @@ export const events = [
       ],
       [
         'Dumb Charades',
-        'One member acts while the other guesses. Each team gets 1 minute to guess as many words as possible. The team with the highest number of correct guesses wins the round.'
+        'One member acts while the other guesses. Each team gets 2 minutes to guess as many words as possible. The team with the highest number of correct guesses wins the round.'
       ],
       [
         'Jeopardy',
@@ -1438,20 +1438,20 @@ export const events = [
     ],
 
     about:
-      "Hermes' Gauntlet: The Herald's Trial is a general quiz designed to test students' general knowledge, awareness, logical thinking, quick decision-making, and presence of mind through three engaging rounds. The rounds include Rapid Fire, Buzzer, and Theme-Based questions, assessing knowledge, speed, accuracy, and the ability to perform under pressure.",
+      "Hermes' Gauntlet: The Herald's Trial is a general quiz designed to test students' general knowledge, awareness, logical thinking, quick decision-making, and presence of mind through three engaging rounds. The rounds include kahoot live quiz, theme-based round and rapid fire, assessing knowledge, speed, accuracy, and the ability to perform under pressure.",
 
     rounds: [
       [
         'The First Quest',
-        'A preliminary round of 20 MCQ questions from General Knowledge and Current Affairs, conducted via Kahoot or pen-and-paper. The top 10 teams qualify for Round 2.'
+        'A preliminary round of 20 MCQ questions from General Knowledge and Current Affairs, conducted via Kahoot or pen-and-paper. The top 12 teams qualify for Round 2.'
       ],
       [
         'Clash of Titans',
-        'Teams pick a themed chit at random and face off against another team on the same theme in a 3-question buzzer round, scoring 10 points per correct answer. The top 6 teams from this round advance to the final.'
+        'Teams pick a themed chit at random and face off against another team on the same theme in a 7-question buzzer round, scoring 10 points per correct answer. The top 6 teams from this round advance to the final.'
       ],
       [
         'Race to Ithaca',
-        'A rapid-fire finale where each team gets 60 seconds to answer as many questions correctly as possible, earning 5 points per correct answer. Winners are decided on cumulative scores from Rounds 2 and 3.'
+        'A rapid-fire finale where each team gets 45 seconds to answer as many questions correctly as possible, earning 5 points per correct answer. Winners are decided on cumulative scores from Rounds 2 and 3.'
       ]
     ],
 
