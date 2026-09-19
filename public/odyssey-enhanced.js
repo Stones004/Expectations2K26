@@ -491,11 +491,20 @@
     cards.forEach(card => { card.setAttribute('aria-expanded', card.classList.contains('is-active') ? 'true' : 'false'); card.addEventListener('click', () => open(card)); card.addEventListener('mouseenter', () => { if (!isCoarse) activate(card) }); card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(card) } }) });
 
     /* Auto-advance through the cards on a fixed timer so the expand
-       transition is visible even without a hover or a tap (mainly for
-       mobile, where nothing else ever triggers it). Pauses while the
-       visitor is actually interacting with the deck and picks back up
-       once they step away. */
-    if (cards.length > 1) {
+       transition is visible even without a hover (desktop only). Pauses
+       while the visitor is actually interacting with the deck and picks
+       back up once they step away.
+
+       Deliberately skipped on coarse/touch pointers: its pause/resume
+       relies on pointerenter/pointerleave, which touch doesn't fire the
+       way a mouse hover does. On mobile the timer kept ticking in the
+       background after a tap and would swap the active card out from
+       under the visitor a few seconds later — the card they'd just
+       opened would get pulled out of view, uncentered, mid-transition,
+       fighting whatever the visitor tapped next. Taps are authoritative
+       on touch, so there's nothing for an attention-grabbing auto-cycle
+       to add there anyway. */
+    if (!isCoarse && cards.length > 1) {
       const AUTO_DELAY = 4200;
       let autoTimer = null;
       const scheduleNext = () => {
@@ -536,10 +545,6 @@
     tab.addEventListener('click', activate);
     tab.addEventListener('mouseenter', activate);
   });
-
-  /* ---------- marquee duplicate ---------- */
-  const mq = document.getElementById('marqueeTrack');
-  mq.innerHTML += mq.innerHTML;
 
   /* ============================================================
      SCROLL ENGINE — one rAF loop, lerped values

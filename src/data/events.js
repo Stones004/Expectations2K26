@@ -1507,44 +1507,94 @@ export const events = [
 
   }),
 
-  // Placeholder — full format, timings and problem statements are still being
-  // finalized and will replace these details once confirmed.
   makeEvent({
-    slug: 'forge-of-prometheus',
+    slug: 'signal-26',
     number: '16',
     group: 'pre-expectations',
     category: 'Hackathon',
-    title: 'Forge of Prometheus: Hackathon',
-    tagline: 'Steal the fire. Forge the future.',
+    title: 'Signal 26: Intercollegiate Hackathon',
+    tagline: 'Find the signal in the noise.',
 
     summary:
-      'A new hackathon joining the Pre-Expectations lineup. Full details are being finalized and will be announced soon.',
+      'A 24-hour online hackathon by Anthrena, in collaboration with CHRIST University, Bangalore — analyse live business data and pitch actionable insights against the clock.',
 
     image: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=1400&q=85',
 
     info: [
-      ['Format', 'To be announced'],
-      ['Mode', 'To be announced'],
+      ['Format', 'Team (2–3 members)'],
+      ['Mode', 'Online'],
+      ['Duration', '24 Hours — Overnight Sprint'],
+      ['Platform', 'Anthrena Desk'],
+      ['Submission', '.ASBX file'],
       ['Track', 'Hackathon'],
-      ['Date', 'To be announced (21–26 September window)']
+      ['Date', '26 September, Saturday'],
+      ['Time', '10:00 AM IST']
     ],
 
     about:
-      "Forge of Prometheus is a hackathon joining this year's Pre-Expectations lineup. Format, team size, timings and problem statements are still being finalized — full details will be announced here and shared through the coordinators' updates within the next couple of days.",
+      'What if data could change the way businesses make decisions — in real time? CHRIST University, Bangalore, in collaboration with Anthrena, invites student innovators to Signal 26 — a high-energy, 24-hour online hackathon where you go beyond theory and tackle live business challenges head-on. Bring your sharpest analytical thinking, your best team, and your hunger to solve problems that matter.',
 
-    rounds: null,
+    rounds: [
+      [
+        'The Challenge',
+        'Teams are presented with a real-world business problem backed by live data. The task is to analyse, interpret, and present actionable insights within 24 hours — expected approaches include data visualization, statistical analysis, and, where relevant, predictive modelling.'
+      ]
+    ],
+
+    details: [
+      {
+        title: 'Expected Approaches',
+        items: [
+          ['Data Visualization', 'Tell the story the data is trying to tell'],
+          ['Statistical Analysis', 'Surface patterns, trends, and anomalies'],
+          ['Predictive Modelling', 'Where relevant, forecast what comes next']
+        ]
+      },
+      {
+        title: 'Eligibility',
+        items: [
+          ['Who can participate', 'Undergraduate and postgraduate students from all recognised colleges and universities'],
+          ['Teams', 'Interdisciplinary teams are encouraged']
+        ]
+      },
+      {
+        title: 'Submission',
+        items: [
+          ['File format', '.ASBX file'],
+          ['Platform', 'Anthrena Desk — watch the platform tutorial above before you begin']
+        ]
+      }
+    ],
+
+    video: {
+      id: 'LKmUvvNw6UE',
+      title: 'Anthrena Desk — Platform Tutorial'
+    },
 
     rules: [
-      "Full rules and format for this hackathon are still being finalized and will be announced soon — check back here or watch the coordinators' updates."
+      'Teams must consist of 2 to 3 members.',
+      'The hackathon runs for 24 hours in online mode, starting 26 September at 10:00 AM IST.',
+      'Submissions must be made as a .ASBX file on the Anthrena Desk platform before the deadline.',
+      'Open to undergraduate and postgraduate students from all recognised colleges and universities; interdisciplinary teams are encouraged.',
+      'Participants should watch the Anthrena Desk platform tutorial beforehand to avoid losing time during the event.',
+      'The decision of the judging panel will be final and binding.'
     ],
 
     organizers: [
       {
-        name: 'To be announced',
+        name: 'Allen Binoy',
         role: 'Event Organizer',
-        image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=600&q=80',
+        image: '/assets/allen.jpeg',
         email: '',
-        phone: '',
+        phone: '+91 81368 47853',
+        linkedin: ''
+      },
+      {
+        name: 'Sharon Susan Thomson',
+        role: 'Event Organizer',
+        image: '/assets/sharon_s.jpeg',
+        email: '',
+        phone: '+91 88488 11058',
         linkedin: ''
       }
     ]

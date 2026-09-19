@@ -72,7 +72,7 @@ const TRACKS = {
       "The Argonaut's Cup",
       "The Trickster's Bazaar",
       "Hermes' Gauntlet",
-      'Forge of Prometheus (details TBA)',
+      'Signal 26: Intercollegiate Hackathon',
     ],
     checklist: [
       {

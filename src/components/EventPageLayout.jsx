@@ -9,6 +9,7 @@ import {
   EventOrganizersSection,
   EventDetailsSection,
   EventEvaluationSection,
+  EventVideoSection,
 } from './event-detail';
 
 /**
@@ -26,6 +27,7 @@ export default function EventPageLayout({ event }) {
         <EventInfoSection event={event} />
         <EventAboutSection event={event} />
         <EventRoundsSection event={event} />
+        <EventVideoSection event={event} />
         {event.details?.length > 0 && (
           <EventDetailsSection event={event} />
         )}

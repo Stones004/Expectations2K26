@@ -56,10 +56,39 @@ export default function EventGrid({ events, onSelectEvent }) {
   useLayoutEffect(() => {
     const stage = stageRef.current;
     if (!stage || !loop) return;
-    const cards = stage.querySelectorAll('.deck-card');
-    if (cards.length < events.length * 2) return;
-    const setWidth = cards[events.length].getBoundingClientRect().left - cards[0].getBoundingClientRect().left;
-    if (setWidth > 0) stage.scrollLeft = setWidth * HOME_COPY;
+
+    // useLayoutEffect guarantees this runs after React's own DOM mutations
+    // are committed, but not after the mobile stylesheet rules have
+    // actually taken effect — on first load those can still be a frame
+    // behind, and until they land every card is still positioned by the
+    // desktop (absolute, `left: calc(50% - width/2)`) rule, where every
+    // card sits at the same x. Measuring "one set" then reads 0 for all of
+    // them, the `setWidth > 0` guard skips the position write, and the
+    // deck silently starts at the true first card (scrollLeft 0) instead
+    // of the home copy — no buffer on the left at all from the very first
+    // scroll. offsetLeft is the right property (pure layout geometry,
+    // unaffected by transform) but it still needs the mobile layout to
+    // have actually been applied first, so retry across a few animation
+    // frames rather than assuming that's already true.
+    let attempts = 0;
+    let rafId = null;
+    const tryPosition = () => {
+      const cards = stage.querySelectorAll('.deck-card');
+      if (cards.length >= events.length * 2) {
+        const setWidth = cards[events.length].offsetLeft - cards[0].offsetLeft;
+        if (setWidth > 0) {
+          stage.scrollLeft = setWidth * HOME_COPY;
+          return;
+        }
+      }
+      attempts += 1;
+      if (attempts < 8) rafId = requestAnimationFrame(tryPosition);
+    };
+    tryPosition();
+
+    return () => {
+      if (rafId) cancelAnimationFrame(rafId);
+    };
   }, [loop, events.length]);
 
   // Mobile deck: instead of the desktop fan, cards sit on a scrollable row
@@ -101,9 +130,7 @@ export default function EventGrid({ events, onSelectEvent }) {
     //
     // It always re-anchors to the real DOM card nearest the middle of the
     // row (never a computed pixel offset — that's what could land a
-    // fraction off the true grid) and, when looping, maps that card to its
-    // equivalent in the home copy so the row can keep scrolling forever
-    // without ever visibly resetting.
+    // fraction off the true grid).
     const snapToNearest = () => {
       if (!mq.matches) return;
       const cards = stage.querySelectorAll('.deck-card');
@@ -121,11 +148,51 @@ export default function EventGrid({ events, onSelectEvent }) {
         }
       });
       if (closestIndex === -1) return;
-      const targetIndex = loop ? HOME_COPY * events.length + (closestIndex % events.length) : closestIndex;
-      const target = cards[targetIndex];
-      if (target && closestDist > 1) {
-        target.scrollIntoView({ inline: 'center', block: 'nearest' });
+
+      // Once the nearest card is sitting in the outermost buffer copy on
+      // either side, redirect the snap target to the pixel-identical card
+      // one full set back toward the middle, before the visitor can scroll
+      // far enough to run out of copies — this is what keeps the loop
+      // endless. Every other rest just re-centers whichever card is
+      // actually already nearest, in place.
+      let targetIndex = closestIndex;
+      if (loop) {
+        const copyIndex = Math.floor(closestIndex / events.length);
+        if (copyIndex === 0 || copyIndex === LOOP_COPIES - 1) {
+          targetIndex = (HOME_COPY - copyIndex) * events.length + closestIndex;
+        }
       }
+      const target = cards[targetIndex];
+      if (!target) return;
+
+      if (targetIndex === closestIndex) {
+        // Ordinary re-centering — scrollIntoView is fine here since the
+        // movement is at most a fraction of one card width.
+        if (closestDist > 1) target.scrollIntoView({ inline: 'center', block: 'nearest' });
+        return;
+      }
+
+      // A full-set jump to a different copy of the identical content.
+      // Earlier this used to nudge the *current* scrollLeft by one
+      // measured "set width" — but that measurement came from
+      // getBoundingClientRect(), which by this point reflects the curve
+      // effect's already-applied per-card transforms (rotateY/translateZ/
+      // scale), not plain layout position, so it over- or under-shot the
+      // true distance and the nudge landed one card off from the card it
+      // meant to match. Computing the target's own centered scrollLeft
+      // directly from offsetLeft/offsetWidth (pure layout geometry, never
+      // touched by `transform`) removes that guesswork, and also means any
+      // small pre-existing misalignment in the current position can't
+      // carry over into the jump. Recomputing the transforms synchronously
+      // right after, instead of waiting for the scroll event → rAF
+      // pipeline, closes the last gap: without it, cards would render for
+      // a frame with transforms still computed for the position they'd
+      // just been yanked away from — the visible "two cards clashing"
+      // ghost, worst right at the ends of the list where this jump was
+      // largest.
+      const targetCenter = target.offsetLeft + target.offsetWidth / 2;
+      stage.scrollLeft = targetCenter - stage.clientWidth / 2;
+      applyUpdate();
     };
 
     const applyUpdate = () => {

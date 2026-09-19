@@ -2088,12 +2088,16 @@ code {
    /* The desktop fan overlaps cards by design — on a narrow viewport that
       leaves most cards clipped off-stage and unreachable. Swap it for a
       swipeable row instead so every card stays visible and legible on
-      mobile. `proximity` (not `mandatory`) gives native momentum a gentle
-      assist toward the nearest card without forcefully re-snapping every
-      programmatic position change — EventGrid.jsx's own JS is still the
-      final authority (on scroll-rest, via scrollIntoView), but letting the
-      browser softly shorten the coast distance keeps a fast flick from
-      sailing past where the visitor actually meant to stop. */
+      mobile. No `scroll-snap-type` here: EventGrid.jsx's own JS
+      (snapToNearest, driven off scroll-rest) is the only thing that
+      decides where the row settles. A CSS snap point — even `proximity`,
+      which still actively pulls the scroll position once native momentum
+      drifts close to one — fights that JS correction: the browser snaps
+      to whatever card LOOKS nearest mid-scroll, the JS then re-corrects
+      to the true centered card once it reads the DOM, and on a fast flick
+      the two re-trigger each other. That's what made the deck seem to get
+      stuck and keep reverting to one card instead of landing wherever the
+      visitor actually meant to stop. */
    .card-deck-stage {
       height: auto;
       display: flex;
@@ -2101,7 +2105,6 @@ code {
       gap: 16px;
       overflow-x: auto;
       padding: 40px 20px 14px;
-      scroll-snap-type: x proximity;
       scroll-padding-inline: 20px;
       -webkit-overflow-scrolling: touch;
       scrollbar-width: none;
@@ -2119,7 +2122,6 @@ code {
       height: 300px;
       top: auto;
       left: auto;
-      scroll-snap-align: center;
       transition: none;
       will-change: transform, opacity, filter
    }
@@ -2712,6 +2714,45 @@ body::-webkit-scrollbar {
    margin: 0;
    color: var(--dim);
    font: italic clamp(26px, 3vw, 38px)/1.47 var(--serif)
+}
+
+.detail-video .video-brand {
+   display: inline-flex;
+   align-items: center;
+   background: var(--ivory);
+   padding: 9px 18px;
+   border-radius: 4px;
+}
+
+.detail-video .video-brand img {
+   display: block;
+   height: 18px;
+   width: auto;
+}
+
+.detail-video p.video-caption {
+   max-width: 700px;
+   margin: 18px 0 28px;
+   color: var(--dim);
+   font: italic clamp(18px, 1.8vw, 22px)/1.55 var(--serif)
+}
+
+.detail-video .video-embed {
+   position: relative;
+   width: 100%;
+   max-width: 800px;
+   aspect-ratio: 16 / 9;
+   overflow: hidden;
+   border: 1px solid var(--line);
+   background: rgba(0, 0, 0, .3);
+}
+
+.detail-video .video-embed iframe {
+   position: absolute;
+   inset: 0;
+   width: 100%;
+   height: 100%;
+   border: 0;
 }
 
 .round-list {

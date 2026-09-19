@@ -1633,121 +1633,6 @@ textarea {
 }
 
 /* ============================================================
-   PATRONS — sponsors
-   ============================================================ */
-.patron-tier {
-  font-size: .64rem;
-  letter-spacing: .4em;
-  text-transform: uppercase;
-  color: var(--ivory-faint);
-  text-align: center;
-  margin: 3.4rem 0 1.8rem;
-}
-
-.patron-tier:first-of-type {
-  margin-top: 0
-}
-
-.patron-row {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  border-top: 1px solid var(--line-soft);
-  border-left: 1px solid var(--line-soft);
-}
-
-.patron {
-  flex: 1 1 240px;
-  min-height: 130px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-right: 1px solid var(--line-soft);
-  border-bottom: 1px solid var(--line-soft);
-  position: relative;
-  overflow: hidden;
-}
-
-.patron::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(60% 80% at 50% 110%, rgba(201, 162, 75, .13), transparent 70%);
-  opacity: 0;
-  transition: opacity .7s var(--ease-soft);
-}
-
-.patron:hover::after {
-  opacity: 1
-}
-
-.patron span {
-  font-family: var(--font-display);
-  font-weight: 500;
-  letter-spacing: .22em;
-  font-size: 1.02rem;
-  color: var(--ivory-faint);
-  transition: color .7s, transform .7s var(--ease-soft);
-}
-
-.patron:hover span {
-  color: var(--gold-light);
-  transform: translateY(-3px)
-}
-
-.patron small {
-  position: absolute;
-  bottom: .9rem;
-  font-size: .56rem;
-  letter-spacing: .3em;
-  text-transform: uppercase;
-  color: rgba(244, 239, 228, .55);
-}
-
-.patron-marquee {
-  margin-top: 3.2rem;
-  overflow: hidden;
-  position: relative;
-  border-top: 1px solid var(--line-soft);
-  border-bottom: 1px solid var(--line-soft);
-  padding: 1.5rem 0;
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
-  mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
-}
-
-.patron-marquee-track {
-  display: flex;
-  gap: 4.5rem;
-  width: max-content;
-  animation: marquee 36s linear infinite;
-}
-
-.patron-marquee:hover .patron-marquee-track {
-  animation-play-state: paused
-}
-
-.patron-marquee-track span {
-  font-size: .72rem;
-  letter-spacing: .34em;
-  text-transform: uppercase;
-  color: var(--ivory-faint);
-  white-space: nowrap;
-}
-
-.patron-marquee-track i {
-  font-style: normal;
-  color: var(--gold);
-  font-size: .5rem;
-  align-self: center
-}
-
-@keyframes marquee {
-  to {
-    transform: translateX(-50%)
-  }
-}
-
-/* ============================================================
    REGISTER
    ============================================================ */
 .register {
@@ -3265,8 +3150,7 @@ body.cyclops-looming .storm {
 .hero-scroll-line::after,
 .nav-logo::before,
 .events-carousel::after,
-.hero-cta-row .btn-gold,
-.patron-marquee-track {
+.hero-cta-row .btn-gold {
   animation: none !important
 }
 
