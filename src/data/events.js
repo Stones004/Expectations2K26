@@ -30,8 +30,40 @@ const organizers = [
   }
 ];
 
+/* Prize rules (see Website Update Requirements):
+   - Pre-Expectations: no podium prizes; only the hackathon carries a cash prize.
+   - Myths in Motion & Siren's Stage: their own ₹15,000 cash prize each.
+   - Every other technical / non-technical event: 1st ₹7,000, 2nd ₹5,000, 3rd ₹3,000. */
+const STANDARD_PODIUM = [
+  ['1st Prize', '₹7,000', 'Golden Laurel'],
+  ['2nd Prize', '₹5,000', 'Silver Trident'],
+  ['3rd Prize', '₹3,000', 'Bronze Shield']
+];
+
+const SPECIAL_CASH_PRIZES = {
+  'myths-in-motion': '₹15,000',
+  'sirens-stage': '₹15,000',
+  'signal-26': '₹10,000'
+};
+
+const getPrize = (data) => {
+  const cash = SPECIAL_CASH_PRIZES[data.slug];
+  if (cash) {
+    return {
+      type: 'cash',
+      amount: cash,
+      note: data.group === 'pre-expectations' ? 'Cash prize for the Hackathon' : 'Cash prize for this event'
+    };
+  }
+  if (data.group === 'technical' || data.group === 'non-technical') {
+    return { type: 'podium', places: STANDARD_PODIUM };
+  }
+  return null;
+};
+
 const makeEvent = (data) => ({
   ...data,
+  prize: getPrize(data),
   rules: data.rules || defaultRules,
   evaluation: data.evaluation || defaultEvaluation,
   organizers: data.organizers || organizers,
@@ -152,7 +184,7 @@ export const events = [
       'A multi-round technical quiz competition combining statistics, probability, logical reasoning, analytical thinking and teamwork through written and interactive challenges.',
 
     image:
-      '/assets/Battle-of-Probabilities.jpg',
+      '/assets/stat_wars.png',
 
     info: [
       ['Format', 'Team'],
@@ -222,7 +254,7 @@ export const events = [
       'A technical team competition combining Data Science, AI, Statistics, logical reasoning, and survey-based challenges to test analytical thinking, problem solving, and the ability to think with data and like the crowd.',
 
     image:
-      '/assets/The-Oracles-Verdict.jpg',
+      '/assets/data_feud.png',
 
     info: [
       ['Format', 'Team'],
@@ -291,7 +323,7 @@ export const events = [
       'A fast-paced escape-room challenge where teams navigate a series of technical, non-technical, and mini-game challenges. Solve, unlock, and advance through the quest while racing against time.',
 
     image:
-      '/assets/The-Fates-Wager.jpg',
+      '/assets/fates_wagers.png',
 
     info: [
       ['Format', 'Escape-room challenge'],
@@ -1076,7 +1108,7 @@ export const events = [
     summary:
       'A technical team-based Minecraft Build Battle where participants recreate or interpret a theme announced at the start of the competition, building entirely within Minecraft Java Edition on a centrally hosted server.',
 
-    image: '/assets/Forge-of-Hephaestus.jpg',
+    image: '/assets/minecraft.png',
 
     info: [
       ['Format', 'Team'],
@@ -1347,7 +1379,7 @@ export const events = [
     summary:
       'A fun and lively team event where participants put their creativity, acting skills, and quick thinking to the test across three exciting rounds — Pictionary, Dumb Charades, and Jeopardy.',
 
-    image: '/assets/The-Tricksters-Bazaar.jpg',
+    image: '/assets/tricksters_bazaar.png',
 
     info: [
       ['Format', 'Team'],

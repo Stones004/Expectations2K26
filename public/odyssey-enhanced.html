@@ -12,7 +12,7 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="odyssey-enhanced.css">
+  <link rel="stylesheet" href="odyssey-enhanced.css?v=4">
 </head>
 
 <body>
@@ -197,11 +197,23 @@
         <!-- <p class="section-lede rv">Not a conference. An expedition — charted across three days of discovery, craft and ambition.</p> -->
       </div>
       <div class="overview-grid">
-        <h3 class="overview-display rv-left"><span class="gold">Exciting Prize Pool</span>
-          <ol>1st Prize - ₹7000</ol>
-          <ol>2nd Prize - ₹5000</ol>
-          <ol>3rd Prize - ₹3000</ol>
-        </h3>
+        <div class="prize-pool rv-left">
+          <span class="prize-pool-tag">The Treasure Chest</span>
+          <h3 class="prize-pool-title">Exciting <span class="gold">Prize Pool</span></h3>
+          <ul class="prize-tiers">
+            <li class="tier-1"><span class="tier-medal">I</span><span class="tier-name">1st Prize</span><b>₹7,000</b></li>
+            <li class="tier-2"><span class="tier-medal">II</span><span class="tier-name">2nd Prize</span><b>₹5,000</b></li>
+            <li class="tier-3"><span class="tier-medal">III</span><span class="tier-name">3rd Prize</span><b>₹3,000</b></li>
+          </ul>
+          <div class="prize-legends">
+            <span class="legends-tag">Legendary Group Events</span>
+            <div class="legends-row">
+              <div><em>Myths in Motion</em><b>₹15,000</b></div>
+              <div><em>Siren's Stage: Where Waves Dance</em><b>₹15,000</b></div>
+            </div>
+            <small>Cash prize applies separately to each event.</small>
+          </div>
+        </div>
         <div class="overview-copy rv-right">
           <p>E [X]PECTATIONS is the annual intercollegiate fest organized by the Department of Statistics and Data
             Science at CHRIST (Deemed to be University).</p>
@@ -209,6 +221,21 @@
           <p>Join us for an exciting array of technical and non-technical events that challenge your analytical skills,
             creativity, and teamwork. Whether you're a data enthusiast or just curious about the world of statistics,
             E[X]PECTATIONS'26 has something for everyone.</p>
+        </div>
+      </div>
+      <div class="fare-board rv" aria-label="Registration information">
+        <div class="fare-compass" aria-hidden="true">⚓</div>
+        <div class="fare-cell fare-main">
+          <span class="fare-badge">Registration Fee</span>
+          <span class="fare-tag">Passage Fare · Main Expectations</span>
+          <div class="fare-price">Just <b>₹350</b></div>
+          <div class="fare-days">for <b>Two Days</b> of the voyage</div>
+        </div>
+        <div class="fare-cell fare-free">
+          <span class="fare-badge fare-badge-free">Pre-Expectations</span>
+          <span class="fare-tag">Boarding Pass · No Charge</span>
+          <div class="fare-price"><b>FREE</b> Registration</div>
+          <div class="fare-days">Featuring a <b>Hackathon</b> with a <b>₹10,000</b> cash prize</div>
         </div>
       </div>
       <div class="stats">
@@ -270,7 +297,8 @@
             <h3 class="event-card-title">Pre Expectations Events</h3>
             <div class="event-card-detail">
               <p>A Minecraft build battle, reel making, E-Football, potpourri, a general quiz and Signal 26 — the
-                voyage begins early.</p><span>6 events ·
+                voyage begins early.</p>
+              <p class="event-card-prize">🏆 Hackathon · ₹10,000 Cash Prize</p><span>6 events ·
                 Explore passage</span>
             </div>
           </div>
@@ -315,7 +343,7 @@
             <li><span class="itin-time">25 Sep</span><span class="itin-event">Hermes' Gauntlet</span><span
                 class="itin-note">The Herald's Trial — General Quiz</span></li>
             <li><span class="itin-time">26 Sep</span><span class="itin-event">Signal 26</span><span
-                class="itin-note">Intercollegiate Hackathon</span></li>
+                class="itin-note">Intercollegiate Hackathon · <b class="itin-prize">₹10,000 Cash Prize</b></span></li>
           </ul>
         </div>
 
