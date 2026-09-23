@@ -21,11 +21,12 @@ export default function EventInfoSection({ event }) {
 
         {prize?.type === 'podium' && (
           <div className="prize-podium" role="list" aria-label="Prize money">
-            {prize.places.map(([place, amount, emblem], i) => (
+            {prize.places.map(([place, amount, emblem, sponsor], i) => (
               <div key={place} role="listitem" className={`prize-place place-${i + 1}`}>
                 <em>{emblem}</em>
                 <span>{place}</span>
                 <b>{amount}</b>
+                {sponsor && <small className="prize-sponsor">by {sponsor}</small>}
               </div>
             ))}
           </div>

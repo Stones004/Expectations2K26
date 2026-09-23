@@ -250,10 +250,23 @@ export default function EventGrid({ events, onSelectEvent }) {
       scheduleUpdate();
     };
 
+    // `scrollend` fires exactly once, at the true end of a gesture (touch
+    // release + any momentum settling) — that's what the 140ms idle timer
+    // below is meant to approximate on browsers that lack it. Running both
+    // unconditionally, as this used to, meant that on a real phone a
+    // deliberate (not-fast) swipe with a brief mid-gesture pause longer than
+    // 140ms would fire the idle fallback while the finger was still down,
+    // and snapToNearest() would yank scrollLeft to a "corrected" card out
+    // from under the still-active touch. The rest of the gesture then fought
+    // that correction, which is what made the deck feel like it froze or
+    // jumped mid-swipe. Every current mobile browser supports `scrollend`,
+    // so the idle timer now only runs as a genuine fallback where it's
+    // missing, never alongside it.
+    const supportsScrollEnd = typeof window !== 'undefined' && 'onscrollend' in window;
+
     const onScroll = () => {
       scheduleUpdate();
-      // Fallback for browsers without the `scrollend` event: treat a
-      // 140ms gap with no further scroll activity as "at rest".
+      if (supportsScrollEnd) return;
       clearTimeout(idleTimer);
       idleTimer = setTimeout(onRest, 140);
     };

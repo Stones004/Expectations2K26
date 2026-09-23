@@ -2126,6 +2126,12 @@ code {
       will-change: transform, opacity, filter
    }
 
+   /* Unconditional on mobile (not gated behind .is-ready like the desktop
+      fan) — the desktop `transform: translateX(...) rotate(...)` rule above
+      is unscoped, so without this a card could flash into that fanned-out
+      position for a frame on load, before React's "is-ready" class or the
+      curve effect's own JS has run. */
+   .deck-card,
    .card-deck.is-ready .deck-card,
    .deck-card:hover,
    .deck-card:focus-visible {
@@ -2504,6 +2510,7 @@ body::-webkit-scrollbar {
       border-radius: 18px
    }
 
+   .deck-card,
    .card-deck.is-ready .deck-card,
    .deck-card:hover,
    .deck-card:focus-visible {
@@ -2616,6 +2623,15 @@ body::-webkit-scrollbar {
 .detail-hero-copy {
    position: relative;
    z-index: 1;
+   /* min-width: 0 overrides the flex item default of min-width: auto, which
+      otherwise sizes this item to its content's min-content width — for the
+      hero <h1> that's the width of its single longest unbreakable word (e.g.
+      "Intercollegiate" in Signal 26's title) at the hero's large display
+      font size. On a narrow viewport that word alone is wider than the
+      screen, so without this the whole page was forced 60px+ wider than the
+      viewport and clipped/misaligned on mobile — the h1 below still wraps
+      normally once the item is allowed to shrink past that width. */
+   min-width: 0;
    width: min(1180px, 100%);
    margin: 0 auto;
    padding: clamp(100px, 13vw, 170px) clamp(22px, 6vw, 84px) clamp(60px, 8vw, 105px)
@@ -2641,6 +2657,15 @@ body::-webkit-scrollbar {
    font: 500 clamp(46px, 9vw, 126px)/1.04 var(--display);
    letter-spacing: .035em;
    text-shadow: 0 4px 26px rgba(4, 7, 13, .85)
+   /* Deliberately no overflow-wrap/hyphens fallback here: it would let the
+      browser break a too-long word (e.g. "Intercollegiate" in Signal 26) at
+      the CSS layout level before EventHeroSection.jsx's own fit-to-width
+      effect ever measures an overflow to react to, since that break already
+      keeps scrollWidth within clientWidth on its own. This is a
+      client-rendered app with nothing to show without JS anyway, so there's
+      no real fallback case that effect wouldn't already cover — letting the
+      browser own this here only pre-empts it with an uglier mid-word split.
+   */
 }
 
 .detail-hero-copy>span {
@@ -2659,6 +2684,16 @@ body::-webkit-scrollbar {
    grid-template-columns: .48fr 1.52fr;
    gap: clamp(42px, 9vw, 120px);
    border-bottom: 1px solid var(--line)
+}
+
+/* Grid items default to min-width: auto, sized to their content's
+   min-content width — normally harmless, but the same bug fixed on
+   .detail-hero-copy above could resurface here for any section whose body
+   copy contains one long unbreakable word or string. min-width: 0 lets
+   these shrink and wrap normally instead. */
+.detail-label,
+.detail-content {
+   min-width: 0
 }
 
 .detail-label {
@@ -4823,5 +4858,171 @@ body::-webkit-scrollbar {
    .prize-cash {
       gap: 12px;
       padding: 20px 14px
+   }
+}
+
+.prize-sponsor {
+   display: block;
+   margin-top: 4px;
+   font: italic 12px var(--serif);
+   color: var(--dim)
+}
+
+/* ---------- Voyage Partners: sponsor showcase ---------- */
+.detail-sponsors {
+   position: relative;
+   overflow: hidden;
+}
+
+.detail-sponsors::before {
+   content: '⚓';
+   position: absolute;
+   z-index: -1;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   font-size: clamp(260px, 36vw, 520px);
+   line-height: 1;
+   color: color-mix(in srgb, var(--gold) 6%, transparent);
+   pointer-events: none;
+   user-select: none;
+}
+
+.sponsors-eyebrow {
+   display: block;
+   font-size: 11px;
+   letter-spacing: .3em;
+   text-transform: uppercase;
+   color: var(--gold);
+   margin-bottom: 14px;
+}
+
+.sponsors-lede {
+   max-width: 640px;
+   margin: -8px 0 40px;
+   font: italic clamp(17px, 1.6vw, 20px)/1.6 var(--serif);
+   color: var(--dim);
+}
+
+.sponsors-fleet {
+   display: grid;
+   grid-template-columns: 1fr auto 1fr;
+   align-items: stretch;
+   gap: clamp(20px, 4vw, 46px);
+}
+
+.sponsor-crest {
+   position: relative;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   text-align: center;
+   gap: 16px;
+   padding: 40px 30px 32px;
+   border: 1px solid var(--gold);
+   background:
+      radial-gradient(ellipse at 50% -10%, color-mix(in srgb, var(--gold) 16%, transparent), transparent 65%),
+      color-mix(in srgb, var(--black-2, #152341) 60%, transparent);
+   box-shadow: 0 0 0 1px color-mix(in srgb, var(--gold) 30%, transparent) inset,
+      0 30px 60px -30px rgba(0, 0, 0, .6);
+   transition: transform .45s var(--ease-out, ease), box-shadow .45s;
+}
+
+.sponsor-crest:hover {
+   transform: translateY(-6px);
+   box-shadow: 0 0 0 1px var(--gold) inset, 0 0 46px color-mix(in srgb, var(--gold) 30%, transparent),
+      0 34px 60px -28px rgba(0, 0, 0, .7);
+}
+
+.sponsor-crest::before,
+.sponsor-crest::after {
+   content: '✦';
+   position: absolute;
+   left: 50%;
+   transform: translateX(-50%);
+   font-size: 11px;
+   color: var(--gold);
+}
+
+.sponsor-crest::before { top: 12px; }
+.sponsor-crest::after { bottom: 12px; }
+
+.sponsor-crest-role {
+   font-size: 10px;
+   letter-spacing: .24em;
+   text-transform: uppercase;
+   color: var(--gold-light, var(--gold));
+}
+
+.sponsor-crest-plaque {
+   display: grid;
+   place-items: center;
+   padding: 14px 26px;
+   min-height: 56px;
+   background: var(--ivory);
+   border-radius: 4px;
+   box-shadow: 0 10px 24px -12px rgba(0, 0, 0, .5);
+}
+
+.sponsor-crest-plaque img {
+   display: block;
+   height: 40px;
+   width: auto;
+   max-width: 220px;
+   object-fit: contain;
+}
+
+.sponsor-crest-blurb {
+   margin: 0;
+   font: 15px/1.65 var(--sans);
+   color: var(--dim);
+   max-width: 30ch;
+}
+
+.sponsors-divider {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
+
+.sponsors-divider-line {
+   position: relative;
+   width: 1px;
+   height: 100%;
+   min-height: 160px;
+   background: repeating-linear-gradient(to bottom, var(--line) 0 6px, transparent 6px 12px);
+}
+
+.sponsors-divider-node {
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   display: grid;
+   place-items: center;
+   width: 46px;
+   height: 46px;
+   border-radius: 50%;
+   border: 1px solid var(--gold);
+   background: var(--black, #111e38);
+   color: var(--gold);
+   font-size: 18px;
+   box-shadow: 0 0 20px color-mix(in srgb, var(--gold) 35%, transparent);
+}
+
+@media (max-width: 780px) {
+   .sponsors-fleet {
+      grid-template-columns: 1fr;
+   }
+
+   .sponsors-divider-line {
+      width: 100%;
+      height: 1px;
+      min-height: 0;
+      background: repeating-linear-gradient(to right, var(--line) 0 6px, transparent 6px 12px);
+   }
+
+   .sponsors-divider {
+      padding: 6px 0;
    }
 }

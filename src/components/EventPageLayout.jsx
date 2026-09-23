@@ -10,6 +10,7 @@ import {
   EventDetailsSection,
   EventEvaluationSection,
   EventVideoSection,
+  EventSponsorsSection,
 } from './event-detail';
 
 /**
@@ -24,6 +25,7 @@ export default function EventPageLayout({ event }) {
       <Header />
       <main className="event-detail-page">
         <EventHeroSection event={event} />
+        <EventSponsorsSection event={event} />
         <EventInfoSection event={event} />
         <EventAboutSection event={event} />
         <EventRoundsSection event={event} />

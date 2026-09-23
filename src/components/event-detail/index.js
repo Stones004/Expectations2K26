@@ -13,6 +13,7 @@ import EventOrganizersSection from './EventOrganizersSection';
 import EventRegistrationSection from './EventRegistrationSection';
 import EventDetailsSection from './EventDetailsSection';
 import EventVideoSection from './EventVideoSection';
+import EventSponsorsSection from './EventSponsorsSection';
 
 export {
   EventHeroSection,
@@ -25,4 +26,5 @@ export {
   EventRegistrationSection,
   EventDetailsSection,
   EventVideoSection,
+  EventSponsorsSection,
 };

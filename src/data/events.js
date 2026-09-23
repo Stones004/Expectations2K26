@@ -42,11 +42,41 @@ const STANDARD_PODIUM = [
 
 const SPECIAL_CASH_PRIZES = {
   'myths-in-motion': '₹15,000',
-  'sirens-stage': '₹15,000',
-  'signal-26': '₹10,000'
+  'sirens-stage': '₹15,000'
+};
+
+/* Signal 26 is a joint hackathon: Anthrena backs the top prize, Qworks backs
+   2nd and 3rd. `sponsors` drives the full Voyage Partners showcase on the
+   event page; each place also carries its backer's name for the podium cards. */
+const PRIZE_OVERRIDES = {
+  'signal-26': {
+    type: 'podium',
+    sponsors: [
+      {
+        name: 'Anthrena',
+        role: 'Title & Platform Sponsor',
+        blurb:
+          'Every submission runs through the Anthrena Desk platform, and Anthrena backs the ₹10,000 top prize.',
+        logo: '/assets/anthrena-logo.png'
+      },
+      {
+        name: 'Qworks',
+        role: 'Prize Partner',
+        blurb: '"Quality Works" — Qworks champions the runners-up, backing both the 2nd and 3rd prizes.',
+        logo: '/assets/qworks-logo.png'
+      }
+    ],
+    places: [
+      ['1st Prize', '₹10,000', 'Golden Laurel', 'Anthrena'],
+      ['2nd Prize', '₹7,000', 'Silver Trident', 'Qworks'],
+      ['3rd Prize', '₹5,000', 'Bronze Shield', 'Qworks']
+    ]
+  }
 };
 
 const getPrize = (data) => {
+  if (PRIZE_OVERRIDES[data.slug]) return PRIZE_OVERRIDES[data.slug];
+
   const cash = SPECIAL_CASH_PRIZES[data.slug];
   if (cash) {
     return {
